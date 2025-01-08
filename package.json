@@ -1,0 +1,29 @@
+{
+  "name": "foss-hydraulisc",
+  "version": "1.0.1",
+  "description": "Open Source Hydraulisc remake.",
+  "homepage": "https://github.com/Hydraulisc/foss-hydraulisc#readme",
+  "bugs": {
+    "url": "https://github.com/Hydraulisc/foss-hydraulisc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hydraulisc/foss-hydraulisc.git"
+  },
+  "license": "AGPL-3.0-or-later",
+  "author": "The Hydraulisc Dev Team",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "nodemon": "^3.1.9",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  }
+}
