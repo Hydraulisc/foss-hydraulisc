@@ -3,7 +3,7 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const authRoutes = require('./routes/auth');
-const { hostPort, inviteMode, isPublic } = require('./global-variables.json');
+const { hostPort, inviteMode, isPublic, sessionKey } = require('./global-variables.json');
 
 const app = express();
 const db = new sqlite3.Database('./database.db');
@@ -16,7 +16,8 @@ const initializeDatabase = () => {
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL UNIQUE,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                isAdmin BOOLEAN DEFAULT 0
             )
         `);
 
@@ -36,10 +37,20 @@ const initializeDatabase = () => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Session configuration
 app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true
+    secret: sessionKey,
+    resave: true,
+    saveUninitialized: false,
+    name: 'connect.sid',
+    cookie: {
+        secure: false,      // Set to true for HTTPS
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        path: '/',
+        sameSite: 'lax'    // Added for security
+    },
+    rolling: true          // Refresh session with each request
 }));
 
 // Static files and views
@@ -51,11 +62,24 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
+    res.render('pages/index',
+        username
+    )
+})
+
+app.get('/welcome', (req, res) => {
     res.render('pages/welcome')
 })
 
 app.get('/register', (req, res) => {
     res.render('pages/register', {
+        isPublic,
+        inviteMode
+    })
+})
+
+app.get('/login', (req, res) => {
+    res.render('pages/login', {
         isPublic,
         inviteMode
     })

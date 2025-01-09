@@ -535,11 +535,6 @@
   .navcontainer .div4 a svg { padding-top: 10px; }
   .navcontainer .div5 a svg { padding-top: 6px; }
   
-  .body_main {
-    margin-left: 0;
-    left: 0;
-  }
-  
   .uploadHelp {
     background: black;
     border-left: 2px solid yellow;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Hydraulisc</title>
+    <title>Login | Hydraulisc</title>
     <meta property="og:title" content="Login Page - Hydraulisc">
     <meta property="og:description" content="Hydraulisc - Stay in the loop | Log in or Sign up to continue">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/144374735">
@@ -18,7 +18,7 @@
 <body>
     <div style="height: 100%; display: flex; color: #fff; align-items: center; flex-direction: column; justify-content: center; background-size: cover; background-position: center;">
         <div style="padding: 48px 26px 24px; display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-top: 12px; max-width: 350px;">
-            <form id="signup-form" style="height: 686px !important;" action="/auth/register" method="POST">
+            <form id="login-form" style="height: 686px !important;" action="/auth/login" method="POST">
                 <div style="margin-top: 36px;overflow: visible;margin-bottom: 12px;align-content: stretch;border-bottom-left-radius: 0;background-color: transparent;flex-direction: column;box-sizing: border-box;display: flex;border-bottom-right-radius: 0;align-items: stretch;align-self: auto;justify-content: flex-start;position: relative;flex-grow: 0;border-top-left-radius: 0;border-top-right-radius: 0;">
                     <div style="cursor: pointer; display: flex; justify-content: center;">
                         <img src="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png" style="width: 80%; height: auto; display: inline-block;">
@@ -27,21 +27,21 @@
                 <div style="overflow: visible; margin-top: 24px; align-content: stretch; flex-direction: column; display: flex; flex-shrink: 0; align-items: stretch; align-self: auto; position: relative; flex-grow: 0;">
                     <input type="text" name="username" placeholder="Username" required />
                     <input type="password" name="password" placeholder="Password" required />
-                    <% if (inviteMode) { %>
-                        <input type="text" name="inviteCode" placeholder="Invite Code" required />
-                    <% } %>
-                    <button type="submit" style="background: #5667c7 !important;">Register</button>
+                    <button type="submit" style="background: #5667c7 !important;">Login</button>
                     <div style="margin: 10px 40px 18px;">
                         <div style="display: flex; flex-direction: row;">
                             <div style="top: .45em; height: 1px; flex-shrink: 1; position: relative; flex-grow: 1; background-color: #d7d9e0;"></div>
                         </div>
                     </div>
                     <div style="overflow: visible; margin-top: 8px; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
-                        <p style="font-size: small;">During the APT phase, <a href="/terms" style="text-decoration: none; color: #5667c7;">Terms of Use</a>, and <a href="/guidelines" style="text-decoration: none; color: #5667c7;">Guidelines</a> don't apply. Instance will remain invite only until the PBT phase.</p>
+                        <p style="font-size: small;">During the APT phase, <a href="/terms" style="text-decoration: none; color: #5667c7;">Terms of Use</a>, and <a href="/guidelines" style="text-decoration: none; color: #5667c7;">Guidelines</a> don't apply.</p>
                         <p style="font-size: small;">The <a href="/privacy" style="text-decoration: none; color: #5667c7;">Privacy Policy</a> always applies.</p>
                     </div>
+                    <div style="overflow: visible; margin-top: 8px; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
+                        <p style="font-size: smaller;">You can also <a href="https://about.hydraulisc.net/help/articles/101013" style="text-decoration: none; color: #5667c7;">report content, accounts</a>, and more without logging in.</p>
+                    </div>
                     <div style="margin-top: 8px; overflow: visible; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0;">
-                        <a href="/login" style="background: rgb(48, 48, 48) !important; border-radius: 10px; color: #d7d9e0 !important; align-self: center; padding: 10px; text-decoration: none;">Already have an account?</a>
+                        <a href="/register" style="background: rgb(48, 48, 48) !important; border-radius: 10px; color: #d7d9e0 !important; align-self: center; padding: 10px; text-decoration: none;">New member?</a>
                     </div>
                 </div>
             </form>

@@ -1,6 +1,7 @@
 {
   "hostPort": 8800,
   "isPublic": false,
-  "inviteMode": true
+  "inviteMode": true,
+  "sessionKey": "test_session_key"
 }
   
