@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if(username) { %>
+        <title>Hydraulisc</title>
+        <meta property="og:title" content="Hydraulisc - Stay in the loop">
+        <meta property="og:image" content="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png">
+        <meta property="og:description" content="Be the first to follow <%= username %> on Hydraulisc">
+    <% } else { %>
+        <title>Not Found | Hydraulisc</title>
+        <meta property="og:title" content="Hydraulisc - Stay in the loop">
+        <meta property="og:description" content="Create an account on Hydraulisc to see more!">
+        <meta property="og:image" content="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png">
+        <link rel="canonical" href="https://hydraulisc.net/404">
+    <% } %>
+    <!-- Unused Canonical and alternate "link"'s removed: https://www.html-easy.com/references/html-link-tag/ & https://ahrefs.com/blog/canonical-tags/ -->
+    <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/144374735">
+    <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
+    <meta property="og:site_name" content="Hydraulisc">
+    <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
+    <link rel="stylesheet" href="/css/userPageStyles.css">
+</head>
+<body>
+    <%- include('../partials/header', { username: username }) %>
+    <div class="profile_body">
+        <div>
+            <div class="user_info_container">
+                <div class="user_info_set_container">
+                    <div class="user_info_set">
+                            <div class="banner_wrapper" style="background-color: #1C286B;">
+                                <div class="banner_container">
+                                    <div class="settings_banner"></div>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="username_container">
+                                    <span class="username_displayname"><%- usersPage %></span>
+                                    <span class="username" title="<%- username %> doesn't have a discriminator (yet)">@<%- usersPage %>#0000</span>  
+                                </div>
+                            </div>
+                        
+                        <div class="profile_display_container">
+                            <div class="avatar_container" title="@<%- username %>#0000's Profile Image">
+                                <div class="avatar_stack">
+                                    <div class="avatar_mask">
+                                        <div class="avatar">
+                                            <img src="https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp" alt=" ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pofile_username_container">
+                                <div class="profile_username">
+                                    <div class="user_tag_container">
+                                        <span title="You don't have a Discriminator (yet)"><%- username %></span>
+                                        <span class="user_tag">@<%- username %>#0000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="descriptions">
+                            <% if (follows == null || follows == undefined) { %>
+                                <span style="color: #454857; cursor: default;">0 Followers</span>
+                            <% } else { %>
+                                <span style="color: #454857; cursor: default;"><%= follows %> Followers</span>
+                            <% } %>
+                            <% if (username && !followingList.includes(userIdToCheck)) { %>
+                                <!-- User is logged in and not following -->
+                                <button class="user_page_buttons" onclick="followUser('<%= userIdToCheck %>')">Follow</button>
+                                <% if(ownId == userIdToCheck) { %>
+                                    <button class="user_page_buttons" onclick="location.href='/settings';" style="width: auto !important;">Edit Profile</button>
+                                <% } else { %>
+                                    <span></span>
+                                <% } %>
+                            <% } else if(username && followingList.includes(userIdToCheck)) { %>
+                                <!-- User is logged in and already following -->
+                                <button class="user_page_buttons" onclick="unfollowUser('<%= userIdToCheck %>')">Unfollow</button>
+                                <% if(ownId == userIdToCheck) { %>
+                                    <button class="user_page_buttons" onclick="location.href='/settings';" style="width: auto !important;">Edit Profile</button>
+                                <% } else { %>
+                                    <span></span>
+                                <% } %>
+                            <% } else { %>
+                                <!-- User is not logged in -->
+                                <a style="cursor: pointer; text-decoration: none; color: #5667c7;" href="/login">Sign in to see more!</a>
+                            <% } %>
+                            <div>
+                                <% if (usersBiography) { %>
+                                    <p><i><%- usersBiography %></i></p>
+                                <% } else { %>
+                                    <p><i>This user has not written their Bio yet.</i></p>
+                                <% } %>
+                            </div>
+                            <div class="navigation">
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 44px; grid-column-gap: 0px; grid-row-gap: 0px; width: 100%; min-width: 100%;">
+                                    <div style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
+                                        <button style="background: transparent; border: none; height: 100%; width: 100%; color: #d7d9e0; font-weight: 600; cursor: pointer;">Posts</button>
+                                    </div>
+                                    <div style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
+                                        <button style="background: transparent; border: none; height: 100%; width: 100%; color: #d7d9e0; font-weight: 600; cursor: pointer;">Comments</button>
+                                    </div>
+                                    <div style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
+                                        <button style="background: transparent; border: none; height: 100%; width: 100%; color: #d7d9e0; font-weight: 600; cursor: pointer;">Likes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="user_uploads_container">
+        <% if (uploads.length) { %>
+            <div class="uploads_grid">
+                <% for (const upload of uploads) { %>
+                    <div id="<%- upload.id %>" onclick="location.href='/post/<%- upload.id %>';">
+                        <div class="upload">
+                            <div class="upload_img_container">
+                                <img class="upload_img" src="<%- upload.cover %>">
+                                <div style="width: 100%; height: 100%; position: relative; top: -246px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            <% } else { %>
+                <span style="display: block; margin: 0; line-height: 32px; font-size: 1.6em; font-weight: 700; position: relative; bottom: -8px;">Uploads not implemented.</span>
+            <% } %>
+    </div>
+    <% if (isAdmin) { %>
+        <form action="/auth/admin/generate-invite" method="POST">
+            <h3>Generate Invite Codes:</h3>
+            <input type="number" name="count" placeholder="Number of Invites" value="3" required />
+            <button type="submit">Generate</button>
+        </form>
+    <% } %>
+    <%- include('../partials/footer', { username: username }) %>
+</body>
+</html>

@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
             isAdmin: user.isAdmin === 1
         };
 
-        res.send(`Login successful! Welcome back ${user.username} ${user.isAdmin ? '(Admin)' : ''}`); //res.redirect('/'); // Redirect to home page
+        res.redirect('/'); // Redirect to home page
     });
 });
 
@@ -120,10 +120,7 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
                                 logError('Session save error', err);
                                 return res.redirect('/login');
                             }
-                            res.send(
-                                `Registration successful! Welcome ${newUser.username} (${newUser.id}) ` +
-                                `${newUser.isAdmin ? '(Admin)' : ''}`
-                            ); //res.redirect(`/${username}`);
+                            res.redirect('/'); // Redirect to home page
                         });
                     }
                 );
@@ -161,7 +158,7 @@ router.post('/admin/generate-invite', requireAdmin, (req, res) => {
     db.serialize(() => {
         const stmt = db.prepare(insertQuery);
         for (let i = 0; i < count; i++) {
-            const code = crypto.randomBytes(6).toString('hex');
+            const code = crypto.randomBytes(16).toString('hex');
             codes.push(code);
             stmt.run(code);
         }

@@ -162,11 +162,6 @@
     width: 100%;
   }
   
-  #navbarthings a {
-    text-decoration: none;
-    margin-right: .5rem;
-  }
-  
   #login-form, #signup-form {
     align-items: center;
     background-color: #12131a;
@@ -208,59 +203,8 @@
     max-width: 620px;
   }
   
-  .header-01oozD {
-    z-index: 4;
-    top: 0;
-    right: 0;
-    left: 0;
-    position: fixed;
-    height: 60px;
-  }
-  
-  .header-position {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      height: 44px;
-  }
-  
-  .header-31oovZ {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    max-width: 100%;
-    justify-content: space-between;
-    height: 44px;
-    padding: 8px 16px;
-    background-color: #12131a;
-    font-weight: 600;
-    line-height: 1.43;
-    color: white;
-  }
-  
-  .header-V8Sgnz {
-    z-index: 9998 !important;
-  }
-  
   a::after, a::before {
     box-sizing: border-box;
-  }
-  
-  .logo {
-      height: 46px;
-      vertical-align: text-bottom;
-      color: inherit;
-      border-radius: 10px;
-  }
-  
-  .action-buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 24px;
-    gap: 6px;
   }
   
   .link-1naFFL {
@@ -283,7 +227,7 @@
     flex-wrap: wrap;
     justify-content: center;
     padding: 1rem;
-    margin: 0px auto;
+    margin: 3rem auto 0;
     width: 92%;
     max-width: min(1250px, 100%);
     overflow: hidden;
@@ -400,21 +344,6 @@
     display: flex;
     padding-left: .5rem;
     align-items: center;
-  }
-  
-  .join_star_button {
-    cursor: pointer;
-    background: #5667c7;
-    border: none;
-    border-radius: 8px;
-    margin-left: 1.4rem;
-    width: 83.29px !important;
-    height: 23px !important;
-    color: white;
-    padding-left: .25rem;
-    padding-right: .25rem;
-    position: relative;
-    text-transform: uppercase;
   }
   
   .star_post_entry {
