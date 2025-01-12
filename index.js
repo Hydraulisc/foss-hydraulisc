@@ -140,7 +140,7 @@ app.get('/user/:id', (req, res) => {
             //});
         } else {
             // Not a user page, send 404
-            res.status(404).send({ "Error 85": "Not Found"});
+            res.status(404).send({ "Error 85": "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource."});
         }
     });
 })
