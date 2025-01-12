@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <% if(username) { %>
-        <title>Hydraulisc</title>
+    <% if(usersPage) { %>
+        <title><%= usersPage %> | Hydraulisc</title>
         <meta property="og:title" content="Hydraulisc - Stay in the loop">
         <meta property="og:image" content="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png">
-        <meta property="og:description" content="Be the first to follow <%= username %> on Hydraulisc">
+        <meta property="og:description" content="Be the first to follow <%= usersPage %> on Hydraulisc">
     <% } else { %>
         <title>Not Found | Hydraulisc</title>
         <meta property="og:title" content="Hydraulisc - Stay in the loop">
@@ -37,12 +37,12 @@
                                 <div class="divider"></div>
                                 <div class="username_container">
                                     <span class="username_displayname"><%- usersPage %></span>
-                                    <span class="username" title="<%- username %> doesn't have a discriminator (yet)">@<%- usersPage %>#0000</span>  
+                                    <span class="username" title="<%- usersPage %> doesn't have a discriminator (yet)">@<%- usersPage %>#0000</span>  
                                 </div>
                             </div>
                         
                         <div class="profile_display_container">
-                            <div class="avatar_container" title="@<%- username %>#0000's Profile Image">
+                            <div class="avatar_container" title="@<%- usersPage %>#0000's Profile Image">
                                 <div class="avatar_stack">
                                     <div class="avatar_mask">
                                         <div class="avatar">
@@ -54,8 +54,8 @@
                             <div class="pofile_username_container">
                                 <div class="profile_username">
                                     <div class="user_tag_container">
-                                        <span title="You don't have a Discriminator (yet)"><%- username %></span>
-                                        <span class="user_tag">@<%- username %>#0000</span>
+                                        <span title="You don't have a Discriminator (yet)"><%- usersPage %></span>
+                                        <span class="user_tag">@<%- usersPage %>#0000</span>
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +130,7 @@
                 <span style="display: block; margin: 0; line-height: 32px; font-size: 1.6em; font-weight: 700; position: relative; bottom: -8px;">Uploads not implemented.</span>
             <% } %>
     </div>
-    <% if (isAdmin) { %>
+    <% if (isAdmin && ownId == userIdToCheck) { %>
         <form action="/auth/admin/generate-invite" method="POST">
             <h3>Generate Invite Codes:</h3>
             <input type="number" name="count" placeholder="Number of Invites" value="3" required />

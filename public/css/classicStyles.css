@@ -281,11 +281,16 @@
     gap: 1rem;
     flex-direction: column;
     display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
   }
   
   .container_container {
     grid-template-columns: repeat(13,minmax(0,1fr));
     display: grid;
+    margin-bottom: 3.2rem !important;
   }
   
   .landing_feat {
