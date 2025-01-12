@@ -140,7 +140,7 @@ app.get('/user/:id', (req, res) => {
             //});
         } else {
             // Not a user page, send 404
-            res.status(404);
+            res.status(404).send({ "Error 85": "Not Found"});
         }
     });
 })
