@@ -140,13 +140,7 @@ app.get('/user/:id', (req, res) => {
             //});
         } else {
             // Not a user page, send 404
-            res.status(404).render('pages/404', {
-                siteTitle,
-                discordInvite,
-                rootDomain,
-                version,
-                isPublic
-            });
+            res.status(404).render('pages/404');
         }
     });
 })
