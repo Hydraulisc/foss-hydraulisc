@@ -67,12 +67,12 @@
                                 <span style="color: #454857; cursor: default;"><%= follows %> Followers</span>
                             <% } %>
                             <% if (username && !followingList.includes(userIdToCheck)) { %>
-                                <!-- User is logged in and not following -->
-                                <button class="user_page_buttons" onclick="followUser('<%= userIdToCheck %>')">Follow</button>
                                 <% if(ownId == userIdToCheck) { %>
+                                    <!-- User is logged in and viewing own page -->
                                     <button class="user_page_buttons" onclick="location.href='/settings';" style="width: auto !important;">Edit Profile</button>
                                 <% } else { %>
-                                    <span></span>
+                                    <!-- User is logged in and not following -->
+                                    <button class="user_page_buttons" onclick="followUser('<%= userIdToCheck %>')">Follow</button>
                                 <% } %>
                             <% } else if(username && followingList.includes(userIdToCheck)) { %>
                                 <!-- User is logged in and already following -->
@@ -130,13 +130,6 @@
                 <span style="display: block; margin: 0; line-height: 32px; font-size: 1.6em; font-weight: 700; position: relative; bottom: -8px;">Uploads not implemented.</span>
             <% } %>
     </div>
-    <% if (isAdmin && ownId == userIdToCheck) { %>
-        <form action="/auth/admin/generate-invite" method="POST">
-            <h3>Generate Invite Codes:</h3>
-            <input type="number" name="count" placeholder="Number of Invites" value="3" required />
-            <button type="submit">Generate</button>
-        </form>
-    <% } %>
     <%- include('../partials/footer', { username: username }) %>
 </body>
 </html>

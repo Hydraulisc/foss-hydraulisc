@@ -3,6 +3,7 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const authRoutes = require('./routes/auth');
+const { version } = require('./package.json')
 const { hostPort, inviteMode, isPublic, sessionKey } = require('./global-variables.json');
 
 const app = express();
@@ -17,6 +18,9 @@ const initializeDatabase = () => {
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 username TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
+                pfp TEXT NOT NULL,
+                theme TEXT NOT NULL,
+                biography TEXT NOT NULL,
                 isAdmin BOOLEAN DEFAULT 0 NOT NULL
             )
         `);
@@ -89,64 +93,10 @@ app.get('/', (req, res) => {
     }
 })
 
-app.get('/user/:id', (req, res) => {
-    // Check if it's a user page
-    db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, pageUser) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Database error 1');
-        }
-
-        if (pageUser) {
-            // Get user's posts
-                db.all('SELECT * FROM posts WHERE id = ? ORDER BY id',
-                    [pageUser.id],
-                    (err, links) => {
-                        if (err) {
-                            console.error(err);
-                            return res.status(500).send('Database error 3');
-                        }
-
-                        if(req.session.user) {
-                            res.render('pages/user', {
-                                ownId: req.session.user.id,
-                                userIdToCheck: pageUser.id,
-                                usersPage: pageUser.username,
-                                username: req.session.user.username,
-                                isPublic,
-                                isAdmin: req.session.user.isAdmin,
-                                followingList: [],
-                                follows: null,
-                                usersBiography: "User Bio Not Implemented.",
-                                uploads: [],
-                                isAdmin: req.session.user.isAdmin
-                            })
-                        } else {
-                            res.render('pages/user', {
-                                ownId: null,
-                                userIdToCheck: pageUser.id,
-                                usersPage: pageUser.username,
-                                username: null,
-                                isPublic,
-                                followingList: [],
-                                follows: null,
-                                usersBiography: null,
-                                uploads: [],
-                                isAdmin: null
-                            })
-                        }
-                    }
-                );
-            //});
-        } else {
-            // Not a user page, send 404
-            res.status(404).send({ "Error 85": "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource."});
-        }
-    });
-})
-
 app.get('/welcome', (req, res) => {
-    res.render('pages/welcome')
+    res.render('pages/welcome', {
+        version
+    })
 })
 
 app.get('/register', (req, res) => {
@@ -161,6 +111,92 @@ app.get('/login', (req, res) => {
         isPublic,
         inviteMode
     })
+})
+
+app.get('/user/:id', (req, res) => {
+    // Check if it's a user page
+    db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, pageUser) => {
+        if (err) {
+            console.error(err);
+            return res.render('pages/404', {
+                hydrauliscECode: "89",
+                errorMessage: "Method Not Allowed."
+            });
+        }
+
+        if (pageUser) {
+            // Get user's posts
+                db.all('SELECT * FROM posts WHERE id = ? ORDER BY id',
+                    [pageUser.id],
+                    (err, posts) => {
+                        if (err) {
+                            console.error(err);
+                            return res.render('pages/404', {
+                                hydrauliscECode: "92",
+                                errorMessage: "Session Not Found/Already Updated."
+                            });
+                        }
+
+                        if(req.session.user) {
+                            res.render('pages/user', {
+                                ownId: req.session.user.id,
+                                userIdToCheck: pageUser.id,
+                                usersPage: pageUser.username,
+                                username: req.session.user.username,
+                                isPublic,
+                                followingList: [],
+                                follows: null,
+                                usersBiography: "User Bio Not Implemented.",
+                                uploads: posts,
+                                isAdmin: req.session.user.isAdmin
+                            })
+                        } else {
+                            res.render('pages/user', {
+                                ownId: null,
+                                userIdToCheck: pageUser.id,
+                                usersPage: pageUser.username,
+                                username: null,
+                                isPublic,
+                                followingList: [],
+                                follows: null,
+                                usersBiography: null,
+                                uploads: posts,
+                                isAdmin: null
+                            })
+                        }
+                    }
+                );
+        } else {
+            // Not a user page, send 404 with error message
+            res.render('pages/404', {
+                hydrauliscECode: "85",
+                errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+            });
+        }
+    });
+})
+
+app.get('/settings', (req, res) => {
+    if(req.session.user) {
+        db.get('SELECT * FROM users WHERE username = ?', [req.session.user.username], (err, userDetail) => {
+            if (err) {
+                console.error(err);
+                return res.render('pages/404', {
+                    hydrauliscECode: "92",
+                    errorMessage: "Session Not Found/Already Updated."
+                });
+            }
+
+            res.render('pages/settings', {
+                isAdmin: userDetail.isAdmin,
+                username: userDetail.username,
+                usersBiography: "User Bio Not Implemented.",
+                uid: userDetail.id
+            })
+        });
+    } else {
+        res.redirect('/login');
+    }
 })
 
 // Start server

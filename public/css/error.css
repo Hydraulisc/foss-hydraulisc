@@ -1,0 +1,54 @@
+body {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.5rem;
+  background-color: #04050a;
+  color: #d7d9e0;
+  font-family: "Inter", sans-serif;
+}
+
+.errorContainer {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.errorClass {
+  text-align: center;
+  align-self: center;
+  padding: 32px 16px 16px;
+  max-width: 50%;
+}
+
+.errorText {
+  text-align: center;
+  cursor: default;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 44px;
+}
+
+.errorText h1 {
+  position: relative;
+  padding: 30px;
+  animation-name: wobble;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-delay: 1.3s;
+  animation-iteration-count: infinite;
+  animation-direction: reverse-alternate;
+}
+
+@keyframes wobble {
+  0% { transform: translateX(0) }
+  15% { transform: translateX(3px) }
+  30% { transform: translateX(-3px) }
+  45% { transform: translateX(3px) }
+  60% { transform: translate(0) }
+  75% { transform: translate(-3px) }
+  90% { transform: translateX(3px) }
+}

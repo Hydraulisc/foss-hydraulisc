@@ -7,6 +7,10 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+a {
+    color: #5667c7;
+}
+
 .body_main {
     margin-left: 0;
     left: 0;
@@ -106,8 +110,16 @@ body {
     max-width: 58rem;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 3rem;
 }
 
 .feature_list_title {
     font-size: 32px;
+    margin-bottom: 0;
+}
+
+.version_display {
+    margin: 3rem auto 1rem;
+    text-align: center;
+    font-size: smaller;
 }

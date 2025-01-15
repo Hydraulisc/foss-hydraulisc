@@ -1,0 +1,118 @@
+body {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5rem;
+    background-color: #04050a;
+    color: #d7d9e0;
+    font-family: "Inter", sans-serif;
+}
+
+.app-container, #hydrauliscselapp {
+    margin-top: 3.5rem;
+}
+
+.forbidden_content_settings_container {
+    min-height: calc(6px * 100);
+    box-sizing: border-box;
+    display: flex;
+}
+
+.forbidden_content_container {
+    border-right: .5px solid rgb(45, 45, 45);
+    width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.forbidden_content_settings {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: sticky;
+    top: 0;
+}
+
+.settings_container {
+    outline: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings_container_sticky {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: sticky;
+    top: 0px;
+}
+
+.forbidden_container {
+    padding: 32px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.forbidden_wide {
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.forbidden_content {
+    display: flex;
+    height: 100%;
+}
+
+.settings_navigation_container {
+    width: 34%;
+    padding-right: 21px;
+    box-sizing: border-box;
+}
+
+.group_title {
+    opacity: .8;
+    margin: 8px 12px 8px 0;
+    font-size: .9em;
+}
+
+.nav_button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    border-radius: 9px;
+    font-size: .9em;
+    margin-bottom: .3rem !important;
+    appearance: none;
+    margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    touch-action: manipulation;
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.nav_button:hover {
+    background: rgba(45, 45, 45, 0.6);
+}
+
+.nav_button .text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 12px;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.settings_display_container {
+    flex: 1;
+    min-width: 0;
+}
