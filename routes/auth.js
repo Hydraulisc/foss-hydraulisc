@@ -92,8 +92,8 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
 
         // Insert user with admin status if first user
         db.run(
-            'INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)',
-            [username, hashedPassword, isFirstUser ? 1 : 0],
+            'INSERT INTO users (username, password, isAdmin, pfp, theme, biography) VALUES (?, ?, ?, ?, ?, ?)',
+            [username.trim(), hashedPassword, isFirstUser ? 1 : 0, 'https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp', 'default', 'User has not written their Bio.'],
             function (err) {
                 if (err) {
                     return res.status(500).send('Error registering user.');
@@ -128,6 +128,20 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
         );
     }
 });
+
+// Log out route ?
+router.post('/logout', async (req, res) => {
+    if(!req.session.user) {
+        return res.status(401).send('Not authenticated')
+    } else {
+        // Successful logout attempt: clear session
+        req.session.user = {
+            id: null,
+            username: null,
+            isAdmin: null
+        };
+    }
+})
 
 /**
  * Middleware to check if the user is an admin

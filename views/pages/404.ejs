@@ -13,14 +13,16 @@
     <link rel="stylesheet" href="/css/error.css">
 </head>
 <body>
-    <%- include('../partials/header', { username: null }) %>
+    <%- include('../partials/header', { username: ownId }) %>
     <div class="app-container">
-        <div class="erorrContainer">
-            <div class="erorrClass">
-                <div class="errorText" title="Error <%- hydrauliscECode %>">
+        <div class="errorContainer">
+            <div class="errorClass">
+                <div class="errorCode" title="Error Code <%- hydrauliscECode %>">
                     <h1><%- hydrauliscECode %></h1>
                 </div>
-                <h3><%- errorMessage %></h3>
+                <div class="errorText">
+                    <h3 title="Error Message"><%- errorMessage %></h3>
+                </div>
             </div>
         </div>
     </div>

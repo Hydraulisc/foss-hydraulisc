@@ -116,3 +116,19 @@ body {
     flex: 1;
     min-width: 0;
 }
+
+.danger {
+    border: none;
+    border-radius: 6px;
+    padding: .65rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: .35rem;
+    background: red;
+    color: #d7d9e0;
+    font-weight: 600;
+}
+
+.danger:hover {
+    background: crimson;
+}

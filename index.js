@@ -3,8 +3,9 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const authRoutes = require('./routes/auth');
-const { version } = require('./package.json')
-const { hostPort, inviteMode, isPublic, sessionKey } = require('./global-variables.json');
+const { version } = require('./package.json');
+const fs = require('fs');
+const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 
 const app = express();
 const db = new sqlite3.Database('./database.db');
@@ -16,7 +17,7 @@ const initializeDatabase = () => {
         db.run(`
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                username TEXT NOT NULL UNIQUE,
+                username TEXT NOT NULL,
                 password TEXT NOT NULL,
                 pfp TEXT NOT NULL,
                 theme TEXT NOT NULL,
@@ -28,7 +29,7 @@ const initializeDatabase = () => {
         // Create Invites table
         db.run(`
             CREATE TABLE IF NOT EXISTS invites (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 code TEXT NOT NULL UNIQUE,
                 used INTEGER DEFAULT 0
             )
@@ -41,11 +42,16 @@ const initializeDatabase = () => {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 title TEXT NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
             )
         `);
 
+        // Enable foreign key support
+        db.run('PRAGMA foreign_keys = ON');
         console.log('Database initialized with required tables.');
     });
 };
@@ -55,18 +61,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Session configuration
 app.use(session({
-    secret: sessionKey,
+    secret: globals.sessionKey,
     resave: true,
     saveUninitialized: false,
     name: 'connect.sid',
     cookie: {
-        secure: false,      // Set to true for HTTPS
+        secure: false,                  // Set to true for HTTPS
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        maxAge: 24 * 60 * 60 * 1000,    // 24 hours
         path: '/',
-        sameSite: 'lax'    // Added for security
+        sameSite: 'lax'                 // Added for security
     },
-    rolling: true          // Refresh session with each request
+    rolling: true                       // Refresh session with each request
 }));
 
 // Static files and views
@@ -78,19 +84,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
-    if(req.session.user) {
-        res.render('pages/index', {
-            username: req.session.user.username,
-            isPublic,
-            isAdmin: req.session.user.isAdmin
-        })
-    } else {
-        res.render('pages/index', {
-            username: null,
-            isPublic,
-            isAdmin: null
-        })
-    }
+    res.render('pages/index', {
+        username: req.session.user?.username || null,
+        isPublic: globals.isPublic,
+        isAdmin: req.session.user?.isAdmin || null,
+        ownId: req.session.user?.id || null
+    })
 })
 
 app.get('/welcome', (req, res) => {
@@ -101,69 +100,59 @@ app.get('/welcome', (req, res) => {
 
 app.get('/register', (req, res) => {
     res.render('pages/register', {
-        isPublic,
-        inviteMode
+        isPublic: globals.isPublic,
+        inviteMode: globals.inviteMode
     })
 })
 
 app.get('/login', (req, res) => {
     res.render('pages/login', {
-        isPublic,
-        inviteMode
+        isPublic: globals.isPublic,
+        inviteMode: globals.inviteMode
     })
 })
 
 app.get('/user/:id', (req, res) => {
     // Check if it's a user page
-    db.get('SELECT * FROM users WHERE username = ?', [req.params.id], (err, pageUser) => {
+    db.get('SELECT * FROM users WHERE id = ?', [req.params.id], (err, pageUser) => {
         if (err) {
             console.error(err);
             return res.render('pages/404', {
-                hydrauliscECode: "89",
-                errorMessage: "Method Not Allowed."
+                hydrauliscECode: "91",
+                errorMessage: "Unable to update Unmodified Data.",
+                username: null,
+                ownId: null
             });
         }
 
         if (pageUser) {
             // Get user's posts
-                db.all('SELECT * FROM posts WHERE id = ? ORDER BY id',
+                db.all('SELECT * FROM posts WHERE user_id = ? ORDER BY id',
                     [pageUser.id],
                     (err, posts) => {
                         if (err) {
                             console.error(err);
                             return res.render('pages/404', {
                                 hydrauliscECode: "92",
-                                errorMessage: "Session Not Found/Already Updated."
+                                errorMessage: "Session Not Found/Already Updated.",
+                                username: null,
+                                ownId: null
                             });
                         }
 
-                        if(req.session.user) {
-                            res.render('pages/user', {
-                                ownId: req.session.user.id,
-                                userIdToCheck: pageUser.id,
-                                usersPage: pageUser.username,
-                                username: req.session.user.username,
-                                isPublic,
-                                followingList: [],
-                                follows: null,
-                                usersBiography: "User Bio Not Implemented.",
-                                uploads: posts,
-                                isAdmin: req.session.user.isAdmin
-                            })
-                        } else {
-                            res.render('pages/user', {
-                                ownId: null,
-                                userIdToCheck: pageUser.id,
-                                usersPage: pageUser.username,
-                                username: null,
-                                isPublic,
-                                followingList: [],
-                                follows: null,
-                                usersBiography: null,
-                                uploads: posts,
-                                isAdmin: null
-                            })
-                        }
+                        res.render('pages/user', {
+                            ownId: req.session.user?.id || null,
+                            userIdToCheck: pageUser.id,
+                            usersPage: pageUser.username,
+                            usersPfp: pageUser.pfp,
+                            username: req.session.user?.username || null,
+                            isPublic: globals.isPublic,
+                            followingList: [],
+                            follows: null,
+                            usersBiography: pageUser.biography,
+                            uploads: posts,
+                            isAdmin: req.session.user?.isAdmin || null
+                        });
                     }
                 );
         } else {
@@ -171,27 +160,32 @@ app.get('/user/:id', (req, res) => {
             res.render('pages/404', {
                 hydrauliscECode: "85",
                 errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null
             });
         }
     });
 })
 
 app.get('/settings', (req, res) => {
-    if(req.session.user) {
+    if(req.session.user?.id) {
         db.get('SELECT * FROM users WHERE username = ?', [req.session.user.username], (err, userDetail) => {
             if (err) {
                 console.error(err);
                 return res.render('pages/404', {
                     hydrauliscECode: "92",
-                    errorMessage: "Session Not Found/Already Updated."
+                    errorMessage: "Session Not Found/Already Updated.",
+                    username: null,
+                    ownId: req.session.user.id
                 });
             }
 
             res.render('pages/settings', {
                 isAdmin: userDetail.isAdmin,
                 username: userDetail.username,
-                usersBiography: "User Bio Not Implemented.",
-                uid: userDetail.id
+                usersBiography: userDetail.biography,
+                ownId: userDetail.id,
+                version
             })
         });
     } else {
@@ -199,8 +193,18 @@ app.get('/settings', (req, res) => {
     }
 })
 
+app.get('/upload', (req, res) => {
+    // Not a user page, send 404 with error message
+    res.render('pages/404', {
+        hydrauliscECode: "89",
+        errorMessage: "Method not Allowed.",
+        username: req.session.user?.username || null,
+        ownId: req.session.user?.id || null
+    });
+})
+
 // Start server
-const PORT = hostPort || 3000;
+const PORT = globals.hostPort || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     initializeDatabase(); // Initialize the database when the server starts

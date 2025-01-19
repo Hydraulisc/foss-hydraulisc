@@ -1,0 +1,75 @@
+<script src="/js/settingsDesktopNav.js"></script>
+<div class="settings_navigation_container">
+    <div>
+        <nav class="settings_nav">
+            <section class="group">
+                <div class="group_title">User Settings</div>
+                <div>
+                    <a onclick="profileSettings()" class="nav_button">
+                        <span class="text">Profile</span>
+                    </a>
+                    <a onclick="privacySettings()" class="nav_button">
+                        <span class="text">Privacy</span>
+                    </a>
+                    <a onclick="notifSettings()" class="nav_button">
+                        <span class="text">Notifications</span>
+                    </a>
+                    <a onclick="mailNotifications()" class="nav_button">
+                        <span class="text">Email</span>
+                    </a>
+                    <a onclick="securitySettings()" class="nav_button">
+                        <span class="text">Security</span>
+                    </a>
+                </div>
+            </section>
+            <section class="group">
+                <div class="group_title">Client Settings</div>
+                <div>
+                    <a onclick="generalClient()" class="nav_button">
+                        <span class="text">General</span>
+                    </a>
+                    <a onclick="themeFunction()" class="nav_button">
+                        <span class="text">Theme</span>
+                    </a>
+                    <a onclick="pluginsList()" class="nav_button">
+                        <span class="text">Plugins</span>
+                    </a>
+                </div>
+            </section>
+            <section class="group">
+                <div class="group_title">Other Settings</div>
+                <div>
+                    <a onclick="mute_or_unmute()" class="nav_button">
+                        <span class="text">Mutes and Blocks</span>
+                    </a>
+                    <a onclick="apiSetting()" class="nav_button">
+                        <span class="text">API</span>
+                    </a>
+                    <a onclick="payloadUrl()" class="nav_button">
+                        <span class="text">Webhook</span>
+                    </a>
+                    <a onclick="additionalSettings()" class="nav_button">
+                        <span class="text">Other</span>
+                    </a>
+                </div>
+            </section>
+            <% if (isAdmin) { %>
+                <section class="group">
+                    <div class="group_title">Admin</div>
+                    <div>
+                        <a onclick="adminPanel()" class="nav_button">
+                            <span class="text">Admin</span>
+                        </a>
+                    </div>
+                </section>
+            <% } %>
+            <section class="group">
+                <div>
+                    <button onclick="handleLogout()" class="danger">
+                        <span class="text">Sign Out</span>
+                    </button>
+                </div>
+            </section>
+        </nav>
+    </div>
+</div>

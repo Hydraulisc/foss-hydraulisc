@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/css/userPageStyles.css">
 </head>
 <body>
-    <%- include('../partials/header', { username: username }) %>
+    <%- include('../partials/header', { username: ownId }) %>
     <div class="profile_body">
         <div>
             <div class="user_info_container">
@@ -46,7 +46,7 @@
                                 <div class="avatar_stack">
                                     <div class="avatar_mask">
                                         <div class="avatar">
-                                            <img src="https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp" alt=" ">
+                                            <img src="<%- usersPfp %>" alt=" ">
                                         </div>
                                     </div>
                                 </div>
@@ -130,6 +130,6 @@
                 <span style="display: block; margin: 0; line-height: 32px; font-size: 1.6em; font-weight: 700; position: relative; bottom: -8px;">Uploads not implemented.</span>
             <% } %>
     </div>
-    <%- include('../partials/footer', { username: username }) %>
+    <%- include('../partials/footer', { username: ownId }) %>
 </body>
 </html>
