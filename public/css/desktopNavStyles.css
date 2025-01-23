@@ -50,3 +50,9 @@
     text-decoration: none;
     margin-right: .5rem;
 }
+
+@media screen and (max-width: 768px) {
+    .action_buttons_container {
+        display: none !important;
+    }
+}

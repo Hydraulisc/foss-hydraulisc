@@ -12,7 +12,7 @@ function hideAllSettings() {
 }
 function profileSettings() {
     hideAllSettings();
-    document.getElementById("profiletabulatordisplay").style.display = 'block';
+    document.getElementById("profile_tab_display").style.display = 'block';
 }
 function privacySettings() {
     hideAllSettings();

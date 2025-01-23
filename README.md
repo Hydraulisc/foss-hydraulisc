@@ -15,3 +15,13 @@ Hydraulisc; Open Source, privay focused, image-sharing Social Media.
     <li><b>JS</b> and <b>file names</b>: camelCase</li>
 </ul>
 </details>
+
+<details>
+<summary>Features (WIP):</summary>
+<ul>
+    <li>Privacy Focused</li>
+    <li>Username-only accounts for anonimity</li>
+    <li>Private, Invite-Only or Public modes</li>
+    <li>More?</li>
+</ul>
+</details>

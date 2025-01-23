@@ -24,9 +24,6 @@
   
   /* Defaults that need overrides */
   @media screen and (min-width: 768px){
-    .keepmefooter {
-      display: none !important;
-    }
     .recommend-starboard {
       overflow-x: hidden;
       overflow-y: auto;
@@ -416,58 +413,6 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
-  .keepmefooter {
-    border-top: 1px solid #12131a;
-    order: 0;
-    padding: 0 20px;
-    align-items: stretch;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    margin: 0;
-    position: fixed;
-    background-color: #12131a;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .navigation {
-    height: 45px;
-    width: 100%;
-    display: flex;
-  }
-  
-  .navcontainer {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 44px;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    width: 100%;
-    min-width: 100%;
-  }
-  
-  .navcontainer .div1 { grid-area: 1 / 1 / 2 / 2; width: auto; height: 43px; }
-  .navcontainer .div2 { grid-area: 1 / 2 / 2 / 3; width: auto; height: 43px; }
-  .navcontainer .div3 { grid-area: 1 / 3 / 2 / 4; width: auto; height: 43px; }
-  .navcontainer .div4 { grid-area: 1 / 4 / 2 / 5; width: auto; height: 43px; }
-  .navcontainer .div5 { grid-area: 1 / 5 / 2 / 6; width: auto; height: 43px; } 
-  
-  .navcontainer .div1 a, .navcontainer .div1 a svg { width: 100%; margin: auto; }
-  .navcontainer .div2 a, .navcontainer .div2 a svg { width: 100%; margin: auto; }
-  .navcontainer .div3 a, .navcontainer .div3 a svg { width: 100%; margin: auto; }
-  .navcontainer .div4 a, .navcontainer .div4 a svg { width: 100%; margin: auto; }
-  .navcontainer .div5 a, .navcontainer .div5 a svg { width: 100%; margin: auto; }
-  
-  .navcontainer .div1 a svg { padding-top: 10px; }
-  .navcontainer .div2 a svg { padding-top: 10px; }
-  .navcontainer .div3 a svg { padding-top: 10px; }
-  .navcontainer .div4 a svg { padding-top: 10px; }
-  .navcontainer .div5 a svg { padding-top: 6px; }
   
   .uploadHelp {
     background: black;

@@ -7,6 +7,56 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+.input input, textarea {
+    appearance: none;
+    -webkit-appearance: none;
+    display: block;
+    height: 38px;
+    width: 100%;
+    padding: 0 8px;
+    margin: 12px 0;
+    font-weight: 400;
+    font-size: 1em;
+    color: #d7d9e0;
+    background: rgb(19, 19, 19);
+    border: 1px solid rgb(19, 19, 19);
+    border-radius: 8px;
+    outline: none;
+    box-shadow: none;
+}
+
+button, .button_save {
+    margin: 8px 0 0;
+    color: #d7d9e0 !important;
+    background: #5667c7;
+    font-weight: 700;
+    z-index: 1;
+    display: block;
+    min-width: 100px;
+    min-height: 35px;
+    width: max-content;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: max(12px, 1em);
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: 6px;
+    overflow: clip;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+input:disabled {
+    cursor: not-allowed !important;
+}
+
 .app-container, #hydrauliscselapp {
     margin-top: 3.5rem;
 }
@@ -117,6 +167,14 @@ body {
     min-width: 0;
 }
 
+.lluviere {
+    background: #5667C7;
+}
+
+.caption {
+    font-size: smaller;
+}
+
 .danger {
     border: none;
     border-radius: 6px;
@@ -131,4 +189,29 @@ body {
 
 .danger:hover {
     background: crimson;
+}
+
+/* Keep these apart */
+.users_table_container {
+    background-color: var(--color-surface-alt);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    overflow-x: auto;
+}
+
+.users_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users_table th,
+.users_table td {
+    padding: var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.users_table th {
+    font-weight: var(--font-bold);
+    color: var(--color-accent);
 }

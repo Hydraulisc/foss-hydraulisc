@@ -22,7 +22,8 @@ const initializeDatabase = () => {
                 pfp TEXT NOT NULL,
                 theme TEXT NOT NULL,
                 biography TEXT NOT NULL,
-                isAdmin BOOLEAN DEFAULT 0 NOT NULL
+                isAdmin BOOLEAN DEFAULT 0 NOT NULL,
+                indexable BOOLEAN DEFAULT 1 NOT NULL
             )
         `);
 
@@ -180,13 +181,33 @@ app.get('/settings', (req, res) => {
                 });
             }
 
-            res.render('pages/settings', {
-                isAdmin: userDetail.isAdmin,
-                username: userDetail.username,
-                usersBiography: userDetail.biography,
-                ownId: userDetail.id,
-                version
-            })
+            if(req.session.user.isAdmin) {
+                db.all('SELECT id, username, isAdmin FROM users ORDER BY id', [], (err, users) => {
+                    if (err) {
+                        logError('Failed to load users', err);
+                        return res.redirect('/');
+                    }
+            
+                    res.render('pages/settings', {
+                        isAdmin: userDetail.isAdmin,
+                        username: userDetail.username,
+                        usersBiography: userDetail.biography,
+                        ownId: userDetail.id,
+                        version,
+                        pfp: userDetail.pfp,
+                        users
+                    })
+                });
+            } else {
+                res.render('pages/settings', {
+                    isAdmin: userDetail.isAdmin,
+                    username: userDetail.username,
+                    usersBiography: userDetail.biography,
+                    ownId: userDetail.id,
+                    version,
+                    pfp: userDetail.pfp
+                })
+            }
         });
     } else {
         res.redirect('/login');

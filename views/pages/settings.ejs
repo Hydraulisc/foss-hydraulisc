@@ -31,10 +31,10 @@
                                                         <div id="profile_tab_display" style="display: block;" class="tobesetnone">
                                                             <div class="_formRoot" tabindex="-1">
                                                                 <br>
-                                                                <div class="lluviere" style="background: #5667C7;">
+                                                                <div class="lluviere">
                                                                     <div class="avatar">
-                                                                        <span class="squircle-avatar" style="color: #1C286B;" title="Avatar">
-                                                                            <img class="inner" src="https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp" loading="lazy">
+                                                                        <span class="squircle-avatar" style="color: #1C286B;" title="<%- username %>'s Avatar">
+                                                                            <img class="inner" src="<%- pfp %>" loading="lazy">
                                                                         </span>
                                                                         <button id="avatarEdit" onclick="changepfpmodal()">
                                                                             <div>Change avatar</div>
@@ -48,7 +48,7 @@
                                                                     <label>
                                                                         <div class="label">Display Name</div>
                                                                         <div class="input">
-                                                                            <input spellcheck="false" value="<%- username %>" style="border-color: rgb(19, 19, 19); cursor: not-allowed !important;" disabled max="30" maxlength="30">
+                                                                            <input spellcheck="false" value="<%- username %>" style="border-color: rgb(19, 19, 19);" max="30" maxlength="30" placeholder="Username">
                                                                         </div>
                                                                     </label>
                                                                 </div>
@@ -57,9 +57,9 @@
                                                                         <span class="label">Bio</span>
                                                                         <div class="input">
                                                                             <% if (usersBiography) { %>
-                                                                                <textarea id="thisistheuserbioid" spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px;" maxlength="500" max="500" value="<%- usersBiography %>" disabled><%- usersBiography %></textarea>
+                                                                                <textarea id="thisistheuserbioid" spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px; width: 100%;" maxlength="50" max="50" value="<%- usersBiography %>"><%- usersBiography %></textarea>
                                                                             <% } else { %>
-                                                                                <textarea id="thisistheuserbioid" spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px;" maxlength="500" max="500" disabled></textarea>
+                                                                                <textarea id="thisistheuserbioid" spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px; width: 100%;" maxlength="500" max="500" value="This user has not written their Bio yet."></textarea>
                                                                             <% } %>
                                                                         </div>
                                                                         <div class="caption">You can also include hash's in your bio.</div>
@@ -67,20 +67,6 @@
                                                                     <button onclick="saveSayonara()" class="button_save">
                                                                         <div> Save</div>
                                                                     </button>
-                                                                </div>
-                                                                <div class="matxzzsk _formBlock" style="--a8ff023a: 38px;">
-                                                                    <label>
-                                                                        <div class="label">Birthday (Optional!)</div>
-                                                                        <div class="input">
-                                                                            <input type="date" disabled style="border-color: rgb(19, 19, 19);">
-                                                                        </div>
-                                                                        <div class="caption">Birthday's aren't (currently) used for anything. We might add a <span style="font-family: monospace; color: white; background: black;">{{event.birthday}}</span> in the future.</div>
-                                                                    </label>
-                                                                    <!--
-                                                                    <button onclick="saveSayonara()" class="button_save">
-                                                                        <div> Save</div>
-                                                                    </button>
-                                                                    -->
                                                                 </div><br><br>
                                                                 <label class="ziffeomt _formBlock">
                                                                     <input type="checkbox" disabled>
@@ -94,7 +80,7 @@
                                                         <div id="privacytabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
                                                                 <label class="ziffeomt _formBlock">
-                                                                    <input type="checkbox">
+                                                                    <input type="checkbox" disabled>
                                                                     <span class="label">
                                                                         <span>Follow requests require approval</span>
                                                                         <p class="caption">Unless you set your profile visiblity to "Followers only", your posts will be visible to anyone, even if you require followers to be manually approved.</p>
@@ -178,51 +164,6 @@
                                                                 <h3>Notifications aren't currently configured on this client!</h3>
                                                             </div>
                                                         </div>
-                                                        <div id="emailtabulatordisplay" style="display: none;" class="tobesetnone">
-                                                            <div>
-                                                                <div class="_formRoot">
-                                                                    <section class="_formBlock" style="border-bottom: .5px solid rgb(35, 35, 47);">
-                                                                        <h3 class="label">Email</h3>
-                                                                        <div class="_formRoot">
-                                                                            <div>
-                                                                                <label>
-                                                                                    <div class="input" style="position: relative;">
-                                                                                        <input type="email" value="support@hydraulisc.net" disabled style="cursor: not-allowed;">
-                                                                                        <div class="suffix">Use the support email above to request a change to your email. A verification code will appear here for 7 days after we process your request to ensure it's you requesting the change.</div>
-                                                                                    </div>
-                                                                                    <p style="background: black; color: white; font-family: monospace;">{{email.verified}}</p>
-                                                                                    <button class="button_save" style="display: none !important;">
-                                                                                        <div> Save</div>
-                                                                                    </button>
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </section>
-                                                                    <section class="_formBlock" style="border-bottom: .5px solid rgb(35, 35, 47);">
-                                                                        <h3 class="label"></h3>
-                                                                        <div class="_formRoot">
-                                                                            <label>
-                                                                                <input type="checkbox" checked disabled>
-                                                                                <span class="label">
-                                                                                    <span style="background: black; color: white; font-family: monospace;">{{event.notificationreceive}}</span>
-                                                                                    <p class="caption">Notifications aren't currently supported on this client!</p>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </section>
-                                                                    <section class="_formBlock">
-                                                                        <h3 class="label">Email Notifications</h3>
-                                                                        <div class="_formRoot">
-                                                                            <label>
-                                                                                <span class="label">
-                                                                                    <p class="caption">We only send important security emails, such as Password Reset Requests or Password/Email Changes.</p>
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </section>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <div id="securitytabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot" style="outline: none;">
                                                                 <section class="_formBlock" style="padding-bottom: 1rem; border-bottom: .5px solid rgb(35, 35, 47);">
@@ -250,23 +191,6 @@
                                                                         </label>
                                                                     </div>
                                                                 </section>
-                                                                <section class="_formBlock" style="display: none !important;">
-                                                                    <h3 class="label">Sign In History</h3>
-                                                                    <!-- Neither the API nor the backend is ready for this. Please come back later :-) -->
-                                                                </section>
-                                                                <secion class="_formBlock">
-                                                                    <h3 class="label"></h3>
-                                                                    <div class="_formRoot">
-                                                                        <label>
-                                                                            <button onclick="manualRefreshTokens()" class="danger" style="border: none; padding: .65rem; cursor: pointer; border-radius: 8px; color: #d7d9e0 !important;">
-                                                                                <div> Regenerate Account Tokens</div>
-                                                                            </button>
-                                                                            <span class="label">
-                                                                                <p class="caption">Regenerates all tokens used internally during sign in. Normally this action is not necessary. If regenerated, all devices will be logged out.</p>
-                                                                            </span>
-                                                                        </label>
-                                                                    </div>
-                                                                </secion>
                                                             </div>
                                                         </div>
                                                         <div id="generaltabulatordisplay" style="display: none;" class="tobesetnone">
@@ -442,6 +366,58 @@
                                                                     </form>
                                                                     <span class="label">Generate Invites</span>
                                                                 </label>
+                                                                <section style="margin-top: 3rem;">
+                                                                    <div class="users_table_container">
+                                                                        <table class="users_table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>ID</th>
+                                                                                    <th>Username</th>
+                                                                                    <th>Role</th>
+                                                                                    <th>Actions</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <% users.forEach(function(user) { %>
+                                                                                    <tr>
+                                                                                        <td>#<%= user.id %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <a href="/<%= user.username %>" target="_blank">@<%= user.username %>
+                                                                                                    </a>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <% if (user.id !== ownId) { %>
+                                                                                                <form action="/dashboard/users/toggle-admin" method="POST"
+                                                                                                    class="inline-form">
+                                                                                                    <input type="hidden" name="userId" value="<%= user.id %>">
+                                                                                                    <button type="submit"
+                                                                                                        class="admin_toggle <%= user.isAdmin ? 'active' : '' %>">
+                                                                                                        <%= user.isAdmin ? 'Admin' : 'User' %>
+                                                                                                    </button>
+                                                                                                </form>
+                                                                                                <% } else { %>
+                                                                                                    <span class="admin_badge">Admin (You)</span>
+                                                                                                    <% } %>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="action_buttons">
+                                                                                                <a href="/<%= user.username %>" class="view_button">View</a>
+                                                                                                <% if (user.id !== ownId) { %>
+                                                                                                    <form action="/dashboard/users/delete" method="POST"
+                                                                                                        class="inline-form"
+                                                                                                        onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                                                                                        <input type="hidden" name="userId" value="<%= user.id %>">
+                                                                                                        <button type="submit" class="delete_button">Delete</button>
+                                                                                                    </form>
+                                                                                                    <% } %>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <% }); %>
+                                                                            </tbody>
+                                                                        </table>
+                                                                </section>
                                                             </div>
                                                         </div>
                                                         <% } %>

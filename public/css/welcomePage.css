@@ -80,7 +80,6 @@ a {
     gap: 1rem;
     margin-right: auto;
     margin-left: auto;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     max-width: 64rem;
 }
 
@@ -122,4 +121,11 @@ a {
     margin: 3rem auto 1rem;
     text-align: center;
     font-size: smaller;
+}
+
+/* Desktop overrides for a grid layout */
+@media screen and (min-width: 768px) {
+    .features_grid_container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }

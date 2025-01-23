@@ -217,8 +217,8 @@ body {
 .user_uploads_container {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    margin: 0px auto;
+    padding: 1rem 0;
+    margin: 0px auto 3rem;
     width: 100%;
     max-width: min(1250px, 100%);
 }

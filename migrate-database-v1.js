@@ -26,6 +26,11 @@ const migrations = [
         type: 'TEXT',
         defaultValue: 'User has not written their Bio.'
     },
+    {
+        name: 'indexable',
+        type: 'BOOLEAN',
+        defaultValue: '1'
+    },
 ];
 
 // Function to check if a column exists

@@ -20,58 +20,52 @@
     <div class="app-container">
         <div class="gridz">
             <div class="home_container">
-                <% if (username) { %>
-                    <h3>Feed coming soon</h3>
-                    <div class="container_container">
-                        <main class="landing_feat">
-                            <div>
-                                <div id="" class="star_post_container">
-                                    <div style="border-bottom: 1px solid #04050a;">
-                                        <span class="star_post_header_container">
-                                            <span class="star_post_header">
-                                                <span style="position: relative;">
-                                                    <span style="display: flex;">
+                <h3>Feed coming soon</h3>
+                <div class="container_container">
+                    <main class="landing_feat">
+                        <div>
+                            <div id="" class="star_post_container">
+                                <div style="border-bottom: 1px solid #04050a;">
+                                    <span class="star_post_header_container">
+                                        <span class="star_post_header">
+                                            <span style="position: relative;">
+                                                <span style="display: flex;">
+                                                    <div>
                                                         <div>
-                                                            <div>
-                                                                <a href="/" class="star_post_title">
-                                                                    <div style="padding-right: 6px;">
-                                                                        <img src="https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&amp;token=6f61981c-9f14-48a3-b32d-a3edf506ec95&amp;format=webp" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
-                                                                    </div>
-                                                                    <span style="font-size: larger;"><%- username %></span>
-                                                                </a>
-                                                            </div>
+                                                            <a href="/" class="star_post_title">
+                                                                <div style="padding-right: 6px;">
+                                                                    <img src="https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&amp;token=6f61981c-9f14-48a3-b32d-a3edf506ec95&amp;format=webp" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
+                                                                </div>
+                                                                <span style="font-size: larger;"><%- username %></span>
+                                                            </a>
                                                         </div>
-                                                    </span>
+                                                    </div>
                                                 </span>
                                             </span>
-                                            
-                                                <span></span>
-                                            
                                         </span>
-                                    </div>
-                                    <a style="inset: 0; text-decoration: none; color: white;" href="/user/<%- username %>">
-                                        <div style="display: flex; margin-top: .3rem;">
-                                            <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
-                                                <img class="star_post_body" src="http://http.cat/301" loading="lazy" onclick="location.href='/';">
-                                                <div class="overlay"></div>
-                                            </div>
-                                        </div>
-                                        <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
-                                            <div class="star_post_texter" style="overflow: hidden;">
-                                                You should see your username here: <%- username %>. You'll be redirected to the 404 page upon clicking on this post. Please remain patient as post creation is still WIP. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a>
-                                            </div>
-                                        </div>
-                                    </a>
+                                        <span style="font-weight: 600; padding: 0.4rem;">⋮</span>
+                                    </span>
                                 </div>
+                                <a style="inset: 0; text-decoration: none; color: white;" href="/settings">
+                                    <div style="display: flex; margin-top: .3rem;">
+                                        <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
+                                            <img class="star_post_body" src="https://http.cat/301" loading="lazy">
+                                            <div class="overlay"></div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
+                                        <div class="star_post_texter" style="overflow: hidden;">
+                                            You should see your username here: <%- username %>. You'll be redirected upon clicking on this post. Please remain patient as post creation is still WIP. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </main>
-                    </div>
-                <% } else { %>
-                    <h3>You must <a href="/login" style="color: #5667c7;">login</a> to view the feed during the APT Phase!</h3>
-                <% } %>
+                        </div>
+                    </main>
+                </div>
             </div>
         </div>
     </div>
-    <%- include('../partials/footer', { username: username }) %>
+    <%- include('../partials/footer', { username: ownId}) %>
 </body>
 </html>
