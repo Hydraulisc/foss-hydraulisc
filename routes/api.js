@@ -7,6 +7,18 @@ const fs = require('fs');
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
 
+function sanitizeText(text) {
+    const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
+      return {
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        '&': '&amp;',
+      }[match];
+    });
+    return cleansedHTML;
+}
+
 // Create post
 const upload = multer({
     dest: "public/uploads/",
@@ -16,7 +28,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
     if(!req.session.user) return res.status(401).send('Not authenticated');
     if(!req.file) return res.status(400).send('No file!');
     const userId = req.session.user.id;
-    const uploadTitle = req.body.title;
+    const uploadTitle = sanitizeText(req.body.title);
     const { filename } = req.file;
   
     db.run(

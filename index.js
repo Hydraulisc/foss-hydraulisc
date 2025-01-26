@@ -5,6 +5,7 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const { version } = require('./package.json');
+const sanitizeHtml = require('sanitize-html');
 const fs = require('fs');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 
@@ -77,6 +78,17 @@ app.use(session({
     rolling: true                       // Refresh session with each request
 }));
 
+function sanitizeContent(text) {
+    const returnable =  sanitizeHtml(text, {
+        allowedTags: ['b', 'i', 'a'], // Allow specific tags
+        allowedAttributes: {
+            a: ['href'], // Allow links with href attribute
+        },
+        disallowedTagsMode: 'recursiveEscape', // Remove disallowed tags
+    });
+    return returnable;
+}
+
 // Static files and views
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
@@ -106,12 +118,18 @@ app.get('/', async (req, res) => {
                 });
             }
 
+            // Sanitize each post's content
+            const sanitizedPosts = rows.map((post) => ({
+                ...post,
+                title: sanitizeContent(post.title),
+            }));
+
             res.render('pages/index', {
                 username: req.session.user?.username || null,
                 isPublic: globals.isPublic,
                 isAdmin: req.session.user?.isAdmin || null,
                 ownId: req.session.user?.id || null,
-                posts: rows, // Each row includes post and user info
+                posts: sanitizedPosts, // Each row includes sanitized posts and user info
             });
         });
 

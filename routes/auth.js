@@ -9,6 +9,17 @@ const db = new sqlite3.Database('./database.db');
 
 // Middleware
 const { checkRegistrationMode } = require('../middleware/auth');
+function sanitizeText(text) {
+    const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
+      return {
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        '&': '&amp;',
+      }[match];
+    });
+    return cleansedHTML;
+}
 
 /**
  * Helper function to check if this is the first user in the system
@@ -27,11 +38,13 @@ async function isFirstUser() {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    if (!username || !password) {
+    const sanitizeUsername = sanitizeText(username);
+
+    if (!sanitizeUsername || !password) {
         return res.status(400).send('Username and password are required.');
     }
 
-    db.get('SELECT * FROM users WHERE username = ?', [username], async (err, user) => {
+    db.get('SELECT * FROM users WHERE username = ?', [sanitizeUsername], async (err, user) => {
         if (err) {
             return res.status(500).send('Database error');
         }
@@ -61,6 +74,7 @@ router.post('/login', async (req, res) => {
 router.post('/register', checkRegistrationMode, async (req, res) => {
     const { inviteCode, username, password } = req.body;
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
+    const sanitizeUsername = sanitizeText(username);
 
     try {
         // Check if this will be the first user
@@ -93,7 +107,7 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
         // Insert user with admin status if first user
         db.run(
             'INSERT INTO users (username, password, isAdmin, pfp, theme, biography) VALUES (?, ?, ?, ?, ?, ?)',
-            [username.trim(), hashedPassword, isFirstUser ? 1 : 0, 'https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp', 'default', 'User has not written their Bio.'],
+            [sanitizeUsername.trim(), hashedPassword, isFirstUser ? 1 : 0, 'https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp', 'default', 'User has not written their Bio.'],
             function (err) {
                 if (err) {
                     return res.status(500).send('Error registering user.');
