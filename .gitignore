@@ -4,3 +4,6 @@ database.sqlite
 /.vscode
 .devdbrc
 database.db
+/public/uploads
+/public/avatars
+/public/banners
