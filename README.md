@@ -23,5 +23,9 @@ Hydraulisc; Open Source, privay focused, image-sharing Social Media.
     <li>Username-only accounts for anonimity</li>
     <li>Private, Invite-Only or Public modes</li>
     <li>More?</li>
+    <p>Security Features</p>
+    <li>Uploaded files mimetype checks</li>
+    <li>XSS Upload Preventions (sanitize text)</li>
+    <li>XSS Rendering Preventions (sanitize and render)</li>
 </ul>
 </details>

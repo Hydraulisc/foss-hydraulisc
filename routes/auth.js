@@ -157,8 +157,8 @@ router.post('/logout', async (req, res) => {
             }
 
             res.clearCookie('connect.sid');
-            if (username) {
-                logAuth('User logged out', username);
+            if (!req.session?.user) {
+                console.log('User logged out');
             }
             res.redirect('/');
         });
