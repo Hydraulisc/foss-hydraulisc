@@ -19,9 +19,23 @@ function sanitizeText(text) {
     return cleansedHTML;
 }
 
+// File filter function
+const fileFilter = (req, file, cb) => {
+    // Allowed file types
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  
+    // Check if the file's MIME type is in the allowed list
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true); // Accept the file
+    } else {
+        cb(new Error('Invalid file type. Only images are allowed!'), false); // Reject the file
+    }
+};
+
 // Create post
 const upload = multer({
     dest: "public/uploads/",
+    fileFilter: fileFilter,
     limits: { fileSize: 25 * 1024 * 1024 }, // 25MB limit (?)
 });
 router.post("/upload", upload.single("file"), (req, res) => {
@@ -42,6 +56,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
 // Upload Avatar
 const avatar = multer({
     dest: "public/avatars/",
+    fileFilter: fileFilter,
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit (?)
 });
 router.post("/avatarUpdate", avatar.single("avatar"), (req, res) => {
@@ -64,6 +79,7 @@ router.post("/avatarUpdate", avatar.single("avatar"), (req, res) => {
 // Upload Banner
 const banner = multer({
     dest: "public/banners/",
+    fileFilter: fileFilter,
     limits: { fileSize: 15 * 1024 * 1024 }, // 15MB limit (?)
 });
 router.post("/bannerUpdate", banner.single("banner"), (req, res) => {

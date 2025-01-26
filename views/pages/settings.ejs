@@ -32,7 +32,7 @@
                                                             <div class="_formRoot" tabindex="-1">
                                                                 <br>
                                                                 <% if (banner) { %>
-                                                                    <div class="lluviere" style="background-image: url(<%- banner %>);">
+                                                                    <div class="lluviere" style="background-image: url(<%-banner%>);">
                                                                 <% } else { %>
                                                                     <div class="lluviere">
                                                                 <% } %>
@@ -47,7 +47,7 @@
                                                                         <div class="label">Update Avatar</div>
                                                                         <input type="file" name="avatar" id="avatar">
                                                                         <button class="button_save" type="submit">Save</button>
-                                                                        <div class="caption">Max file size 10MB.</div>
+                                                                        <div class="caption">Max file size 10MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</div>
                                                                     </form>
                                                                 </div>
                                                                 <div class="bannerInput">
@@ -55,7 +55,7 @@
                                                                         <div class="label">Update Banner</div>
                                                                         <input type="file" name="banner" id="banner">
                                                                         <button id="banner_edit" class="button_save" type="submit">Save</button>
-                                                                        <div class="caption">Max file size 15MB.</div>
+                                                                        <div class="caption">Max file size 15MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</div>
                                                                     </form>
                                                                 </div>
                                                                 <div class="nameForm">
