@@ -14,7 +14,7 @@ const migrations = [
     {
         name: 'pfp',
         type: 'TEXT',
-        defaultValue: '/img/defaultpfp.png'
+        defaultValue: '/avatars/defaultpfp.png'
     },
     {
         name: 'theme',
@@ -30,6 +30,24 @@ const migrations = [
         name: 'indexable',
         type: 'BOOLEAN',
         defaultValue: '1'
+    },
+    {
+        name: 'banner',
+        type: 'TEXT',
+        defaultValue: null
+    },
+    {
+        name: 'discriminator',
+        type: 'TEXT',
+        defaultValue: '0001'
+    },
+];
+
+const uploadsMigrations = [
+    {
+        name: 'filename',
+        type: 'TEXT',
+        defaultValue: null
     },
 ];
 
@@ -84,8 +102,48 @@ function applyMigrations() {
     });
 }
 
+function applyPostMigrations() {
+    uploadsMigrations.forEach(({ name, type, defaultValue }) => {
+        columnExists('posts', name, (err, exists) => {
+            if (err) {
+                console.error(`Error checking column ${name}:`, err.message);
+                return;
+            }
+
+            if (!exists) {
+                // Add the column
+                db.run(`ALTER TABLE posts ADD COLUMN ${name} ${type}`, (err) => {
+                    if (err) {
+                        console.error(`Error adding column ${name}:`, err.message);
+                        return;
+                    }
+                    console.log(`Column ${name} added.`);
+
+                    // Update existing rows with the default value
+                    if (defaultValue !== null) {
+                        db.run(
+                            `UPDATE posts SET ${name} = ? WHERE ${name} IS NULL`,
+                            [defaultValue],
+                            (err) => {
+                                if (err) {
+                                    console.error(`Error setting default value for ${name}:`, err.message);
+                                } else {
+                                    console.log(`Default values set for column ${name}.`);
+                                }
+                            }
+                        );
+                    }
+                });
+            } else {
+                console.log(`Column ${name} already exists. Skipping migration.`);
+            }
+        });
+    });
+}
+
 // Apply migrations
 applyMigrations();
+applyPostMigrations();
 
 // Close the database connection
 db.close((err) => {
