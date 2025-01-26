@@ -32,12 +32,16 @@
                     <div class="user_info_set">
                             <div class="banner_wrapper" style="background-color: #1C286B;">
                                 <div class="banner_container">
-                                    <div class="settings_banner"></div>
+                                    <% if (banner) { %>
+                                        <div class="settings_banner" style="background-image: url(<%-banner%>);"></div>
+                                    <% } else { %>
+                                        <div class="settings_banner"></div>
+                                    <% } %>
                                 </div>
                                 <div class="divider"></div>
                                 <div class="username_container">
                                     <span class="username_displayname"><%- usersPage %></span>
-                                    <span class="username" title="<%- usersPage %> doesn't have a discriminator (yet)">@<%- usersPage %>#0000</span>  
+                                    <span class="username">@<%- usersPage %>#<%- discriminator %></span>  
                                 </div>
                             </div>
                         
@@ -54,8 +58,8 @@
                             <div class="pofile_username_container">
                                 <div class="profile_username">
                                     <div class="user_tag_container">
-                                        <span title="You don't have a Discriminator (yet)"><%- usersPage %></span>
-                                        <span class="user_tag">@<%- usersPage %>#0000</span>
+                                        <span><%- usersPage %></span>
+                                        <span class="user_tag">@<%- usersPage %>#<%- discriminator %></span>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +123,7 @@
                     <div id="<%- upload.id %>" onclick="location.href='/post/<%- upload.id %>';">
                         <div class="upload">
                             <div class="upload_img_container">
-                                <img class="upload_img" src="<%- upload.cover %>">
+                                <img class="upload_img" src="/uploads/<%- upload.filename %>">
                                 <div style="width: 100%; height: 100%; position: relative; top: -246px;"></div>
                             </div>
                         </div>

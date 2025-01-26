@@ -3,6 +3,7 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const authRoutes = require('./routes/auth');
+const apiRoutes = require('./routes/api');
 const { version } = require('./package.json');
 const fs = require('fs');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
@@ -83,29 +84,61 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/api', apiRoutes);
 
-app.get('/', (req, res) => {
-    res.render('pages/index', {
-        username: req.session.user?.username || null,
-        isPublic: globals.isPublic,
-        isAdmin: req.session.user?.isAdmin || null,
-        ownId: req.session.user?.id || null
-    })
+// FEEEEEEEEEED
+app.get('/', async (req, res) => {
+    try {
+        db.all(`
+            SELECT posts.*, users.username, users.pfp
+            FROM posts
+            JOIN users ON posts.user_id = users.id
+            ORDER BY posts.created_at DESC
+            LIMIT 15
+        `, (err, rows) => {
+            if (err) {
+                console.log(err);
+                return res.render('pages/404', {
+                    hydrauliscECode: "89",
+                    errorMessage: "Method not Allowed.",
+                    username: req.session.user?.username || null,
+                    ownId: req.session.user?.id || null,
+                });
+            }
+
+            res.render('pages/index', {
+                username: req.session.user?.username || null,
+                isPublic: globals.isPublic,
+                isAdmin: req.session.user?.isAdmin || null,
+                ownId: req.session.user?.id || null,
+                posts: rows, // Each row includes post and user info
+            });
+        });
+
+    } catch (error) {
+        res.render('pages/404', {
+            hydrauliscECode: "91",
+            errorMessage: "Unable to update Unmodified Data.",
+            username: req.session.user?.username || null,
+            ownId: req.session.user?.id || null,
+        });
+    }
 })
 
+// Welpum
 app.get('/welcome', (req, res) => {
     res.render('pages/welcome', {
         version
     })
 })
 
+// Auth?
 app.get('/register', (req, res) => {
     res.render('pages/register', {
         isPublic: globals.isPublic,
         inviteMode: globals.inviteMode
     })
 })
-
 app.get('/login', (req, res) => {
     res.render('pages/login', {
         isPublic: globals.isPublic,
@@ -113,6 +146,7 @@ app.get('/login', (req, res) => {
     })
 })
 
+// Get user profiles... maybe
 app.get('/user/:id', (req, res) => {
     // Check if it's a user page
     db.get('SELECT * FROM users WHERE id = ?', [req.params.id], (err, pageUser) => {
@@ -152,7 +186,9 @@ app.get('/user/:id', (req, res) => {
                             follows: null,
                             usersBiography: pageUser.biography,
                             uploads: posts,
-                            isAdmin: req.session.user?.isAdmin || null
+                            isAdmin: req.session.user?.isAdmin || null,
+                            banner: pageUser.banner,
+                            discriminator: pageUser.discriminator || '0000'
                         });
                     }
                 );
@@ -168,6 +204,7 @@ app.get('/user/:id', (req, res) => {
     });
 })
 
+// Imagine Settings
 app.get('/settings', (req, res) => {
     if(req.session.user?.id) {
         db.get('SELECT * FROM users WHERE username = ?', [req.session.user.username], (err, userDetail) => {
@@ -195,7 +232,9 @@ app.get('/settings', (req, res) => {
                         ownId: userDetail.id,
                         version,
                         pfp: userDetail.pfp,
-                        users
+                        users,
+                        banner: userDetail.banner,
+                        discriminator: userDetail.discriminator || '0000'
                     })
                 });
             } else {
@@ -214,14 +253,56 @@ app.get('/settings', (req, res) => {
     }
 })
 
+// Upload files lmao
 app.get('/upload', (req, res) => {
-    // Not a user page, send 404 with error message
-    res.render('pages/404', {
-        hydrauliscECode: "89",
-        errorMessage: "Method not Allowed.",
-        username: req.session.user?.username || null,
-        ownId: req.session.user?.id || null
-    });
+    if(req.session.user?.id) {
+        db.get('SELECT * FROM users WHERE username = ?', [req.session.user.username], (err, userDetail) => {
+            if (err) {
+                console.error(err);
+                return res.render('pages/404', {
+                    hydrauliscECode: "92",
+                    errorMessage: "Session Not Found/Already Updated.",
+                    username: null,
+                    ownId: req.session.user.id
+                });
+            }
+
+            if(req.session.user.isAdmin) {
+                db.all('SELECT id, username, isAdmin FROM users ORDER BY id', [], (err, users) => {
+                    if (err) {
+                        logError('Failed to load users', err);
+                        return res.redirect('/');
+                    }
+            
+                    res.render('pages/upload', {
+                        isAdmin: userDetail.isAdmin,
+                        username: userDetail.username,
+                        usersBiography: userDetail.biography,
+                        ownId: userDetail.id,
+                        version,
+                        pfp: userDetail.pfp,
+                        users
+                    })
+                });
+            } else {
+                res.render('pages/upload', {
+                    isAdmin: userDetail.isAdmin,
+                    username: userDetail.username,
+                    usersBiography: userDetail.biography,
+                    ownId: userDetail.id,
+                    version,
+                    pfp: userDetail.pfp
+                })
+            }
+        });
+    } else {
+        res.render('pages/404', {
+            hydrauliscECode: "89",
+            errorMessage: "Method not Allowed.",
+            username: req.session.user?.username || null,
+            ownId: req.session.user?.id || null
+        });;
+    }
 })
 
 // Start server

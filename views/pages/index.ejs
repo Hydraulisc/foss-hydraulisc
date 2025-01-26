@@ -20,46 +20,87 @@
     <div class="app-container">
         <div class="gridz">
             <div class="home_container">
-                <h3>Feed coming soon</h3>
+                <h3>Latest Uploads</h3>
                 <div class="container_container">
                     <main class="landing_feat">
                         <div>
-                            <div id="" class="star_post_container">
-                                <div style="border-bottom: 1px solid #04050a;">
-                                    <span class="star_post_header_container">
-                                        <span class="star_post_header">
-                                            <span style="position: relative;">
-                                                <span style="display: flex;">
-                                                    <div>
+                            <% if (posts.length) { %>
+                                <% for (const post of posts) { %>
+                                <div id="<%- post.id %>" class="star_post_container">
+                                    <div style="border-bottom: 1px solid #04050a;">
+                                        <span class="star_post_header_container">
+                                            <span class="star_post_header">
+                                                <span style="position: relative;">
+                                                    <span style="display: flex;">
                                                         <div>
-                                                            <a href="/" class="star_post_title">
-                                                                <div style="padding-right: 6px;">
-                                                                    <img src="https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&amp;token=6f61981c-9f14-48a3-b32d-a3edf506ec95&amp;format=webp" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
-                                                                </div>
-                                                                <span style="font-size: larger;"><%- username %></span>
-                                                            </a>
+                                                            <div>
+                                                                <a href="/user/<%- post.user_id %>" class="star_post_title">
+                                                                    <div style="padding-right: 6px;">
+                                                                        <img src="<%- post.pfp %>" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
+                                                                    </div>
+                                                                    <span style="font-size: larger;"><%- post.username %></span>
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </span>
                                                 </span>
                                             </span>
+                                            <span style="font-weight: 600; padding: 0.4rem;">⋮</span>
                                         </span>
-                                        <span style="font-weight: 600; padding: 0.4rem;">⋮</span>
-                                    </span>
+                                    </div>
+                                    <a style="inset: 0; text-decoration: none; color: white;" href="/post/<%- post.id %>">
+                                        <div style="display: flex; margin-top: .3rem;">
+                                            <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
+                                                <div class="overlay"></div>
+                                                <img class="star_post_body" src="/uploads/<%- post.filename %>" loading="lazy">
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
+                                            <div class="star_post_texter" style="overflow: hidden;">
+                                                <%- post.title %>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                                <a style="inset: 0; text-decoration: none; color: white;" href="/settings">
-                                    <div style="display: flex; margin-top: .3rem;">
-                                        <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
-                                            <img class="star_post_body" src="https://http.cat/301" loading="lazy">
-                                            <div class="overlay"></div>
-                                        </div>
+                                <% } %>
+                            <% } else { %>
+                                <div id="" class="star_post_container">
+                                    <div style="border-bottom: 1px solid #04050a;">
+                                        <span class="star_post_header_container">
+                                            <span class="star_post_header">
+                                                <span style="position: relative;">
+                                                    <span style="display: flex;">
+                                                        <div>
+                                                            <div>
+                                                                <a href="/" class="star_post_title">
+                                                                    <div style="padding-right: 6px;">
+                                                                        <img src="/img/defaultpfp.png" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
+                                                                    </div>
+                                                                    <span style="font-size: larger;">No Data</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span></span>
+                                        </span>
                                     </div>
-                                    <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
-                                        <div class="star_post_texter" style="overflow: hidden;">
-                                            You should see your username here: <%- username %>. You'll be redirected upon clicking on this post. Please remain patient as post creation is still WIP. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a>
+                                    <a style="inset: 0; text-decoration: none; color: white;" href="/">
+                                        <div style="display: flex; margin-top: .3rem;">
+                                            <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
+                                                <img class="star_post_body" src="/img/defaultpfp.png" loading="lazy">
+                                                <div class="overlay"></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                        <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
+                                            <div class="star_post_texter" style="overflow: hidden;">
+                                                If you are seeing this post, no posts exist on this instance, or this instance has it's feed set to private. <a href="/login">Login</a> to view more. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <% } %>
                         </div>
                     </main>
                 </div>

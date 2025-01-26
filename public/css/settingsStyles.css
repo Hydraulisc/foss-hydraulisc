@@ -169,6 +169,8 @@ input:disabled {
 
 .lluviere {
     background: #5667C7;
+    background-position: center;
+    background-size: cover;
 }
 
 .caption {
@@ -214,4 +216,10 @@ input:disabled {
 .users_table th {
     font-weight: var(--font-bold);
     color: var(--color-accent);
+}
+
+.inner {
+    max-width: 230px;
+    max-height: 230px;
+    border-radius: 50%;
 }

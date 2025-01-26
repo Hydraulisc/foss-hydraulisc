@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload | Hydraulisc</title>
+    <link rel="stylesheet" href="/css/classicStyles.css">
+</head>
+<body>
+    <%- include('../partials/header', { username: ownId }) %>
+    <div class="app-container">
+        <form action="/api/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file">
+            <input type="text" name="title" id="title">
+            <button type="submit">Upload!</button>
+        </form>
+    </div>
+    <%- include('../partials/footer', { username: ownId}) %>
+</body>
+</html>

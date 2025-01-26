@@ -135,11 +135,19 @@ router.post('/logout', async (req, res) => {
         return res.status(401).send('Not authenticated')
     } else {
         // Successful logout attempt: clear session
-        req.session.user = {
-            id: null,
-            username: null,
-            isAdmin: null
-        };
+        // Destroy the session
+        req.session.destroy((err) => {
+            if (err) {
+                logError('Error during logout', err);
+                return res.status(500).send('Error logging out');
+            }
+
+            res.clearCookie('connect.sid');
+            if (username) {
+                logAuth('User logged out', username);
+            }
+            res.redirect('/');
+        });
     }
 })
 

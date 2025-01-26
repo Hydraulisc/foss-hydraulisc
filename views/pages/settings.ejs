@@ -31,18 +31,32 @@
                                                         <div id="profile_tab_display" style="display: block;" class="tobesetnone">
                                                             <div class="_formRoot" tabindex="-1">
                                                                 <br>
-                                                                <div class="lluviere">
+                                                                <% if (banner) { %>
+                                                                    <div class="lluviere" style="background-image: url(<%- banner %>);">
+                                                                <% } else { %>
+                                                                    <div class="lluviere">
+                                                                <% } %>
                                                                     <div class="avatar">
                                                                         <span class="squircle-avatar" style="color: #1C286B;" title="<%- username %>'s Avatar">
                                                                             <img class="inner" src="<%- pfp %>" loading="lazy">
                                                                         </span>
-                                                                        <button id="avatarEdit" onclick="changepfpmodal()">
-                                                                            <div>Change avatar</div>
-                                                                        </button>
                                                                     </div>
-                                                                    <button id="bannerEdit" onclick="changebannermodal()">
-                                                                        <div>Change banner</div>
-                                                                    </button>
+                                                                </div>
+                                                                <div class="avatarInput">
+                                                                    <form method="post" action="/api/avatarUpdate" enctype="multipart/form-data">
+                                                                        <div class="label">Update Avatar</div>
+                                                                        <input type="file" name="avatar" id="avatar">
+                                                                        <button class="button_save" type="submit">Save</button>
+                                                                        <div class="caption">Max file size 10MB.</div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="bannerInput">
+                                                                    <form method="post" action="/api/bannerUpdate" enctype="multipart/form-data">
+                                                                        <div class="label">Update Banner</div>
+                                                                        <input type="file" name="banner" id="banner">
+                                                                        <button id="banner_edit" class="button_save" type="submit">Save</button>
+                                                                        <div class="caption">Max file size 15MB.</div>
+                                                                    </form>
                                                                 </div>
                                                                 <div class="nameForm">
                                                                     <label>
@@ -67,7 +81,8 @@
                                                                     <button onclick="saveSayonara()" class="button_save">
                                                                         <div> Save</div>
                                                                     </button>
-                                                                </div><br><br>
+                                                                </div>
+                                                                <hr>
                                                                 <label class="ziffeomt _formBlock">
                                                                     <input type="checkbox" disabled>
                                                                     <span class="label">
@@ -383,7 +398,7 @@
                                                                                         <td>#<%= user.id %>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <a href="/<%= user.username %>" target="_blank">@<%= user.username %>
+                                                                                            <a href="/<%= user.id %>" target="_blank">@<%= user.username %>
                                                                                                     </a>
                                                                                         </td>
                                                                                         <td>
@@ -433,8 +448,6 @@
                 </div>
             </div>
         </div>
-        <input type="file" id="pfpInput" accept="image/*" style="display: none;">
-        <input type="file" id="bannerInput" accept="image/*" style="display: none;">
         <script>
             const theUidToTargetNow = '<%- ownId %>';
         </script>
