@@ -244,7 +244,9 @@ app.get('/settings', (req, res) => {
                     usersBiography: userDetail.biography,
                     ownId: userDetail.id,
                     version,
-                    pfp: userDetail.pfp
+                    pfp: userDetail.pfp,
+                    banner: userDetail.banner,
+                    discriminator: userDetail.discriminator || '0000'
                 })
             }
         });
