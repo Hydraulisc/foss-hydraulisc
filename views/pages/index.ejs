@@ -14,6 +14,7 @@
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
     <link rel="stylesheet" href="/css/classicStyles.css">
+    <link rel="stylesheet" href="/css/indexStyles.css">
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
@@ -45,7 +46,19 @@
                                                     </span>
                                                 </span>
                                             </span>
-                                            <span style="font-weight: 600; padding: 0.4rem;">⋮</span>
+                                            <div class="dropdown">
+                                                <span class="popup_menu <%- post.id %> dropbtn">⋮</span>
+                                                <div class="dropdown-content">
+                                                    <a href="#">Report Content</a>
+                                                    <% if(post.user_id == ownId) { %>
+                                                        <a href="#">Edit</a>
+                                                        <a href="#">Delete</a>
+                                                    <% } %>
+                                                    <% if(isAdmin) { %>
+                                                        <a class="admin_options" href="#">Sudo Delete</a>
+                                                    <% } %>
+                                                </div>
+                                            </div>
                                         </span>
                                     </div>
                                     <a style="inset: 0; text-decoration: none; color: white;" href="/post/<%- post.id %>">

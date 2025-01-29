@@ -5,6 +5,7 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const { version } = require('./package.json');
+const { sanitizeText } = require('./middleware/forceTextDirections');
 const sanitizeHtml = require('sanitize-html');
 const fs = require('fs');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
@@ -39,7 +40,7 @@ const initializeDatabase = () => {
         `);
 
         // Create Posts table
-        // Btw I have no idea how to link thse or anything - @SleepingAmi
+        // Ty sooox for helping with post db - @SleepingAmi
         db.run(`
             CREATE TABLE IF NOT EXISTS posts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,6 +48,7 @@ const initializeDatabase = () => {
                 title TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                filename TEXT NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id)
                     ON DELETE CASCADE
                     ON UPDATE CASCADE
@@ -86,7 +88,7 @@ function sanitizeContent(text) {
         },
         disallowedTagsMode: 'recursiveEscape', // Remove disallowed tags
     });
-    return returnable;
+    return sanitizeText(returnable);
 }
 
 // Static files and views

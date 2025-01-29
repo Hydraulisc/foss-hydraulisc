@@ -1,0 +1,28 @@
+:root {
+    scrollbar-width: none;
+}
+
+body {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5rem;
+    background-color: #04050a;
+    color: #d7d9e0;
+    font-family: "Inter", sans-serif;
+}
+
+.app_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+    margin: 3rem auto 0;
+    width: 92%;
+    max-width: min(1250px, 100%);
+    overflow: hidden;
+}
+
+.spacer_two {
+    margin-top: 6rem;
+}

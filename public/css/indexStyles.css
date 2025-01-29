@@ -1,0 +1,36 @@
+.popup_menu {
+    font-weight: 600;
+    padding: 0.4rem;
+}
+
+.dropdown {
+    display: inline-block;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 8px;
+    background-color: #12131a;
+    min-width: 160px;
+    z-index: 1;
+}
+  
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+.dropdown-content a:hover {
+    background-color: #778899;
+}
+
+.dropdown-content .admin_options {
+    background-color: red !important;
+}
+  
+.dropdown:hover .dropdown-content {
+    display: block;
+}

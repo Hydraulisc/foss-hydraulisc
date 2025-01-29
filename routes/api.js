@@ -42,7 +42,12 @@ router.post("/upload", upload.single("file"), (req, res) => {
     if(!req.session.user) return res.status(401).send('Not authenticated');
     if(!req.file) return res.status(400).send('No file!');
     const userId = req.session.user.id;
-    const uploadTitle = sanitizeText(req.body.title);
+    var uploadTitle = undefined;
+    if(!req.body.title) {
+        uploadTitle = "";
+    } else {
+        uploadTitle = sanitizeText(req.body.title);
+    }
     const { filename } = req.file;
   
     db.run(

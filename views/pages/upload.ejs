@@ -2,19 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload | Hydraulisc</title>
-    <link rel="stylesheet" href="/css/classicStyles.css">
+    <meta property="og:title" content="Hydraulisc - Stay in the loop">
+    <meta property="og:description" content="Stay in the loop, with Hydraulisc - where communities come together!">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/144374735">
+    <!-- Unused Canonical and alternate "link"'s removed: https://www.html-easy.com/references/html-link-tag/ & https://ahrefs.com/blog/canonical-tags/ -->
+    <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/144374735">
+    <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
+    <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
+    <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
+    <link rel="stylesheet" href="/css/uploadStyles.css">
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
-    <div class="app-container">
-        <form action="/api/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" id="file">
-            <input type="text" name="title" id="title">
-            <button type="submit">Upload!</button>
-        </form>
+    <div class="app_container">
+        <div class="spacer_two">
+            <form action="/api/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="file">
+                <input type="text" name="title" id="title">
+                <button type="submit">Upload!</button>
+            </form>
+            <img style="display: none;" src="" alt="Preview" id="preview">
+        </div>
     </div>
+
+    <script>
+        document.getElementById("file").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById("preview");
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
     <%- include('../partials/footer', { username: ownId}) %>
 </body>
 </html>

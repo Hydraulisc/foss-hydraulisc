@@ -8,6 +8,11 @@ Hydraulisc; Open Source, privay focused, image-sharing Social Media.
 - [Hydraulisc's About Site](https://about.hydraulisc.net)
 - [Discord](https://discord.gg/Syn5GVDemH)
 
+## Warning!
+If you are migrating from Hydraulisc version 1.2.6 or earlier, you need to perform v1 database migrations!
+
+`node migrate-database-v1.js`
+
 <details>
 <summary>Quick References:</summary>
 <ul>
@@ -23,6 +28,7 @@ Hydraulisc; Open Source, privay focused, image-sharing Social Media.
     <li>Username-only accounts for anonimity</li>
     <li>Private, Invite-Only or Public modes</li>
     <li>More?</li>
+    <br>
     <p>Security Features</p>
     <li>Uploaded files mimetype checks</li>
     <li>XSS Upload Preventions (sanitize text)</li>
