@@ -3,12 +3,13 @@ const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const crypto = require('crypto');
+const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
 
 // Middleware
-const { checkRegistrationMode } = require('../middleware/auth');
+const { checkRegistrationMode, requireAdmin } = require('../middleware/auth');
 function sanitizeText(text) {
     const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
       return {
@@ -71,8 +72,9 @@ router.post('/login', async (req, res) => {
 });
 
 // Registration route
-router.post('/register', checkRegistrationMode, async (req, res) => {
-    const { inviteCode, username, password } = req.body;
+router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) => {
+    const inviteCode = req.params.inviteCode || req.body.inviteCode; // Prioritize URL param
+    const { username, password } = req.body;
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
     const sanitizeUsername = sanitizeText(username);
 
@@ -82,45 +84,53 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
 
         // Invite code validation
         if (globals.inviteMode) {
-            const query = 'SELECT * FROM invites WHERE code = ? AND used = 0';
-            db.get(query, [inviteCode], (err, invite) => {
-                if (err) return res.status(500).send('Database error');
-                if (!invite) return res.status(400).send('Invalid or used invite code');
+            if (!inviteCode) return res.status(400).send('Invite code is required');
 
-                // Mark invite as used
-                db.run('UPDATE invites SET used = 1 WHERE code = ?', [inviteCode], () => {
-                    registerUser(firstUser);
+            const query = 'SELECT * FROM invites WHERE code = ? AND used = 0';
+            const invite = await new Promise((resolve, reject) => {
+                db.get(query, [inviteCode], (err, row) => {
+                    if (err) reject(err);
+                    else resolve(row);
                 });
             });
-        } else {
-            registerUser(firstUser);
+
+            if (!invite) return res.status(400).send('Invalid or used invite code');
+
+            // Mark invite as used
+            await new Promise((resolve, reject) => {
+                db.run('UPDATE invites SET used = 1 WHERE code = ?', [inviteCode], function (err) {
+                    if (err) reject(err);
+                    else resolve();
+                });
+            });
         }
+
+        // Proceed to register user
+        await registerUser(firstUser);
     } catch (error) {
         console.error('Registration error:', error);
-        res.status(500).send('An error occurred during registration');
+        return res.status(500).send('An error occurred during registration');
     }
 
     async function registerUser(isFirstUser) {
-        // Hash password upon registering
+        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Insert user with admin status if first user
         db.run(
             'INSERT INTO users (username, password, isAdmin, pfp, theme, biography) VALUES (?, ?, ?, ?, ?, ?)',
-            [sanitizeUsername.trim(), hashedPassword, isFirstUser ? 1 : 0, 'https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp', 'default', 'User has not written their Bio.'],
+            [sanitizeUsername.trim(), hashedPassword, isFirstUser ? 1 : 0, 
+            'https://firebasestorage.googleapis.com/v0/b/hydraulisc.appspot.com/o/defaultpfp.png?alt=media&token=6f61981c-9f14-48a3-b32d-a3edf506ec95&format=webp', 
+            'default', 'User has not written their Bio.'],
             function (err) {
-                if (err) {
-                    return res.status(500).send('Error registering user.');
-                }
+                if (err) return res.status(500).send('Error registering user.');
 
-                // Get the new user with their admin status
+                // Fetch the new user data
                 db.get(
                     'SELECT id, username, isAdmin FROM users WHERE id = ?',
                     [this.lastID],
                     (err, newUser) => {
-                        if (err) {
-                            return res.redirect('/login');
-                        }
+                        if (err) return res.redirect('/login');
 
                         // Set session
                         req.session.user = {
@@ -128,10 +138,9 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
                             username: newUser.username,
                             isAdmin: newUser.isAdmin === 1
                         };
-                        // Save session
                         req.session.save((err) => {
                             if (err) {
-                                logError('Session save error', err);
+                                console.error('Session save error:', err);
                                 return res.redirect('/login');
                             }
                             res.redirect('/'); // Redirect to home page
@@ -143,7 +152,8 @@ router.post('/register', checkRegistrationMode, async (req, res) => {
     }
 });
 
-// Log out route ?
+
+// Log out route
 router.post('/logout', async (req, res) => {
     if(!req.session.user) {
         return res.status(401).send('Not authenticated')
@@ -165,21 +175,6 @@ router.post('/logout', async (req, res) => {
     }
 })
 
-/**
- * Middleware to check if the user is an admin
- */
-function requireAdmin(req, res, next) {
-    if (!req.session.user) {
-        return res.status(401).send('Not authenticated');
-    }
-
-    if (!req.session.user.isAdmin) {
-        return res.status(403).send('Forbidden - Admin access required');
-    }
-
-    next();
-}
-
 // Admin endpoint to generate invite codes
 router.post('/admin/generate-invite', requireAdmin, (req, res) => {
     const { count } = req.body;
@@ -189,6 +184,7 @@ router.post('/admin/generate-invite', requireAdmin, (req, res) => {
     }
 
     const codes = [];
+    var prettyLinks = [];
     const insertQuery = 'INSERT INTO invites (code) VALUES (?)';
 
     db.serialize(() => {
@@ -196,11 +192,12 @@ router.post('/admin/generate-invite', requireAdmin, (req, res) => {
         for (let i = 0; i < count; i++) {
             const code = crypto.randomBytes(16).toString('hex');
             codes.push(code);
+            prettyLinks.push(`${globals.protocol}://${globals.siteDomain}/register/${code}`);
             stmt.run(code);
         }
         stmt.finalize();
 
-        res.json({ codes });
+        res.json({ codes: codes, directLinks: prettyLinks });
     });
 });
 

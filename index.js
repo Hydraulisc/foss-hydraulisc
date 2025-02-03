@@ -153,10 +153,11 @@ app.get('/welcome', (req, res) => {
 })
 
 // Auth?
-app.get('/register', (req, res) => {
+app.get('/register/:inviteCode?', (req, res) => {
     res.render('pages/register', {
         isPublic: globals.isPublic,
-        inviteMode: globals.inviteMode
+        inviteMode: globals.inviteMode,
+        inviteCode: req.params.inviteCode
     })
 })
 app.get('/login', (req, res) => {

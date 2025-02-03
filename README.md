@@ -1,7 +1,7 @@
 # <img src="https://avatars.githubusercontent.com/u/144374735" style="height: 30px;"> foss-[hydraulisc](https://hydraulisc.net)
 Hydraulisc; Open Source, privay focused, image-sharing Social Media.
 
-# Currently in [Alpha Private Testing (APT)](https://apt.hydraulisc.net) phase! Check the [Discord](https://discord.gg/Syn5GVDemH) for more info.
+# Currently in [Private Alpha Testing/Beta Private Testing (PAT/BPT)](https://pbt.hydraulisc.net) phase! Check the [Discord](https://discord.gg/Syn5GVDemH) for more info.
 
 - [Info regarding repository](https://blog.hydraulisc.xyz/?entry=E0Mczt2lGeyib93YSqhB)
 - [Roadmap](https://blog.hydraulisc.xyz/?entry=haulisc-roadmap)
@@ -9,7 +9,7 @@ Hydraulisc; Open Source, privay focused, image-sharing Social Media.
 - [Discord](https://discord.gg/Syn5GVDemH)
 
 ## Warning!
-If you are migrating from Hydraulisc version 1.2.6 or earlier, you need to perform v1 database migrations!
+If you are migrating from Hydraulisc version 1.2.9 or earlier, you need to perform v1 database migrations!
 
 `node migrate-database-v1.js`
 
@@ -27,11 +27,9 @@ If you are migrating from Hydraulisc version 1.2.6 or earlier, you need to perfo
     <li>Privacy Focused</li>
     <li>Username-only accounts for anonimity</li>
     <li>Private, Invite-Only or Public modes</li>
-    <li>More?</li>
-    <br>
-    <p>Security Features</p>
+    <li>Direct Invite links</li>
     <li>Uploaded files mimetype checks</li>
-    <li>XSS Upload Preventions (sanitize text)</li>
+    <li>XSS Upload Preventions (sanitize text before upload)</li>
     <li>XSS Rendering Preventions (sanitize and render)</li>
 </ul>
 </details>

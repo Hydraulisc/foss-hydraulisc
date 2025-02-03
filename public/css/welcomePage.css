@@ -123,6 +123,10 @@ a {
     font-size: smaller;
 }
 
+sup {
+    font-size: 8px;
+}
+
 /* Desktop overrides for a grid layout */
 @media screen and (min-width: 768px) {
     .features_grid_container {

@@ -2,6 +2,8 @@
   "hostPort": 8800,
   "isPublic": false,
   "inviteMode": true,
-  "sessionKey": "test_session_key"
+  "sessionKey": "test_session_key",
+  "protocol": "https",
+  "siteDomain": "hydraulisc.net"
 }
   

@@ -28,7 +28,7 @@
                     <input type="text" name="username" placeholder="Username" required />
                     <input type="password" name="password" placeholder="Password" required />
                     <% if (inviteMode) { %>
-                        <input type="text" name="inviteCode" placeholder="Invite Code" required />
+                        <input type="text" name="inviteCode" value="<%= inviteCode ? inviteCode : '' %>" placeholder="Invite Code" required>
                     <% } %>
                     <button type="submit" style="background: #5667c7 !important;">Register</button>
                     <div style="margin: 10px 40px 18px;">
