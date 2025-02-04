@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Hydraulisc</title>
-    <meta property="og:title" content="Login Page - Hydraulisc">
-    <meta property="og:description" content="Hydraulisc - Stay in the loop | Log in or Sign up to continue">
+    <title><%= inviteCode ? "You received an invite code to join" : "Register" %> | Hydraulisc</title>
+    <meta property="og:title" content="<%= inviteCode ? "You received an invite code to join" : "Registration Page" %> - Hydraulisc">
+    <meta property="og:description" content="Hydraulisc - Stay in the loop | <%= inviteCode ? "You received an invite code to join. Click this link to create your account." : "Login or Register to continue" %>">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/144374735">
     <!-- Unused Canonical and alternate "link"'s removed: https://www.html-easy.com/references/html-link-tag/ & https://ahrefs.com/blog/canonical-tags/ -->
     <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/144374735">
