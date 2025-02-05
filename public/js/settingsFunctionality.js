@@ -1,13 +1,3 @@
-// log out
-function handleLogout() {
-    fetch('/auth/logout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(location.reload());
-}
-
 function changepfpmodal() {
     document.getElementById('pfpInput').click();
 }

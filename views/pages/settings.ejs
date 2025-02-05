@@ -30,6 +30,7 @@
                                                     <section class="settings_display_container">
                                                         <div id="profile_tab_display" style="display: block;" class="tobesetnone">
                                                             <div class="_formRoot" tabindex="-1">
+                                                                <noscript>WARNING! Settings requires JS!</noscript>
                                                                 <br>
                                                                 <% if (banner) { %>
                                                                     <div class="lluviere" style="background-image: url(<%-banner%>);">
@@ -76,7 +77,7 @@
                                                                                 <textarea id="thisistheuserbioid" spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px; width: 100%;" maxlength="500" max="500" value="This user has not written their Bio yet."></textarea>
                                                                             <% } %>
                                                                         </div>
-                                                                        <div class="caption">You can also include hash's in your bio.</div>
+                                                                        <!--<div class="caption">You can also include hash's in your bio.</div>-->
                                                                     </label>
                                                                     <button onclick="saveSayonara()" class="button_save">
                                                                         <div> Save</div>
@@ -109,36 +110,17 @@
                                                                     </span>
                                                                 </label>
                                                                 <label class="ziffeomt _formBlock">
-                                                                    <input type="checkbox">
-                                                                    <span class="label">
-                                                                        <span>Allow Private Messages from Unknown Users</span>
-                                                                        <p class="caption">If this is unchecked, you can only PM someone who you mutually follow, even if you don't require followers to be manually approved.</p>
-                                                                    </span>
-                                                                </label>
-                                                                <div class="vblkjoeq _formBlock" style="--59f2add9: 36px;">
-                                                                    <div class="label">Profile Visibility</div>
-                                                                    <div class="input">
-                                                                        <div class="prefix"></div>
-                                                                        <select class="select" style="border-color: rgb(35, 35, 47); padding-right: 34px;">
-                                                                            <option value="public">Public</option>
-                                                                            <!--<option value="followers">Visible to followers only</option>
-                                                                            <option value="private">Private</option>-->
-                                                                        </select>
-                                                                        <p class="caption" style="font-size: smaller !important;">Allows you to configure who can see your profile.</p>
-                                                                    </div>
-                                                                </div>
-                                                                <label class="ziffeomt _formBlock">
                                                                     <input type="checkbox" disabled>
                                                                     <span class="label">
                                                                         <span>Indexable </span>
-                                                                        <p class="caption">Allow built-in search to show your public posts</p>
+                                                                        <p class="caption">Allow built-in search to show your public posts. If this is unchecked, you're account can only be found by URL or followers.</p>
                                                                     </span>
                                                                 </label>
                                                                 <label class="ziffeomt _formBlock">
                                                                     <input type="checkbox" disabled>
                                                                     <span class="label">
                                                                         <span>Reject crawler indexing </span>
-                                                                        <p class="caption">Ask external search engines to not index your content.</p>
+                                                                        <p class="caption">Ask external search engines to not index your content. Google ignores this request.</p>
                                                                     </span>
                                                                 </label>
                                                                 <label class="ziffeomt">
@@ -146,13 +128,6 @@
                                                                     <span class="label">
                                                                         <span>Prevent AI bot scraping <sup title="This is a very Beta feature!" style="text-decoration: underline;">Beta</sup></span>
                                                                         <p class="caption">Request third-party AI language models not to study content you upload, such as posts and images.</p>
-                                                                    </span>
-                                                                </label>
-                                                                <label class="ziffeomt _formBlock">
-                                                                    <input type="checkbox">
-                                                                    <span class="label">
-                                                                        <span>Disable "Recommendations" </span>
-                                                                        <p class="caption">If you turn this off, you will not receive random recommendations, but your account will not show up in the "Recommendations" sections either.</p>
                                                                     </span>
                                                                 </label>
                                                                 <label class="ziffeomt _formBlock">
@@ -370,7 +345,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <% if (isAdmin) { %>
+                                                        <% if (isAdmin == true) { %>
                                                         <div id="admincontrolpanel" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
                                                                 <h3 class="label">Administrator Settings will appear here.</h3>

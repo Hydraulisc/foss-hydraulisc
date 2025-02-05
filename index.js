@@ -26,7 +26,9 @@ const initializeDatabase = () => {
                 theme TEXT NOT NULL,
                 biography TEXT NOT NULL,
                 isAdmin BOOLEAN DEFAULT 0 NOT NULL,
-                indexable BOOLEAN DEFAULT 1 NOT NULL
+                indexable BOOLEAN DEFAULT 1 NOT NULL,
+                discriminator TEXT NOT NULL,
+                language TEXT NOT NULL
             )
         `);
 
@@ -166,6 +168,17 @@ app.get('/login', (req, res) => {
         inviteMode: globals.inviteMode
     })
 })
+app.get('/newlyregistered', (req, res) => {
+    if(req.session.user?.id) {
+        db.get('SELECT * FROM users WHERE id = ?', [req.session.user.id], (err, pageUser) => {
+            res.render('partials/registerSuccess', {
+                newUser: pageUser.username + "#" + pageUser.discriminator
+            })
+        })
+    } else {
+        return res.status(404).send("no");
+    }
+})
 
 // Get user profiles... maybe
 app.get('/user/:id', (req, res) => {
@@ -228,7 +241,7 @@ app.get('/user/:id', (req, res) => {
 // Imagine Settings
 app.get('/settings', (req, res) => {
     if(req.session.user?.id) {
-        db.get('SELECT * FROM users WHERE username = ?', [req.session.user.username], (err, userDetail) => {
+        db.get('SELECT * FROM users WHERE id = ?', [req.session.user.id], (err, userDetail) => {
             if (err) {
                 console.error(err);
                 return res.render('pages/404', {
@@ -266,6 +279,7 @@ app.get('/settings', (req, res) => {
                     ownId: userDetail.id,
                     version,
                     pfp: userDetail.pfp,
+                    users: [],
                     banner: userDetail.banner,
                     discriminator: userDetail.discriminator || '0000'
                 })

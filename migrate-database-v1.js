@@ -41,6 +41,11 @@ const migrations = [
         type: 'TEXT',
         defaultValue: '0001'
     },
+    {
+        name: 'language',
+        type: 'TEXT',
+        defaultValue: 'english'
+    }
 ];
 
 const uploadsMigrations = [

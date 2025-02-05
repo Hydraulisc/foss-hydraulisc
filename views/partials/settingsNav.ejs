@@ -50,7 +50,7 @@
                     </a>
                 </div>
             </section>
-            <% if (isAdmin) { %>
+            <% if (isAdmin == true) { %>
                 <section class="group">
                     <div class="group_title">Admin</div>
                     <div>
@@ -62,9 +62,11 @@
             <% } %>
             <section class="group">
                 <div>
-                    <button onclick="handleLogout()" class="danger">
-                        <span class="text">Sign Out</span>
-                    </button>
+                    <form id="signout-form" action="/auth/logout"  method="POST">
+                        <button type="submit" class="danger">
+                            <span class="text">Sign Out</span>
+                        </button>
+                    </form>
                 </div>
             </section>
         </nav>

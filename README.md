@@ -9,9 +9,13 @@ Hydraulisc; Open Source, privay focused, image-sharing Social Media.
 - [Discord](https://discord.gg/Syn5GVDemH)
 
 ## Warning!
-If you are migrating from Hydraulisc version 1.2.9 or earlier, you need to perform v1 database migrations!
+If you are migrating from Hydraulisc version 1.3 or earlier, you need to perform v1 database migrations!
 
 `node migrate-database-v1.js`
+
+If you are migrating from version 1.3 to a newer version you need to perform v2 database migrations to support discriminators!
+
+`node migrate-database-v2.js`
 
 <details>
 <summary>Quick References:</summary>
