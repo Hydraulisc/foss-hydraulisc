@@ -13,9 +13,9 @@ If you are migrating from Hydraulisc version 1.3 or earlier, you need to perform
 
 `node migrate-database-v1.js`
 
-If you are migrating from version 1.3 to a newer version you need to perform v2 database migrations to support discriminators!
+If you are migrating from version 1.3 (or older) to a newer version you need to perform v2 database migrations to support discriminators!
 
-`node migrate-database-v2.js`
+`node migrate-database-v3.js`
 
 <details>
 <summary>Quick References:</summary>
