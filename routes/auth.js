@@ -164,7 +164,7 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
                     isFirstUser ? 1 : 0,
                     1,
                     discriminator,
-                    english
+                    'english'
                 ],
                 function (err) {
                     if (err) return res.status(500).send(`Error registering user, ${err}`);
@@ -180,7 +180,8 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
                             req.session.user = {
                                 id: newUser.id,
                                 username: newUser.username,
-                                isAdmin: newUser.isAdmin === 1
+                                isAdmin: newUser.isAdmin === 1,
+                                language: newUser.language,
                             };
                             req.session.save((err) => {
                                 if (err) {
@@ -216,9 +217,6 @@ router.post('/logout', async (req, res) => {
             }
 
             res.clearCookie('connect.sid');
-            if (!req.session?.user) {
-                console.log('User logged out');
-            }
             res.redirect('/');
         });
     }
