@@ -4,6 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
+const legalRoutes = require('./routes/legal');
 const { version } = require('./package.json');
 const { sanitizeText } = require('./middleware/forceTextDirections');
 const sanitizeHtml = require('sanitize-html');
@@ -73,7 +74,7 @@ app.use(session({
     saveUninitialized: false,
     name: 'connect.sid',
     cookie: {
-        secure: true,                  // Set to false for HTTP
+        secure: false,                  // Set to true if you use a valid SSL certificate for HTTPS
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,    // 24 hours
         path: '/',
@@ -100,6 +101,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/legal', legalRoutes);
 app.use('/api', apiRoutes);
 
 // FEEEEEEEEEED
@@ -184,7 +186,12 @@ app.get('/newlyregistered', (req, res) => {
             })
         })
     } else {
-        return res.status(404).send("no");
+        return res.render('pages/404', {
+            hydrauliscECode: "85",
+            errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+            username: req.session.user?.username || null,
+            ownId: req.session.user?.id || null
+        });
     }
 })
 
