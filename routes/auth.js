@@ -154,15 +154,17 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
 
             // Insert user with admin status if first user
             db.run(
-                'INSERT INTO users (username, password, isAdmin, theme, pfp, biography, discriminator) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO users (username, password, pfp, theme, biography, isAdmin, indexable, discriminator, language) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
                     sanitizeUsername.trim(),
                     hashedPassword,
-                    isFirstUser ? 1 : 0,
-                    'default',
                     '/img/defaultpfp.png',
+                    'default',
                     'User has not written their Bio.',
-                    discriminator
+                    isFirstUser ? 1 : 0,
+                    1,
+                    discriminator,
+                    english
                 ],
                 function (err) {
                     if (err) return res.status(500).send(`Error registering user, ${err}`);

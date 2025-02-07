@@ -73,7 +73,7 @@ app.use(session({
     saveUninitialized: false,
     name: 'connect.sid',
     cookie: {
-        secure: false,                  // Set to true for HTTPS
+        secure: true,                  // Set to false for HTTP
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,    // 24 hours
         path: '/',
@@ -153,6 +153,14 @@ app.get('/welcome', (req, res) => {
         version
     })
 })
+app.get('/404', (req, res) => {
+    res.render('pages/404', {
+        hydrauliscECode: "85",
+        errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+        username: req.session.user?.username || null,
+        ownId: req.session.user?.id || null
+    });
+})
 
 // Auth?
 app.get('/register/:inviteCode?', (req, res) => {
@@ -181,7 +189,8 @@ app.get('/newlyregistered', (req, res) => {
 })
 
 // Get user profiles... maybe
-app.get('/user/:id', (req, res) => {
+app.get('/user/:id?', (req, res) => {
+    if(!req.params.id) return res.render('pages/404', { hydrauliscECode: "85", errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.", username: req.session.user?.username || null, ownId: req.session.user?.id || null })
     // Check if it's a user page
     db.get('SELECT * FROM users WHERE id = ?', [req.params.id], (err, pageUser) => {
         if (err) {
