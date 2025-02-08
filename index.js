@@ -182,7 +182,9 @@ app.get('/newlyregistered', (req, res) => {
     if(req.session.user?.id) {
         db.get('SELECT * FROM users WHERE id = ?', [req.session.user.id], (err, pageUser) => {
             res.render('partials/registerSuccess', {
-                newUser: pageUser.username + "#" + pageUser.discriminator
+                newUser: pageUser.username + "#" + pageUser.discriminator,
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null
             })
         })
     } else {

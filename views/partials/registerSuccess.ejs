@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/classicStyles.css">
 </head>
 <body>
+    <%- include('../partials/header', { username: ownId }) %>
     <div class="app-container">
         <div class="gridz">
             <div class="home_container">
@@ -19,5 +20,6 @@
             </div>
         </div>
     </div>
+    <%- include('../partials/footer', { username: ownId}) %>
 </body>
 </html>
