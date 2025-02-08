@@ -337,7 +337,7 @@ app.get('/settings', (req, res) => {
             }
 
             if(req.session.user.isAdmin) {
-                db.all('SELECT id, username, isAdmin FROM users ORDER BY id', [], (err, users) => {
+                db.all('SELECT id, username, discriminator, isAdmin FROM users ORDER BY id', [], (err, users) => {
                     if (err) {
                         logError('Failed to load users', err);
                         return res.redirect('/');

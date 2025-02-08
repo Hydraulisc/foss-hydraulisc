@@ -32,7 +32,7 @@ body {
 button, .button_save {
     margin: 8px 0 0;
     color: #d7d9e0 !important;
-    background: #5667c7;
+    background: #5667C7;
     font-weight: 700;
     z-index: 1;
     display: block;
@@ -199,9 +199,9 @@ input:disabled {
 
 /* Keep these apart */
 .users_table_container {
-    background-color: var(--color-surface-alt);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
+    background-color: #1D1F29;
+    border-radius: 8px;
+    padding: 12px;
     overflow-x: auto;
 }
 
@@ -212,14 +212,14 @@ input:disabled {
 
 .users_table th,
 .users_table td {
-    padding: var(--spacing-sm);
+    padding-bottom: 8px;
     text-align: left;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #d7d9e0;
 }
 
 .users_table th {
-    font-weight: var(--font-bold);
-    color: var(--color-accent);
+    font-weight: 600;
+    color: #d7d9e0;
 }
 
 .inner {
@@ -229,7 +229,7 @@ input:disabled {
 }
 
 a {
-    color: #5667c7;
+    color: #5667C7;
     text-decoration: none;
 }
 
@@ -237,4 +237,16 @@ a {
     text-decoration: underline;
 }
 
+.users_table button {
+    padding: 0;
+}
 
+.action_buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.inline-form {
+    display: inline;
+}

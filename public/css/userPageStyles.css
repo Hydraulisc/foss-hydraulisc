@@ -230,7 +230,7 @@ body {
 .uploads_grid {
     gap: 0px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr)); 
     margin-bottom: 1rem;
 }
 
@@ -249,7 +249,7 @@ body {
 
 .upload_img_container {
     overflow: hidden;
-    height: 240px;
+    height: 132px;
 }
 
 .upload_img {
@@ -276,4 +276,13 @@ body {
     padding-right: .25rem;
     position: relative;
     text-transform: uppercase;
+}
+
+@media screen and (min-width: 768px) {
+    .uploads_grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .upload_img_container {
+        height: 240px;
+    }
 }

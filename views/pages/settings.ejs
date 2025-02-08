@@ -168,15 +168,19 @@
                                                                     <h3 class="label">MFA</h3>
                                                                     <div class="_formRoot">
                                                                         <label>
-                                                                            <button style="background: crimson; font-weight: 700; border: none; padding: .65rem; cursor: not-allowed; border-radius: 8px; color: #d7d9e0 !important;" disabled>
-                                                                                <div> Add Authenticator</div>
-                                                                            </button>
-                                                                            <button style="background: crimson; font-weight: 700; border: none; padding: .65rem; cursor: not-allowed; border-radius: 8px; color: #d7d9e0 !important;" disabled>
-                                                                                <div> Register Pass Key</div>
-                                                                            </button>
                                                                             <span class="label">
-                                                                                <p class="caption">MFA is not currently supported. Please come back later.</p>
-                                                                                <!--<p class="caption">Add an extra layer of security by enabling 2FA on your account.</p>-->
+                                                                                <p class="caption">Add an extra layer of security by enabling 2FA on your account.</p>
+                                                                            </span>
+                                                                            <div class="action_buttons">
+                                                                                <button style="background: crimson; font-weight: 700; border: none; padding: .65rem; cursor: not-allowed; border-radius: 8px; color: #d7d9e0 !important;" disabled>
+                                                                                    <div> Add Authenticator</div>
+                                                                                </button>
+                                                                                <button style="background: crimson; font-weight: 700; border: none; padding: .65rem; cursor: not-allowed; border-radius: 8px; color: #d7d9e0 !important;" disabled>
+                                                                                    <div> Register Pass Key</div>
+                                                                                </button>
+                                                                            </div>
+                                                                            <span class="label">
+                                                                                <p class="caption">MFA is not currently supported. Please come back later. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -188,15 +192,18 @@
                                                                 <div class="_formBlock">
                                                                     <div class="label">Interface Language</div>
                                                                     <div class="input">
-                                                                        <select class="select" style="border-color: rgb(35, 35, 47); padding-right: 34px;">
-                                                                            <option value="en-EN">English</option>
-                                                                            <option value="es-ES">Español</option>
-                                                                            <option value="ca-ES">Català</option>
-                                                                        </select>
+                                                                        <form action="/api/languageUpdate" method="POST">
+                                                                            <select class="select" style="border-color: rgb(35, 35, 47); padding-right: 34px;">
+                                                                                <option value="english">English</option>
+                                                                                <option value="spanish">Español</option>
+                                                                                <option value="catalan">Català</option>
+                                                                            </select>
+                                                                            <button type="submit">Save</button>
+                                                                        </form>
                                                                     </div>
                                                                     <div class="caption">
                                                                         <span class="label">
-                                                                            <p class="caption">Hydraulisc is undergoing some major modifications. Translations are a very WIP feature, and do not currently save. Please be patient, weblate translations coming soon! <span style="display: none !important;">You can help translate at <a href="">Weblate</a></span></p>
+                                                                            <p class="caption">Hydraulisc is undergoing some major modifications. Translations are a very WIP feature, and do not currently save. Please be patient. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a><span style="display: none !important;">You can help translate on <a href="https://github.com/Hydraulisc/foss-hydraulisc">GitHub</a></span></p>
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -243,7 +250,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="label">
-                                                                                <div class="caption" style="padding: 2px 12px;">Themes are synced across clients by default. They are very Work In Progress.</div>
+                                                                                <div class="caption" style="padding: 2px 12px;">Themes are synced across clients by default. They are very Work In Progress. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="_formBlock" style="display: flex; gap: 1.5em; flex-wrap: wrap;">
@@ -316,7 +323,7 @@
                                                         </div>
                                                         <div id="webhooktabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
-                                                                <h3 class="label">Payload URL WIP</h3>
+                                                                <h3 class="label">Payload URL WIP. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></h3>
                                                             </div>
                                                         </div>
                                                         <div id="othersettingsdisplay" style="display: none;" class="tobesetnone">
@@ -361,7 +368,6 @@
                                                                         <table class="users_table">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th>ID</th>
                                                                                     <th>Username</th>
                                                                                     <th>Role</th>
                                                                                     <th>Actions</th>
@@ -370,11 +376,8 @@
                                                                             <tbody>
                                                                                 <% users.forEach(function(user) { %>
                                                                                     <tr>
-                                                                                        <td>#<%= user.id %>
-                                                                                        </td>
                                                                                         <td>
-                                                                                            <a href="/user/<%= user.id %>" target="_blank">@<%= user.username %>
-                                                                                                    </a>
+                                                                                            <a href="/user/<%= user.id %>" target="_blank">@<%= user.username %>#<%= user.discriminator %></a>
                                                                                         </td>
                                                                                         <td>
                                                                                             <% if (user.id !== ownId) { %>
@@ -385,7 +388,7 @@
                                                                                                     </button>
                                                                                                 </form>
                                                                                             <% } else { %>
-                                                                                                <button class="admin_toggle <%= user.isAdmin ? 'active' : '' %>">
+                                                                                                <button class="admin_toggle">
                                                                                                     Admin (You)
                                                                                                 </button>
                                                                                             <% } %>
@@ -405,6 +408,7 @@
                                                                                     <% }); %>
                                                                             </tbody>
                                                                         </table>
+                                                                    </div>
                                                                 </section>
                                                             </div>
                                                         </div>
