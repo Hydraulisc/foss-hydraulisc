@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if(author.username) { %>
+        <title><%- author.username %>'s post on Hydraulisc</title>
+        <meta property="og:title" content="Check out <%- author.username %>'s post on Hydraulisc">
+        <meta property="og:image" content="<%- author.pfp %>">
+        <meta property="og:description" content="Check out <%- author.username %>'s post on Hydraulisc | Follow <%- author.username %> and others you know to get the latest updates and more, on Hydraulisc.">
+    <% } else { %>
+        <title>Not Found | Hydraulisc</title>
+        <meta property="og:title" content="Stay in the loop, with Hydraulisc">
+        <meta property="og:description" content="Create an account on Hydraulisc to see more!">
+        <meta property="og:image" content="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png">
+        <link rel="canonical" href="https://hydraulisc.net/404">
+    <% } %>
+    <!-- Unused Canonical and alternate "link"'s removed: https://www.html-easy.com/references/html-link-tag/ & https://ahrefs.com/blog/canonical-tags/ -->
+    <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/144374735">
+    <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
+    <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
+    <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
+    <link rel="stylesheet" href="/css/classicStyles.css">
+    <link rel="manifest" href="/json/manifest.json">
+    <style>
+        a {
+            color: #5667c7;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/header', { username: ownId }) %>
+    <br>
+    <div class="app-container">
+        <div class="gridz">
+            <div class="home_container">
+                    <div style="width: 100%;">
+                        <h3 style="max-width: 100%;"><a href="/user/<%- post.user_id %>" style="font-family: 'ubuntu mono', serif !important; text-decoration: none;">@<%- author.username %>#<%- author.discriminator %></a>: <%- post.title %></h3>
+                    </div>
+                    <div class="container_container">
+                            <div>
+                                <br class="separator">
+                                <div id="<%- post.postId %>" class="star_post_container">
+                                    <div style="border-bottom: 1px solid #04050a;">
+                                        <span class="star_post_header_container">
+                                            <span class="star_post_header">
+                                                <span style="position: relative;">
+                                                    <span style="display: flex;">
+                                                        <div>
+                                                            <div>
+                                                                <a href="/user/<%- post.user_id %>" class="star_post_title">
+                                                                    <div style="padding-right: 6px;">
+                                                                        <img src="<%- author.pfp %>" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
+                                                                    </div>
+                                                                    <span style="font-size: larger;"><%- author.username %></span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <a style="inset: 0; text-decoration: none; color: white;" href="/user/<%- post.user_id %>">
+                                        <div style="display: flex; margin-top: .3rem;">
+                                            <div style="overflow: hidden; margin-left: auto; margin-right: auto;">
+                                                <img class="enlargened_post_body" src="/uploads/<%- post.filename %>">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                <div class="commentsContainer">
+                    <h3>No Comments Yet! Be the first!</h3>
+                    <% if (ownId) { %>
+                        <div class="createCommentsContainer"></div>
+                        <div class="star_post_container">
+                            <a href="" style="inset: 0; position: absolute; text-decoration: none; color: white;"></a>
+                            <div style="background: #1d1f29; width: 100%; padding-top: .5rem; padding-bottom: .5rem;">
+                                <p>Comments aren't implemented yet. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="createCommentsContainer"><a href="/login">Sign In</a> to contribute to Discussions!</div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer', { username: ownId }) %>
+</body>
+</html>

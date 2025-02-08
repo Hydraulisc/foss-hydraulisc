@@ -227,3 +227,14 @@ input:disabled {
     max-height: 230px;
     border-radius: 50%;
 }
+
+a {
+    color: #5667c7;
+    text-decoration: none;
+}
+
+.users_table a:hover {
+    text-decoration: underline;
+}
+
+

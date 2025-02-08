@@ -205,10 +205,10 @@ app.get('/user/:id?', (req, res) => {
         if (err) {
             console.error(err);
             return res.render('pages/404', {
-                hydrauliscECode: "91",
-                errorMessage: "Unable to update Unmodified Data.",
-                username: null,
-                ownId: null
+                hydrauliscECode: "82",
+                errorMessage: "Undefined.",
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null
             });
         }
 
@@ -222,8 +222,8 @@ app.get('/user/:id?', (req, res) => {
                             return res.render('pages/404', {
                                 hydrauliscECode: "92",
                                 errorMessage: "Session Not Found/Already Updated.",
-                                username: null,
-                                ownId: null
+                                username: req.session.user?.username || null,
+                                ownId: req.session.user?.id || null
                             });
                         }
 
@@ -255,6 +255,72 @@ app.get('/user/:id?', (req, res) => {
         }
     });
 })
+
+// P-P-P-POSTS!!! Post pages
+app.get('/post/:id?', (req, res) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+        return res.render('pages/404', {
+            hydrauliscECode: "85",
+            errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+            username: req.session.user?.username || null,
+            ownId: req.session.user?.id || null
+        });
+    }
+
+    db.get('SELECT * FROM posts WHERE id = ?', [postId], (err, post) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.render('pages/404', {
+                hydrauliscECode: "82",
+                errorMessage: "Undefined.",
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null
+            });
+        }
+
+        if (!post) {
+            return res.render('pages/404', {
+                hydrauliscECode: "85",
+                errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null
+            });
+        }
+
+        // Fetch the user attached to this post
+        db.get('SELECT id, username, discriminator, pfp FROM users WHERE id = ?', [post.user_id], (err, author) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.render('pages/404', {
+                    hydrauliscECode: "82",
+                    errorMessage: "Undefined.",
+                    username: req.session.user?.username || null,
+                    ownId: req.session.user?.id || null
+                });
+            }
+
+            if (!author) {
+                return res.render('pages/404', {
+                    hydrauliscECode: "96",
+                    errorMessage: "Account Deleted/Suspended.",
+                    username: req.session.user?.username || null,
+                    ownId: req.session.user?.id || null
+                });
+            }
+
+            res.render('pages/posts', {
+                ownId: req.session.user?.id || null,
+                username: req.session.user?.username || null,
+                isAdmin: req.session.user?.isAdmin || null,
+                post, // post.data
+                author // author.data
+            });
+        });
+    });
+});
+
 
 // Imagine Settings
 app.get('/settings', (req, res) => {
