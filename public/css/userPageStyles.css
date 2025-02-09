@@ -41,7 +41,7 @@ body {
     max-width: 100%;
     max-height: 250px;
     position: relative;
-    height: 250px;
+    height: 210px;
     overflow: hidden;
     background-size: cover;
     background-position: center;
@@ -69,6 +69,7 @@ body {
 }
 
 .username_container {
+    display: none;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -184,7 +185,7 @@ body {
 }
 
 .profile_username {
-    display: none;
+    display: block;
 }
 
 .user_tag_container {
@@ -259,8 +260,38 @@ body {
     border: medium none;
 }
 
-.navigation {
-    display: none;
+.profile_navigation {
+    height: 45px;
+    width: 100%;    
+    display: flex;
+}
+
+.profile_navigation_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 44px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 100%;
+    min-width: 100%;
+}
+
+.profile_navigation_link {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+    margin: auto;
+}
+
+.profile_navigation_button {
+    background: transparent;
+    border: none;
+    height: 100%;
+    width: 100%;
+    color: #d7d9e0;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .user_page_buttons {
@@ -278,11 +309,27 @@ body {
     text-transform: uppercase;
 }
 
+.no_posts_display {
+    min-width: 370px;
+}
+
 @media screen and (min-width: 768px) {
     .uploads_grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
     .upload_img_container {
         height: 240px;
+    }
+    .banner_wrapper, .banner_container {
+        height: 250px;
+    }
+    .profile_username {
+        display: none;
+    }
+    .username_container {
+        display: block;
+    }
+    .no_posts_display {
+        min-width: 720px;
     }
 }

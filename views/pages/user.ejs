@@ -30,20 +30,25 @@
             <div class="user_info_container">
                 <div class="user_info_set_container">
                     <div class="user_info_set">
-                            <div class="banner_wrapper" style="background-color: #1C286B;">
+                        <% if (banner) { %>
+                            <div class="banner_wrapper" style="background-color: transparent;">
                                 <div class="banner_container">
-                                    <% if (banner) { %>
-                                        <div class="settings_banner" style="background-image: url(<%-banner%>);"></div>
-                                    <% } else { %>
-                                        <div class="settings_banner"></div>
-                                    <% } %>
-                                </div>
-                                <div class="divider"></div>
-                                <div class="username_container">
-                                    <span class="username_displayname"><%- usersPage %></span>
-                                    <span class="username">@<%- usersPage %>#<%- discriminator %></span>  
+                                    <div class="settings_banner" style="background-image: url(<%-banner%>);"></div>
                                 </div>
                             </div>
+                        <% } else { %>
+                            <div class="banner_wrapper" style="background-color: #1C286B;">
+                                <div class="banner_container">
+                                        <div class="settings_banner"></div>
+                                </div>
+                            </div>
+                        <% } %>
+                        <div class="divider"></div>
+                        <div class="username_container">
+                            <span class="username_displayname"><%- usersPage %></span>
+                            <span class="username">@<%- usersPage %>#<%- discriminator %></span>  
+                            </div>
+                        </div>
                         
                         <div class="profile_display_container">
                             <div class="avatar_container" title="@<%- usersPage %>#0000's Profile Image">
@@ -97,17 +102,17 @@
                                     <p><i>This user has not written their Bio yet.</i></p>
                                 <% } %>
                             </div>
-                            <div class="navigation">
-                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 44px; grid-column-gap: 0px; grid-row-gap: 0px; width: 100%; min-width: 100%;">
-                                    <div style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
-                                        <button style="background: transparent; border: none; height: 100%; width: 100%; color: #d7d9e0; font-weight: 600; cursor: pointer;">Posts</button>
-                                    </div>
-                                    <div style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
-                                        <button style="background: transparent; border: none; height: 100%; width: 100%; color: #d7d9e0; font-weight: 600; cursor: pointer;">Comments</button>
-                                    </div>
-                                    <div style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
-                                        <button style="background: transparent; border: none; height: 100%; width: 100%; color: #d7d9e0; font-weight: 600; cursor: pointer;">Likes</button>
-                                    </div>
+                            <div class="profile_navigation">
+                                <div class="profile_navigation_grid">
+                                    <a class="profile_navigation_link">
+                                        <button class="profile_navigation_button">Posts</button>
+                                    </a>
+                                    <a class="profile_navigation_link" style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
+                                        <button class="profile_navigation_button">Comments</button>
+                                    </a>
+                                    <a class="profile_navigation_link" style="display: flex; height: 100%; width: 100%; max-width: 100%; margin: auto;">
+                                        <button class="profile_navigation_button">Likes</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -130,10 +135,10 @@
                     </div>
                 <% } %>
             <% } else { %>
-                <div id="0" style="border: 1px solid white;">
-                    <div class="upload">
+                <div id="0">
+                    <div class="no_posts_display">
                         <div class="upload_img_container">
-                            <span style="display: block; margin: 0; line-height: 32px; font-size: 1.6em; font-weight: 700; position: relative; bottom: -8px;">Uploads not implemented.</span>
+                            <span style="display: block; line-height: 32px; font-size: 1.6em; font-weight: 600;"><%- usersPage %>#<%- discriminator %> has not uploaded anything (yet).</span>
                             <div style="width: 100%; height: 100%; position: relative; top: -246px;"></div>
                         </div>
                     </div>

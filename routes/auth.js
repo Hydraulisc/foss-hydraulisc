@@ -111,7 +111,7 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
     const sanitizedUsername = sanitizeUsername(username);
     if (!sanitizedUsername || sanitizedUsername.trim() === '') {
-        return res.status(400).json({ error: "Invalid username" });
+        return res.status(400).json({ "89": "Method not Allowed" });
     }
 
     try {
