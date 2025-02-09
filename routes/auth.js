@@ -4,13 +4,14 @@ const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const crypto = require('crypto');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
+const { sanitizeText } = require('../middleware/forceTextDirections');
 
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
 
 // Middleware
 const { checkRegistrationMode, requireAdmin } = require('../middleware/auth');
-function sanitizeText(text) {
+function sanitizeUsername(text) {
     const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
       return {
         '<': '&lt;',
@@ -19,7 +20,7 @@ function sanitizeText(text) {
         '&': '&amp;',
       }[match];
     });
-    return cleansedHTML;
+    return sanitizeText(cleansedHTML);
 }
 async function assignDiscriminator(username) {
     return new Promise((resolve, reject) => {
@@ -108,7 +109,7 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
     const inviteCode = req.params.inviteCode || req.body.inviteCode; // Prioritize URL param
     const { username, password } = req.body;
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
-    const sanitizeUsername = sanitizeText(username);
+    const sanitizedUsername = sanitizeUsername(username);
 
     try {
         // Check if this will be the first user
@@ -150,13 +151,13 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
             const hashedPassword = await bcrypt.hash(password, 10);
 
             // Assign a unique discriminator
-            const discriminator = await assignDiscriminator(sanitizeUsername.trim());
+            const discriminator = await assignDiscriminator(sanitizedUsername.trim());
 
             // Insert user with admin status if first user
             db.run(
                 'INSERT INTO users (username, password, pfp, theme, biography, isAdmin, indexable, discriminator, language) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                 [
-                    sanitizeUsername.trim(),
+                    sanitizedUsername.trim(),
                     hashedPassword,
                     '/img/defaultpfp.png',
                     'default',
