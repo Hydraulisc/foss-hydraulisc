@@ -110,6 +110,9 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
     const { username, password } = req.body;
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
     const sanitizedUsername = sanitizeUsername(username);
+    if (!sanitizedUsername || sanitizedUsername.trim() === '') {
+        return res.status(400).json({ error: "Invalid username" });
+    }
 
     try {
         // Check if this will be the first user
@@ -201,8 +204,6 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
         }
     }
 });
-
-
 
 // Log out route
 router.post('/logout', async (req, res) => {
