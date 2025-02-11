@@ -214,7 +214,7 @@ app.get('/user/:id?', (req, res) => {
 
         if (pageUser) {
             // Get user's posts
-                db.all('SELECT * FROM posts WHERE user_id = ? ORDER BY id',
+                db.all('SELECT * FROM posts WHERE user_id = ? ORDER BY id DESC',
                     [pageUser.id],
                     (err, posts) => {
                         if (err) {
@@ -230,7 +230,7 @@ app.get('/user/:id?', (req, res) => {
                         res.render('pages/user', {
                             ownId: req.session.user?.id || null,
                             userIdToCheck: pageUser.id,
-                            usersPage: pageUser.username,
+                            usersPage: sanitizeText(pageUser.username),
                             usersPfp: pageUser.pfp,
                             username: req.session.user?.username || null,
                             isPublic: globals.isPublic,
@@ -289,6 +289,12 @@ app.get('/post/:id?', (req, res) => {
             });
         }
 
+        // Sanitize post fields
+        const sanitizedPost = {
+            ...post,
+            title: sanitizeContent(post.title)
+        };
+
         // Fetch the user attached to this post
         db.get('SELECT id, username, discriminator, pfp FROM users WHERE id = ?', [post.user_id], (err, author) => {
             if (err) {
@@ -310,12 +316,18 @@ app.get('/post/:id?', (req, res) => {
                 });
             }
 
+            // Sanitize author fields
+            const sanitizedAuthor = {
+                ...author,
+                title: sanitizeContent(author.username)
+            };
+
             res.render('pages/posts', {
                 ownId: req.session.user?.id || null,
                 username: req.session.user?.username || null,
                 isAdmin: req.session.user?.isAdmin || null,
-                post, // post.data
-                author // author.data
+                post: sanitizedPost, // post.data
+                author: sanitizedAuthor // author.data
             });
         });
     });
