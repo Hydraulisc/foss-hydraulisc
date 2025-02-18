@@ -16,13 +16,14 @@
     <link rel="stylesheet" href="/css/welcomePage.css">
 </head>
 <body>
+    
     <div class="body_main">
         <div class="home_wrapper">
             <div>
-                <img src="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png" alt="Hydraulisc Logo" style="width: 200px; height: auto; margin-bottom: 20px;">
+                <img src="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png" alt="Hydraulisc Logo" style="width: 200px; height: auto; margin-bottom: 20px;" loading="eager">
                 <h1 class="home_heading">Stay in the loop, with Hydraulisc.</h1>
                 <p class="home_subheading">Free, Open Source, Image Sharing Social Network, like no other.</p>
-                <a style="background-color: #5667c7; padding: 20px; border-radius: 8px; color: white; text-decoration: none; text-transform: uppercase; font-weight: 600; font-size: 18px; transition: background-color 0.3s ease-in-out;" href="/register">Beta Private Test Access</a>
+                <a style="background-color: #5667c7; padding: 20px; border-radius: 8px; color: white; text-decoration: none; text-transform: uppercase; font-weight: 600; font-size: 18px; transition: background-color 0.3s ease-in-out;" href="/register">Join the Beta!</a>
             </div>
         </div>
         <div class="features_wrapper">
@@ -40,7 +41,7 @@
                 <div class="feature_grid_area">
                     <div class="feature_grid_content">
                         <h3>Customizable, by design</h3>
-                        <p>Hydraulisc is completely customisable. From custom themes to unique displays, the only limit is your imagination.</p>
+                        <p>Hydraulisc is completely customisable, with consideration for custom themes.</p>
                     </div>
                 </div>
                 <div class="feature_grid_area">
@@ -64,7 +65,7 @@
                 <div class="feature_grid_area">
                     <div class="feature_grid_content">
                         <h3>Discriminators</h3>
-                        <p>Ever wanted to boast your unique username? Hydraulisc allows up to 9998 users with the same username, separated by a discriminator<sup>3</sup>.</p>
+                        <p>Want to stand out? Hydraulisc lets 9,998 users share the same name—thanks to discriminators<sup>3</sup>.</p>
                     </div>
                 </div>
             </div>
@@ -74,13 +75,14 @@
             <p>Hydraulisc is an open source project.<br>The code is available on <a href="https://github.com/Hydraulisc/foss-hydraulisc" target="_blank" rel="noopener noreferrer" style="text-decoration: underline !important;">GitHub</a>.</p>
             <div>
                 <a href="https://ko-fi.com/SleepingAmi" target="_blank">
-                    <img height="36" style="border: 0px; height: 36px;" src="https://storage.ko-fi.com/cdn/kofi5.png?v=6" alt="Donate on Ko-Fi.com">
+                    <img height="36" style="border: 0px; height: 36px;" src="https://storage.ko-fi.com/cdn/kofi5.png?v=6" alt="Donate on Ko-Fi.com" loading="lazy">
                 </a>
             </div>
         </div>
         <div class="version_display">
             <p>Hydraulisc v<%- version %></p>
         </div>
+        <%- include('../partials/cookies', { cookies }) %>
     </div>
 </body>
 

@@ -55,7 +55,7 @@
                                 <div class="avatar_stack">
                                     <div class="avatar_mask">
                                         <div class="avatar">
-                                            <img src="<%- usersPfp %>" alt=" ">
+                                            <img src="<%- usersPfp %>" alt="<%- usersPage %>#<%- discriminator %>'s profile image" loading="lazy">
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                     <div id="<%- upload.id %>" onclick="location.href='/post/<%- upload.id %>';">
                         <div class="upload">
                             <div class="upload_img_container">
-                                <img class="upload_img" src="/uploads/<%- upload.filename %>">
+                                <img class="upload_img" src="/uploads/<%- upload.filename %>" loading="lazy">
                                 <div style="width: 100%; height: 100%; position: relative; top: -246px;"></div>
                             </div>
                         </div>
@@ -146,6 +146,7 @@
             <% } %>
         </div>
     </div>
+    <%- include('../partials/cookies', { cookies }) %>
     <%- include('../partials/footer', { username: ownId }) %>
 </body>
 </html>

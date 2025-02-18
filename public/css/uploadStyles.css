@@ -16,10 +16,10 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 1rem;
+    padding: 1rem 0;
     margin: 3rem auto 0;
     width: 92%;
-    max-width: min(1250px, 100%);
+    max-width: 100%;
     overflow: hidden;
 }
 
@@ -37,7 +37,7 @@ form {
     padding: 10px 0;
     position: relative;
     overflow: hidden;
-    min-width: 512px;
+    min-width: 412px;
 }
 
 form button {
@@ -48,7 +48,8 @@ form button {
     text-transform: uppercase;
     cursor: pointer;
     padding: 12px 14px;
-    min-width: 100%;
+    min-width: 90%;
+    max-width: 100%;
 }
 
 form input {
@@ -57,7 +58,7 @@ form input {
     color: rgb(250, 250, 250);
     height: 32px;
     min-height: 21px;
-    min-width: 100%;
+    min-width: 90%;
     text-align: center;
     align-content: center;
     margin-bottom: 6px;
@@ -67,5 +68,5 @@ form input {
     width: auto;
     height: auto;
     max-height: 540px;
-    max-width: 1080;
+    max-width: 90%;
 }

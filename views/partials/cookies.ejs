@@ -1,0 +1,24 @@
+<% if(cookies) { %>
+    <div style="display: none;"></div>
+<% } else { %>
+    <link rel="stylesheet" href="/css/cookies.css">
+    <div class="cookie_banner_container">
+        <div class="complete_cookie_banner">
+            <div tabindex="-1" class="cookie_banner" style="visibility: hidden;">
+                <div>
+                    <div>
+                        <h2>🍪 We use cookies!</h2>
+                        <div>This website uses essential cookies to ensure its proper operation, and anonymised analytical cookies to understand how users interact with it. <a href="/legal/cookies" class="cc-link">Cookie Policy</a></div>
+                    </div>
+                    <div>
+                        <form action="/api/accept-cookies" method="post">
+                            <button type="submit">
+                                <span tabindex="-1">Accept All</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

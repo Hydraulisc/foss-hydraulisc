@@ -24,6 +24,7 @@
                 <input type="text" name="title" id="title">
                 <button type="submit">Upload!</button>
             </form>
+            <div style="text-align: center; font-size: smaller; margin-top: -10px;">Allowed file types: jpeg, png, gif, webp</div>
         </div>
     </div>
     <div class="app_container">
@@ -46,6 +47,7 @@
         });
     </script>
 
+    <%- include('../partials/cookies', { cookies }) %>
     <%- include('../partials/footer', { username: ownId}) %>
 </body>
 </html>
