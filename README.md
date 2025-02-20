@@ -1,7 +1,7 @@
 # <img src="https://avatars.githubusercontent.com/u/144374735" style="height: 30px;"> foss-[hydraulisc](https://hydraulisc.net)
 Hydraulisc; Open Source, privay focused, image-sharing Social Media.
 
-# Currently in [Private Alpha Testing/Beta Private Testing (PAT/BPT)](https://pbt.hydraulisc.net) phase! Check the [Discord](https://discord.gg/Syn5GVDemH) for more info.
+# Currently in [Private Alpha Testing/Private Beta Testing (PAT/PBT)](https://pbt.hydraulisc.net) phase! Check the [Discord](https://discord.gg/Syn5GVDemH) for more info.
 
 - [Info regarding repository](https://blog.hydraulisc.xyz/?entry=E0Mczt2lGeyib93YSqhB)
 - [Roadmap](https://blog.hydraulisc.xyz/?entry=haulisc-roadmap)
