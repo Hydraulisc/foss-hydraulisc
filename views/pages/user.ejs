@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <% if(usersPage) { %>
-        <title><%= usersPage %> | Hydraulisc</title>
+        <title>@<%- usersPage %>#<%- discriminator %> | Hydraulisc</title>
         <meta property="og:title" content="Follow <%= usersPage %> on Hydraulisc | Stay in the loop">
         <meta property="og:image" content="<%= usersPfp %>">
         <meta property="og:description" content="Be the first to follow <%= usersPage %> on Hydraulisc">
@@ -13,7 +13,7 @@
         <title>Not Found | Hydraulisc</title>
         <meta property="og:title" content="Hydraulisc - Stay in the loop">
         <meta property="og:description" content="Create an account on Hydraulisc, join many other users sharing with privacy in mind, and more!">
-        <meta property="og:image" content="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png">
+        <meta property="og:image" content="https://about.hydraulisc.net/assets/img/Foss-Hydraulisc.png">
         <link rel="canonical" href="https://hydraulisc.net/404">
     <% } %>
     <!-- Unused Canonical and alternate "link"'s removed: https://www.html-easy.com/references/html-link-tag/ & https://ahrefs.com/blog/canonical-tags/ -->
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         <% } else { %>
-                            <div class="banner_wrapper" style="background-color: #1C286B;">
+                            <div class="banner_wrapper" style="background-color: #9397da;">
                                 <div class="banner_container">
                                         <div class="settings_banner"></div>
                                 </div>
@@ -63,7 +63,7 @@
                             <div class="pofile_username_container">
                                 <div class="profile_username">
                                     <div class="user_tag_container">
-                                        <span><%- usersPage %></span>
+                                        <span style="color: #b7b8e7;"><%- usersPage %></span>
                                         <span class="user_tag">@<%- usersPage %>#<%- discriminator %></span>
                                     </div>
                                 </div>

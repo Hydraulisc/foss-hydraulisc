@@ -12,7 +12,7 @@ body {
 }
 
 a {
-    color: #5667c7;
+    color: #8086d4;
 }
 
 .body_main {
@@ -89,7 +89,7 @@ a {
 
 .feature_grid_area {
     padding: .5rem;
-    background-color: #232323;
+    background-color: #12121d;
     border-radius: 8px;
     overflow: hidden;
     position: relative;

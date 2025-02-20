@@ -13,7 +13,7 @@ body {
 
 #login-form, #signup-form {
     align-items: center;
-    background-color: #12131a;
+    background-color: #12121d;
     border: 1px solid #1c286b;
     border-radius: 4px;
     box-sizing: border-box;
@@ -28,20 +28,34 @@ body {
 form button {
     border: none;
     border-radius: 10px;
-    background-color: rgb(48, 48, 48);
-    color: rgb(250, 250, 250);
+    background-color: #8086d4;
+    color: #000000;
     text-transform: uppercase;
     cursor: pointer;
     padding: 12px 14px;
+    font-weight: 600;
+}
+
+form button:hover {
+    background-color: #6c76ce;
 }
 
 form input {
     border: none;
-    background-color: rgba(48, 48, 48, 0.6);
+    background-color: #12121d;
     color: rgb(250, 250, 250);
     width: 100%;
     min-width: 100%;
     height: 32px;
     min-height: 21px;
     text-align: center;
+}
+
+form input:hover, form input:focus {
+    background-color: #202023;
+}
+
+a {
+    color: #8086d4;
+    text-decoration: none;
 }

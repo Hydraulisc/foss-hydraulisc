@@ -17,6 +17,8 @@ body {
 
 .user_info_container {
     display: block;
+    background: #12121d;
+    border-radius: 0 0 12px 12px;
 }
 
 .user_info_set_container {
@@ -34,7 +36,7 @@ body {
     position: relative;
     overflow: hidden;
     background: #12131a;
-    border-radius: 12px;
+    border-radius: 12px 12px 0 0;
 }
 
 .banner_wrapper, .banner_container {
@@ -53,7 +55,7 @@ body {
 }
 
 .settings_banner {
-    background-color: #5667C7;
+    background-color: #9397da;
     box-sizing: border-box;
     max-height: 250px;
     height: 250px;
@@ -82,19 +84,19 @@ body {
 }
 
 .username_displayname {
+    color: #b7b8e7;
     display: block;
     margin: 0;
-    line-height: 32px;
     font-size: 1.8em;
     font-weight: 700;
     position: relative;
-    bottom: -8px;
+    bottom: -10px;
 }
 
 .username {
     font-size: 15px;
     position: relative;
-    bottom: -7px;
+    bottom: -13px;
     right: 0px;
 }
 
@@ -296,17 +298,22 @@ body {
 
 .user_page_buttons {
     cursor: pointer;
-    background: #5667c7;
+    background: #8086d4;
     border: none;
     border-radius: 8px;
     margin-left: 1.4rem;
     width: 83.29px !important;
     height: 23px !important;
-    color: white;
+    color: #000000;
+    font-weight: 600;
     padding-left: .25rem;
     padding-right: .25rem;
     position: relative;
     text-transform: uppercase;
+}
+
+.user_page_buttons:hover {
+    background: #6c76ce;
 }
 
 .no_posts_display {

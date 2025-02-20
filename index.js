@@ -393,7 +393,8 @@ app.get('/settings', (req, res) => {
                         users,
                         banner: userDetail.banner,
                         discriminator: userDetail.discriminator || '0000',
-                        cookies: checkCookies(req)
+                        cookies: checkCookies(req),
+                        inviteMode: globals.inviteMode
                     })
                 });
             } else {

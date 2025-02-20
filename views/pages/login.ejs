@@ -21,24 +21,24 @@
             <form id="login-form" style="height: 686px !important;" action="/auth/login" method="POST">
                 <div style="margin-top: 36px;overflow: visible;margin-bottom: 12px;align-content: stretch;border-bottom-left-radius: 0;background-color: transparent;flex-direction: column;box-sizing: border-box;display: flex;border-bottom-right-radius: 0;align-items: stretch;align-self: auto;justify-content: flex-start;position: relative;flex-grow: 0;border-top-left-radius: 0;border-top-right-radius: 0;">
                     <div style="cursor: pointer; display: flex; justify-content: center;">
-                        <img src="https://raw.githubusercontent.com/Hydraulisc/hydraulisc.github.io/main/assets/img/Hydraulisc.png" style="width: 80%; height: auto; display: inline-block;">
+                        <img src="https://about.hydraulisc.net/assets/img/Foss-Hydraulisc.png" style="width: 80%; height: auto; display: inline-block;">
                     </div>
                 </div>
                 <div style="overflow: hidden; margin-top: 24px; align-content: stretch; flex-direction: column; display: flex; flex-shrink: 0; align-items: stretch; align-self: auto; position: relative; flex-grow: 0;">
-                    <input type="text" name="username" placeholder="Username#9999" autocomplete="username" pattern="^[a-zA-Z0-9]+#\d{4}$" required />
+                    <input type="text" name="username" placeholder="Username#9999" autocomplete="username" pattern="^[a-zA-Z0-9.]+#\d{4}$" minlength="3" maxlength="30" oninvalid="this.setCustomValidity('Invalid characters! Usernames contain letters, numbers, and periods, followed by a discriminator \(#0001\).')" oninput="this.setCustomValidity('')" required />
                     <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
-                    <button type="submit" style="background: #5667c7 !important;">Login</button>
+                    <button type="submit">Login</button>
                     <div style="margin: 10px 40px 18px;">
                         <div style="display: flex; flex-direction: row;">
                             <div style="top: .45em; height: 1px; flex-shrink: 1; position: relative; flex-grow: 1; background-color: #d7d9e0;"></div>
                         </div>
                     </div>
                     <div style="overflow: visible; margin-top: 8px; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
-                        <p style="font-size: small;">The <a href="/legal/privacy" style="text-decoration: none; color: #5667c7;">Privacy Policy</a> and <a href="/legal/terms" style="text-decoration: none; color: #5667c7;">Terms of Use</a> apply.</p>
-                        <p style="font-size: small;">Please follow our <a href="/legal/guidelines" style="text-decoration: none; color: #5667c7;">Guidelines</a>.</p>
+                        <p style="font-size: small;">The <a href="/legal/privacy">Privacy Policy</a> and <a href="/legal/terms">Terms of Use</a> apply.</p>
+                        <p style="font-size: small;">Please follow our <a href="/legal/guidelines">Guidelines</a>.</p>
                     </div>
                     <div style="overflow: visible; margin-top: 8px; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
-                        <p style="font-size: smaller;">You can also <a href="https://about.hydraulisc.net/help/articles/101013" style="text-decoration: none; color: #5667c7;">report content, accounts</a>, and more without logging in.</p>
+                        <p style="font-size: smaller;">You can also <a href="https://about.hydraulisc.net/help/articles/101013">report content, accounts</a>, and more without logging in.</p>
                     </div>
                     <div style="margin-top: 8px; overflow: visible; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0;">
                         <a href="/register" style="background: rgb(48, 48, 48) !important; border-radius: 10px; color: #d7d9e0 !important; align-self: center; padding: 10px; text-decoration: none;">New member?</a>

@@ -190,7 +190,7 @@
                                                         <div id="generaltabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot" style="outline: none;">
                                                                 <div class="_formBlock">
-                                                                    <div class="label">Interface Language</div>
+                                                                    <h3 class="label">Interface Language</h3>
                                                                     <div class="input">
                                                                         <form action="/api/languageUpdate" method="POST">
                                                                             <select class="select" style="border-color: rgb(35, 35, 47); padding-right: 34px;">
@@ -309,8 +309,8 @@
                                                         <div id="apitabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
                                                                 <div class="_formBlock">
-                                                                    <h3 class="label" style="color: crimson !important;">Using APIv<%- version %></h3>
-                                                                    <h3 class="label">API Interactions are currently restricted.</h3>
+                                                                    <h3 class="label">Using APIv<%- version %></h3>
+                                                                    <div class="label">API Interactions are currently restricted.</div>
                                                                     <label style="border-color: rgba(255, 89, 117, 0.15);">
                                                                         <input type="radio" checked>
                                                                         <span class="button">
@@ -355,15 +355,18 @@
                                                         <% if (isAdmin == true) { %>
                                                         <div id="admincontrolpanel" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
-                                                                <h3 class="label">Administrator Settings will appear here.</h3>
+                                                                <h3 class="label">Administrator Settings</h3>
+                                                                <% if(inviteMode) { %>
                                                                 <label style="border-color: rgba(255, 89, 117, 0.15);">
+                                                                    <span class="label">Generate Invites</span>
                                                                     <form action="/auth/admin/generate-invite" method="POST">
                                                                         <input type="number" name="count" placeholder="Number of Invites" value="3" required />
                                                                         <button type="submit">Generate</button>
                                                                     </form>
-                                                                    <span class="label">Generate Invites</span>
                                                                 </label>
-                                                                <section style="margin-top: 3rem;">
+                                                                <% } %>
+                                                                <span style="margin-top: 3rem !important;" class="label">Administate Users</span>
+                                                                <section>
                                                                     <div class="users_table_container">
                                                                         <table class="users_table">
                                                                             <thead>

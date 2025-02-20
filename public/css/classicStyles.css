@@ -298,7 +298,7 @@
   .star_post_container {
     border-radius: 3px;
     padding: 1rem;
-    background-color: #1d1f29;
+    background-color: #12121d;
     cursor: pointer;
     display: block;
     margin-top: .25rem;
@@ -436,10 +436,4 @@
     text-transform: uppercase;
     cursor: pointer;
     padding: 12px 14px;
-  }
-  
-  .danger {
-    font-weight: 700;
-    color: rgb(116, 0, 0);
-    background: rgb(255, 60, 60);
   }

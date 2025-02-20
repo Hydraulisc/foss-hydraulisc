@@ -11,24 +11,28 @@
     display: none;
     position: absolute;
     right: 8px;
-    background-color: #12131a;
+    background-color: #272832;
     min-width: 160px;
     z-index: 1;
 }
   
 .dropdown-content a {
-    color: white;
+    color: #d7d9e0;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
   
 .dropdown-content a:hover {
-    background-color: #778899;
+    background-color: #3f3f48;
 }
 
-.dropdown-content .admin_options {
-    background-color: red !important;
+.dropdown-content .destructive_options {
+    background-color: #8086d4;
+}
+
+.dropdown-content .destructive_options:hover {
+    background-color: #6c76ce;
 }
   
 .dropdown:hover .dropdown-content {

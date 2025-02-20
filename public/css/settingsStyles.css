@@ -31,8 +31,8 @@ body {
 
 button, .button_save {
     margin: 8px 0 0;
-    color: #d7d9e0 !important;
-    background: #5667C7;
+    color: #000000;
+    background: #8086d4;
     font-weight: 700;
     z-index: 1;
     display: block;
@@ -44,7 +44,7 @@ button, .button_save {
     font-size: max(12px, 1em);
     box-shadow: none;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: clip;
     box-sizing: border-box;
     -webkit-appearance: none;
@@ -55,6 +55,10 @@ button, .button_save {
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
+}
+
+.button_save:hover {
+    background: #6c76ce;
 }
 
 input:disabled {
@@ -137,7 +141,7 @@ input:disabled {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 16px;
-    border-radius: 9px;
+    border-radius: 8px;
     font-size: .9em;
     margin-bottom: .3rem !important;
     appearance: none;
@@ -153,7 +157,7 @@ input:disabled {
 }
 
 .nav_button:hover {
-    background: rgba(45, 45, 45, 0.6);
+    background: #272832;
 }
 
 .nav_button .text {
@@ -172,9 +176,10 @@ input:disabled {
 }
 
 .lluviere {
-    background: #5667C7;
+    background: #9397da;
     background-position: center;
     background-size: cover;
+    border-radius: 12px 12px 0 0;
 }
 
 .caption {
@@ -182,19 +187,20 @@ input:disabled {
 }
 
 .danger {
+    color: #000000 !important;
     border: none;
     border-radius: 6px;
     padding: .65rem;
     cursor: pointer;
     width: 100%;
     margin-top: .35rem;
-    background: red;
+    background: #8086d4;
     color: #d7d9e0;
     font-weight: 600;
 }
 
 .danger:hover {
-    background: crimson;
+    background: #6c76ce;
 }
 
 /* Keep these apart */
@@ -229,8 +235,11 @@ input:disabled {
 }
 
 a {
-    color: #5667C7;
-    text-decoration: none;
+    color: #8086d4;
+}
+
+h3 {
+    color: #b7b8e7;
 }
 
 .users_table a:hover {

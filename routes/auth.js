@@ -12,14 +12,19 @@ const db = new sqlite3.Database('./database.db');
 // Middleware
 const { checkRegistrationMode, requireAdmin } = require('../middleware/auth');
 function sanitizeUsername(text) {
-    const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
-      return {
+    // Reject usernames that contain anything other than letters, numbers, or periods
+    if (!/^[a-zA-Z0-9.]+$/.test(text)) {
+        return null; // Return null to indicate invalid input
+    }
+
+    // Escape basic HTML characters for safety (may or may not be redundant at this point)
+    const cleansedHTML = text.replace(/[<>"&]/g, match => ({
         '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
-        '&': '&amp;',
-      }[match];
-    });
+        '&': '&amp;'
+    }[match]));
+
     return sanitizeText(cleansedHTML);
 }
 async function assignDiscriminator(username) {
@@ -110,8 +115,8 @@ router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) =>
     const { username, password } = req.body;
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
     const sanitizedUsername = sanitizeUsername(username);
-    if (!sanitizedUsername || sanitizedUsername.trim() === '') {
-        return res.status(400).json({ "89": "Method not Allowed" });
+    if (!sanitizedUsername || sanitizedUsername.trim() === '' || sanitizedUsername.length < 3 || sanitizedUsername.length > 30) {
+        return res.status(400).json({ "89": "Method not Allowed", "error": "Invalid username length" });
     }
 
     try {

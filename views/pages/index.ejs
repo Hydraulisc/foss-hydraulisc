@@ -52,16 +52,16 @@
                                                     <a href="#">Report Content</a>
                                                     <% if(post.user_id == ownId) { %>
                                                         <a href="#">Edit</a>
-                                                        <a href="#">Delete</a>
+                                                        <a class="destructive_options" href="#">Delete</a>
                                                     <% } %>
                                                     <% if(isAdmin) { %>
-                                                        <a class="admin_options" href="#">Sudo Delete</a>
+                                                        <a class="destructive_options" href="#">Sudo Delete</a>
                                                     <% } %>
                                                 </div>
                                             </div>
                                         </span>
                                     </div>
-                                    <a style="inset: 0; text-decoration: none; color: white;" href="/post/<%- post.id %>">
+                                    <a style="inset: 0; text-decoration: none; color: #d7d9e0;" href="/post/<%- post.id %>">
                                         <div style="display: flex; margin-top: .3rem;">
                                             <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
                                                 <div class="overlay"></div>
