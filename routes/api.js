@@ -28,16 +28,28 @@ const fileFilter = (req, file, cb) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true); // Accept the file
     } else {
-        cb(new Error('Invalid file type. Only images are allowed!'), false); // Reject the file
+        cb(new Error(`Invalid file type. Only ${JSON.stringify(allowedMimeTypes)} are allowed!`), false); // Reject the file
     }
 };
 
-// Create post
+// Post Storage
 const upload = multer({
     dest: "public/uploads/",
     fileFilter: fileFilter,
     limits: { fileSize: 25 * 1024 * 1024 }, // 25MB limit (?)
 });
+
+router.post('/accept-cookies', (req, res) => {
+    res.cookie('cookiesAccepted', 'true', { 
+        maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year, give or take
+        httpOnly: true, 
+        secure: false, 
+        sameSite: 'lax' 
+    });
+    res.redirect(req.get("Referrer") || "/");
+});
+
+
 router.post("/upload", upload.single("file"), (req, res) => {
     if(!req.session.user) return res.status(401).send('Not authenticated');
     if(!req.file) return res.status(400).send('No file!');

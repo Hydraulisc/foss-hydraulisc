@@ -1,0 +1,54 @@
+.cookie_banner_container {
+    position: fixed;
+    z-index: 100;
+}
+
+.complete_cookie_banner {
+    -webkit-font-smoothing: antialiased;
+    color: #d7d9e0;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.cookie_banner {
+    display: block !important;
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible !important;
+    padding: 1.5em;
+    max-width: 50em;
+    overflow: hidden;
+    text-align: center;
+    width: unset;
+    left: 1em;
+    margin: 0 auto;
+    right: 1em;
+    background: #12131a;
+    bottom: 1.25em;
+    font-family: inherit;
+    line-height: normal;
+    z-index: 1;
+    position: fixed;
+    border: 1px solid #d7d9e0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    float: none;
+    font-size: 1em;
+    height: auto;
+    letter-spacing: unset;
+}
+
+.cookie_banner button {
+    background-color: transparent;
+    font-weight: 600;
+    border: 1px solid #d7d9e0;
+    color: #d7d9e0;
+    padding: 8px 5px;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.cookie_banner button:hover {
+    background-color: #232323;
+}

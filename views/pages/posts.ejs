@@ -36,7 +36,10 @@
         <div class="gridz">
             <div class="home_container">
                     <div style="width: 100%;">
-                        <h3 style="max-width: 100%;"><a href="/user/<%- post.user_id %>" style="font-family: 'ubuntu mono', serif !important; text-decoration: none;">@<%- author.username %>#<%- author.discriminator %></a>: <%- post.title %></h3>
+                        <h3 style="max-width: 100%;"><a href="/user/<%- post.user_id %>" style="text-decoration: none;">@<%- author.username %>#<%- author.discriminator %></a></h3>
+                        <% if(post.title) { %>
+                            <div style="max-width: 100%; margin-top: -12px;"><%- post.title %></div>
+                        <% } %>
                     </div>
                     <div class="container_container">
                             <div>
@@ -65,7 +68,7 @@
                                     <a style="inset: 0; text-decoration: none; color: white;" href="/user/<%- post.user_id %>">
                                         <div style="display: flex; margin-top: .3rem;">
                                             <div style="overflow: hidden; margin-left: auto; margin-right: auto;">
-                                                <img class="enlargened_post_body" src="/uploads/<%- post.filename %>">
+                                                <img class="enlargened_post_body" src="/uploads/<%- post.filename %>" loading="lazy">
                                             </div>
                                         </div>
                                     </a>
@@ -89,6 +92,7 @@
             </div>
         </div>
     </div>
+    <%- include('../partials/cookies', { cookies }) %>
     <%- include('../partials/footer', { username: ownId }) %>
 </body>
 </html>
