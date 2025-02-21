@@ -14,7 +14,7 @@ body {
 #login-form, #signup-form {
     align-items: center;
     background-color: #12121d;
-    border: 1px solid #1c286b;
+    border: 1px solid #505153;
     border-radius: 4px;
     box-sizing: border-box;
     display: flex;

@@ -2,7 +2,9 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const fs = require('fs');
+const { deleteFile } = require('../middleware/auth');
 
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
@@ -18,6 +20,7 @@ function sanitizeText(text) {
     });
     return cleansedHTML;
 }
+
 
 // File filter function
 const fileFilter = (req, file, cb) => {
@@ -111,6 +114,40 @@ router.post("/bannerUpdate", banner.single("banner"), (req, res) => {
             res.redirect('/settings');
         }
     );
+});
+
+router.post('/posts/:postId/delete', (req, res) => {
+    const postId = req.params.postId;
+    const userId = req.session.user.id;
+
+    if (!postId || isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid post ID' });
+    }
+
+    const query = `SELECT * FROM posts WHERE id = ?`;
+
+    db.get(query, [postId], (err, post) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        if (post.user_id !== userId) {
+            return res.status(403).json({ error: 'Unauthorized - You can only delete your own posts' });
+        }
+
+        // Delete the file
+        deleteFile(post.filename);
+
+        // Delete the post
+        db.run(`DELETE FROM posts WHERE id = ?`, [postId], function (err) {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to delete post' });
+            }
+            res.redirect(req.get("Referrer") || "/");
+        });
+    });
 });
 
 module.exports = router;

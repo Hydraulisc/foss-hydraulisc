@@ -28,7 +28,11 @@
 }
 
 .dropdown-content .destructive_options {
+    font-weight: 600;
+    color: #000000;
     background-color: #8086d4;
+    width: 100%;
+    border-radius: 0;
 }
 
 .dropdown-content .destructive_options:hover {

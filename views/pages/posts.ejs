@@ -22,6 +22,7 @@
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
     <link rel="stylesheet" href="/css/classicStyles.css">
+    <link rel="stylesheet" href="/css/popupStyles.css">
     <link rel="manifest" href="/json/manifest.json">
     <style>
         a {
@@ -63,6 +64,23 @@
                                                     </span>
                                                 </span>
                                             </span>
+                                            <div class="dropdown">
+                                                <span class="popup_menu <%- post.id %> dropbtn">⋮</span>
+                                                <div class="dropdown-content">
+                                                    <a href="https://about.hydraulisc.net/help/articles/101013/" target="_blank">Report Content</a>
+                                                    <% if(post.user_id == ownId) { %>
+                                                        <a href="#">Edit</a>
+                                                        <form action="/api/posts/<%- post.id %>/delete" method="post">
+                                                            <button class="destructive_options" type="submit">Delete</button>
+                                                        </form>
+                                                    <% } %>
+                                                    <% if(isAdmin) { %>
+                                                        <form action="/auth/admin/<%- post.id %>/sudodelete" method="post">
+                                                            <button class="destructive_options" type="submit">Sudo Delete</button>
+                                                        </form>
+                                                    <% } %>
+                                                </div>
+                                            </div>
                                         </span>
                                     </div>
                                     <a style="inset: 0; text-decoration: none; color: white;" href="/user/<%- post.user_id %>">

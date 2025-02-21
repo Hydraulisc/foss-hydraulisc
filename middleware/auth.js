@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 /**
  * Helper function to determine if invite only, private or public instance
@@ -35,4 +36,16 @@ function requireAdmin(req, res, next) {
     next();
 }
 
-module.exports = { checkRegistrationMode, requireAdmin };
+/**
+ * Helper function to delete a file safely
+ */
+function deleteFile(filename) {
+    const filePath = path.join(__dirname, '../public/uploads/', filename);
+    fs.unlink(filePath, (err) => {
+        if (err && err.code !== 'ENOENT') {
+            console.error(`Error deleting file: ${filePath}`, err);
+        }
+    });
+}
+
+module.exports = { checkRegistrationMode, requireAdmin, deleteFile };

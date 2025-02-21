@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
+const path = require('path');
 const crypto = require('crypto');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 const { sanitizeText } = require('../middleware/forceTextDirections');
@@ -10,7 +11,7 @@ const router = express.Router();
 const db = new sqlite3.Database('./database.db');
 
 // Middleware
-const { checkRegistrationMode, requireAdmin } = require('../middleware/auth');
+const { checkRegistrationMode, requireAdmin, deleteFile } = require('../middleware/auth');
 function sanitizeUsername(text) {
     // Reject usernames that contain anything other than letters, numbers, or periods
     if (!/^[a-zA-Z0-9.]+$/.test(text)) {
@@ -112,7 +113,19 @@ router.post('/login', async (req, res) => {
 // Registration route
 router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) => {
     const inviteCode = req.params.inviteCode || req.body.inviteCode; // Prioritize URL param
+    if (req.is('multipart/form-data')) {
+        return res.status(400).json({ error: "Invalid content type" });
+    }
+    
     const { username, password } = req.body;
+    if (typeof password !== 'string' || password.length < 8 || password.length > 128) {
+        return res.status(400).json({ error: "Password must be between 8-128 characters." });
+    }
+    
+    const passwordRegex = /^[^\p{C}]+$/u; // Allow all characters except control ones
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({ error: "Invalid characters in password." });
+    }
     const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
     const sanitizedUsername = sanitizeUsername(username);
     if (!sanitizedUsername || sanitizedUsername.trim() === '' || sanitizedUsername.length < 3 || sanitizedUsername.length > 30) {
@@ -252,6 +265,37 @@ router.post('/admin/generate-invite', requireAdmin, (req, res) => {
         stmt.finalize();
 
         res.json({ codes: codes, directLinks: prettyLinks });
+    });
+});
+
+// Admin endpoint to delete posts
+router.post('/admin/:postId/sudodelete', requireAdmin, (req, res) => {
+    const postId = req.params.postId;
+
+    if (!postId || isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid post ID' });
+    }
+
+    const query = `SELECT * FROM posts WHERE id = ?`;
+
+    db.get(query, [postId], (err, post) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        // Delete the file
+        deleteFile(post.filename);
+
+        // Delete the post
+        db.run(`DELETE FROM posts WHERE id = ?`, [postId], function (err) {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to delete post' });
+            }
+            res.redirect(req.get("Referrer") || "/");
+        });
     });
 });
 

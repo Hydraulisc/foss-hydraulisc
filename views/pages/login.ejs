@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div style="overflow: hidden; margin-top: 24px; align-content: stretch; flex-direction: column; display: flex; flex-shrink: 0; align-items: stretch; align-self: auto; position: relative; flex-grow: 0;">
-                    <input type="text" name="username" placeholder="Username#9999" autocomplete="username" pattern="^[a-zA-Z0-9.]+#\d{4}$" minlength="8" maxlength="35" oninvalid="this.setCustomValidity('Invalid characters! Usernames contain letters, numbers, and periods, followed by a discriminator \(#0001\).')" oninput="this.setCustomValidity('')" required />
+                    <input type="text" name="username" placeholder="Username#9999" autocomplete="username" pattern="^[a-zA-Z0-9.]+#\d{4}$" minlength="8" maxlength="35" oninvalid="this.setCustomValidity('Usernames contain letters, numbers, and periods, followed by a discriminator \(#0001\); between 8 and 35 characters \(inclusive\).')" oninput="this.setCustomValidity('')" required />
                     <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
                     <button type="submit">Login</button>
                     <div style="margin: 10px 40px 18px;">

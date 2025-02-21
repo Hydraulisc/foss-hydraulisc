@@ -14,7 +14,7 @@
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
     <link rel="stylesheet" href="/css/classicStyles.css">
-    <link rel="stylesheet" href="/css/indexStyles.css">
+    <link rel="stylesheet" href="/css/popupStyles.css">
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
@@ -49,13 +49,17 @@
                                             <div class="dropdown">
                                                 <span class="popup_menu <%- post.id %> dropbtn">⋮</span>
                                                 <div class="dropdown-content">
-                                                    <a href="#">Report Content</a>
+                                                    <a href="https://about.hydraulisc.net/help/articles/101013/" target="_blank">Report Content</a>
                                                     <% if(post.user_id == ownId) { %>
                                                         <a href="#">Edit</a>
-                                                        <a class="destructive_options" href="#">Delete</a>
+                                                        <form action="/api/posts/<%- post.id %>/delete" method="post">
+                                                            <button class="destructive_options" type="submit">Delete</button>
+                                                        </form>
                                                     <% } %>
                                                     <% if(isAdmin) { %>
-                                                        <a class="destructive_options" href="#">Sudo Delete</a>
+                                                        <form action="/auth/admin/<%- post.id %>/sudodelete" method="post">
+                                                            <button class="destructive_options" type="submit">Sudo Delete</button>
+                                                        </form>
                                                     <% } %>
                                                 </div>
                                             </div>

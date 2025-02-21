@@ -27,7 +27,7 @@
                 <div style="overflow: hidden; margin-top: 24px; align-content: stretch; flex-direction: column; display: flex; flex-shrink: 0; align-items: stretch; align-self: auto; position: relative; flex-grow: 0;">
                     <span class="label" style="text-align: center; font-size: 11px;">Usernames can contain alphanumeric characters and period ('.')</span>
                     <span class="label" style="text-align: center; font-size: 11px;">3 characters minimum, 30 maximum.</span>
-                    <input type="text" name="username" placeholder="Username" autocomplete="username" pattern="^[a-zA-Z0-9.]+$" maxlength="30" minlength="3" oninvalid="this.setCustomValidity('Usernames can only contain letters, numbers, and periods, and must be between 3-30 characters.')" oninput="this.setCustomValidity('')" required />
+                    <input type="text" name="username" placeholder="Username" autocomplete="username" pattern="^[a-zA-Z0-9.]+$" maxlength="30" minlength="3" oninvalid="this.setCustomValidity('Usernames must be between 3-30 characters containing only letters, numbers, and periods.')" oninput="this.setCustomValidity('')" required />
                     <input type="password" name="password" placeholder="Password" autocomplete="new-password" required />
                     <% if (inviteMode) { %>
                         <input type="text" name="inviteCode" value="<%= inviteCode ? inviteCode : '' %>" placeholder="Invite Code" required>
@@ -38,9 +38,12 @@
                             <div style="top: .45em; height: 1px; flex-shrink: 1; position: relative; flex-grow: 1; background-color: #d7d9e0;"></div>
                         </div>
                     </div>
-                    <div style="overflow: visible; margin-top: 8px; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
-                        <p style="font-size: small;">The <a href="/legal/privacy">Privacy Policy</a> and <a href="/legal/terms">Terms of Use</a> apply. Instance will remain invite only until the Public Beta Phase.</p>
+                    <div style="overflow: visible; margin-top: 0; margin-bottom: 0; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
+                        <p style="font-size: small;">The <a href="/legal/privacy">Privacy Policy</a> and <a href="/legal/terms">Terms of Use</a> apply.</p>
                         <p style="font-size: small;">Please follow our <a href="/legal/guidelines">Guidelines</a>.</p>
+                    </div>
+                    <div style="overflow: visible; margin-top: 0; margin-bottom: 0; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0; text-align: center;">
+                        <p style="font-size: smaller;">You can also <a href="https://about.hydraulisc.net/help/articles/101013">report content, accounts</a>, and more without logging in.</p>
                     </div>
                     <div style="margin-top: 8px; overflow: visible; margin-bottom: 8px; align-content: stretch; flex-direction: column; box-sizing: border-box; display: flex; margin-left: 40px; flex-shrink: 0; align-items: stretch; align-self: auto; justify-content: flex-start; position: relative; margin-right: 40px; flex-grow: 0;">
                         <a href="/login" style="background: rgb(48, 48, 48) !important; border-radius: 10px; color: #d7d9e0 !important; align-self: center; padding: 10px; text-decoration: none;">Already have an account?</a>
