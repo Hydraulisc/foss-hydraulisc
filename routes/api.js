@@ -117,9 +117,15 @@ router.post("/bannerUpdate", banner.single("banner"), (req, res) => {
 });
 
 router.post('/posts/:postId/delete', (req, res) => {
+    // missing session check
+    if (!req.session.user) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
     const postId = req.params.postId;
     const userId = req.session.user.id;
 
+    // input validation looks good
     if (!postId || isNaN(postId)) {
         return res.status(400).json({ error: 'Invalid post ID' });
     }
@@ -128,23 +134,32 @@ router.post('/posts/:postId/delete', (req, res) => {
 
     db.get(query, [postId], (err, post) => {
         if (err) {
-            return res.status(500).json({ error: 'Database error' });
+            return res.status(500).json({ 'Database error': err });
         }
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
         }
+        // authorization check looks good
         if (post.user_id !== userId) {
             return res.status(403).json({ error: 'Unauthorized - You can only delete your own posts' });
         }
 
-        // Delete the file
+        // consider adding error handling here:
+        // try {
+        //     await deleteFile(post.filename);
+        // } catch (error) {
+        //     console.error('File deletion failed:', error);
+        // }
         deleteFile(post.filename);
 
-        // Delete the post
+        // consider wrapping in a transaction
+        // db.run('BEGIN TRANSACTION');
         db.run(`DELETE FROM posts WHERE id = ?`, [postId], function (err) {
             if (err) {
+                // db.run('ROLLBACK');
                 return res.status(500).json({ error: 'Failed to delete post' });
             }
+            // db.run('COMMIT');
             res.redirect(req.get("Referrer") || "/");
         });
     });
