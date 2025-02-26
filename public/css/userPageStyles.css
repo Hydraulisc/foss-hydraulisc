@@ -17,7 +17,6 @@ body {
 
 .user_info_container {
     display: block;
-    background: #12121d;
     border-radius: 0 0 12px 12px;
 }
 
@@ -111,6 +110,7 @@ body {
     margin: 0;
     border: 0;
     font-size: 100% !important;
+    background: #12121d;
 }
 
 .avatar_container {
@@ -215,6 +215,8 @@ body {
 
 .descriptions {
     padding: 32px 0px 13px 24px;
+    border-radius: 0 0 10px 10px;
+    background: #12121d;
 }
 
 .descriptions span {
