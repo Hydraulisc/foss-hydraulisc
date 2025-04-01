@@ -1,4 +1,4 @@
-# <img src="https://avatars.githubusercontent.com/u/144374735" style="height: 30px;"> foss-[hydraulisc](https://hydraulisc.net)
+# <img src="https://avatars.githubusercontent.com/u/144374735" style="height: 24px;"> foss-[hydraulisc](https://hydraulisc.net)
 Hydraulisc; Open Source, privay focused, image-sharing Social Media.
 
 # Currently in [Public Beta Testing (PBT)](https://pbt.hydraulisc.net) phase! Check the [Discord](https://discord.gg/Syn5GVDemH) for more info.
