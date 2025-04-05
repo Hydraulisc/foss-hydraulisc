@@ -8,3 +8,5 @@ database.db
 /public/avatars
 /public/banners
 newthemes.css
+routes/oauth.js
+views/pages/oauth-consent.ejs

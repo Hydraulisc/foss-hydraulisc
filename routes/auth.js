@@ -105,7 +105,9 @@ router.post('/login', async (req, res) => {
                 isAdmin: user.isAdmin === 1
             };
 
-            res.redirect('/'); // Redirect to home page
+            // Dynamically redirect in event of OAuth
+            const redirectTo = req.query.next || '/';
+            res.redirect(redirectTo);
         }
     );
 });

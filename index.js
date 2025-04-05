@@ -2,9 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const authRoutes = require('./routes/auth');
-const apiRoutes = require('./routes/api');
-const legalRoutes = require('./routes/legal');
 const { version } = require('./package.json');
 const { sanitizeText } = require('./middleware/forceTextDirections');
 const sanitizeHtml = require('sanitize-html');
@@ -59,6 +56,39 @@ const initializeDatabase = () => {
             )
         `);
 
+        // Registered OAuth Clients
+        db.run(`
+            CREATE TABLE IF NOT EXISTS oauth_clients (
+                id TEXT PRIMARY KEY,
+                secret TEXT NOT NULL,
+                redirect_uri TEXT NOT NULL,
+                name TEXT
+            );
+        `);
+
+        // Authorisation Codes
+        db.run(`
+            CREATE TABLE IF NOT EXISTS oauth_codes (
+                code TEXT PRIMARY KEY,
+                client_id TEXT NOT NULL,
+                user_id TEXT NOT NULL,
+                expires_at INTEGER NOT NULL,
+                redirect_uri TEXT NOT NULL
+            );
+        `);
+
+        // Access Tokens
+        db.run(`
+            CREATE TABLE IF NOT EXISTS oauth_tokens (
+                token TEXT PRIMARY KEY,
+                client_id TEXT NOT NULL,
+                user_id TEXT NOT NULL,
+                expires_at INTEGER NOT NULL
+            );
+        `);
+        
+
+
         // Enable foreign key support
         db.run('PRAGMA foreign_keys = ON');
         console.log('Database initialized with required tables.');
@@ -109,10 +139,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
-app.use('/auth', authRoutes);
-app.use('/legal', legalRoutes);
-app.use('/api', apiRoutes);
+// Dynamic Routes
+const middlewarePath = path.join(__dirname, 'routes');
+fs.readdirSync(middlewarePath).forEach(file => {
+    if (file.endsWith('.js')) {
+        const route = '/' + path.basename(file, '.js'); // filename without .js
+        const middleware = require(path.join(middlewarePath, file));
+  
+        app.use(route, middleware);
+        console.log(`Mounted middleware at ${route} from ${file}`);
+    }
+});
 
 // FEEEEEEEEEED
 app.get('/', async (req, res) => {
@@ -189,9 +226,13 @@ app.get('/register/:inviteCode?', (req, res) => {
     })
 })
 app.get('/login', (req, res) => {
+    const redirectTo = req.query.next && req.query.next.startsWith('/')
+    ? req.query.next
+    : '/';
     res.render('pages/login', {
         isPublic: globals.isPublic,
-        inviteMode: globals.inviteMode
+        inviteMode: globals.inviteMode,
+        next: redirectTo
     })
 })
 app.get('/newlyregistered', (req, res) => {
@@ -213,6 +254,7 @@ app.get('/newlyregistered', (req, res) => {
         });
     }
 })
+
 
 // Get user profiles... maybe
 app.get('/user/:id?', (req, res) => {
