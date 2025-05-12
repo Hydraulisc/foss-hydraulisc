@@ -61,10 +61,11 @@
                                                                 </div>
                                                                 <div class="nameForm">
                                                                     <label>
-                                                                        <div class="label">Display Name</div>
+                                                                        <div class="label">Username</div>
                                                                         <div class="input">
-                                                                            <input spellcheck="false" value="<%- username %>" style="border-color: rgb(19, 19, 19);" max="30" maxlength="30" placeholder="Username">
+                                                                            <input spellcheck="false" disabled value="<%- username %>" style="border-color: rgb(19, 19, 19); color: grey;" max="30" maxlength="30" placeholder="Username">
                                                                         </div>
+                                                                        <div class="caption">Usernames cannot be changed. Create a new account to change username.</div>
                                                                     </label>
                                                                 </div>
                                                                 <div class="biographyForm">
@@ -191,7 +192,7 @@
                                                                                 </button>
                                                                             </div>
                                                                             <span class="label">
-                                                                                <p class="caption">MFA is not currently supported. Please come back later. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
+                                                                                <p class="caption">MFA is not currently supported. Please come back later. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -214,7 +215,7 @@
                                                                     </div>
                                                                     <div class="caption">
                                                                         <span class="label">
-                                                                            <p class="caption">Hydraulisc is undergoing some major modifications. Translations are a very WIP feature, and do not currently save. Please be patient. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a><span style="display: none !important;">You can help translate on <a href="https://github.com/Hydraulisc/foss-hydraulisc">GitHub</a></span></p>
+                                                                            <p class="caption">Hydraulisc is undergoing some major modifications. Translations are a very WIP feature, and do not currently save. Please be patient. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a><span style="display: none !important;">You can help translate on <a href="https://github.com/Hydraulisc/foss-hydraulisc">GitHub</a></span></p>
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -261,7 +262,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="label">
-                                                                                <div class="caption" style="padding: 2px 12px;">Themes are synced across clients by default. They are very Work In Progress. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></div>
+                                                                                <div class="caption" style="padding: 2px 12px;">Themes are synced across clients by default. They are very Work In Progress. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="_formBlock" style="display: flex; gap: 1.5em; flex-wrap: wrap;">
@@ -334,7 +335,20 @@
                                                         </div>
                                                         <div id="webhooktabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
-                                                                <h3 class="label">Payload URL WIP. <a href="https://blog.hydraulisc.xyz/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></h3>
+                                                                <h3 class="label">Payload URL WIP. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></h3>
+                                                            </div>
+                                                        </div>
+                                                        <div id="developerstabulatordisplay" style="display: none;" class="tobesetnone">
+                                                            <div class="_formRoot">
+                                                                <h3 class="label">Advanced Developer Settings.</h3>
+                                                                <h3>Register New OAuth App</h3>
+                                                                <form method="POST" action="/oauth/developer">
+                                                                    <input type="text" name="app_name" placeholder="App Name" required><br>
+                                                                    <input type="url" name="redirect_uri" placeholder="Redirect URI" required><br>
+                                                                    <br>
+                                                                    <button type="submit">Register App</button>
+                                                                </form>
+                                                                <div class="caption">Registering an OAuth App is subject to Admin Approval.</div>
                                                             </div>
                                                         </div>
                                                         <div id="othersettingsdisplay" style="display: none;" class="tobesetnone">
@@ -366,7 +380,7 @@
                                                         <% if (isAdmin == true) { %>
                                                         <div id="admincontrolpanel" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
-                                                                <h3 class="label">Administrator Settings</h3>
+                                                                <h3 class="label">Administrator Settings - Users</h3>
                                                                 <% if(inviteMode) { %>
                                                                 <label style="border-color: rgba(255, 89, 117, 0.15);">
                                                                     <span class="label">Generate Invites</span>
@@ -416,6 +430,55 @@
                                                                                                         <button type="submit" class="delete_button">Delete</button>
                                                                                                     </form>
                                                                                                 <% } %>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <% }); %>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                        </div>
+                                                        <div id="admincdeveloperpanel" style="display: none;" class="tobesetnone">
+                                                            <div class="_formRoot">
+                                                                <h3 class="label">Administrator Settings - OAuth Apps</h3>
+                                                                <% if(inviteMode) { %>
+                                                                <label style="border-color: rgba(255, 89, 117, 0.15);">
+                                                                    <span class="label">Generate Invites</span>
+                                                                    <form action="/auth/admin/generate-invite" method="POST">
+                                                                        <input type="number" name="count" placeholder="Number of Invites" value="3" required />
+                                                                        <button type="submit">Generate</button>
+                                                                    </form>
+                                                                </label>
+                                                                <% } %>
+                                                                <span style="margin-top: 3rem !important;" class="label">Administate OAuth Clients</span>
+                                                                <section>
+                                                                    <div class="users_table_container">
+                                                                        <table class="users_table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Nickname</th>
+                                                                                    <th>Redirect</th>
+                                                                                    <th>Actions</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <% oauths.forEach(function(client) { %>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <span><%= client.name %></span>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <a href="<%= client.redirect_uri %>" target="_blank">Redirect</a>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="action_buttons">
+                                                                                                <a href="<%= client.redirect_uri %>" class="view_button">View</a>
+                                                                                                <form action="/dashboard/clients/delete" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this client?')">
+                                                                                                    <input type="hidden" name="userId" value="<%= client.id %>">
+                                                                                                    <button type="submit" class="delete_button">Delete</button>
+                                                                                                </form>
                                                                                             </div>
                                                                                         </td>
                                                                                     </tr>

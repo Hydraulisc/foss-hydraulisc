@@ -62,7 +62,8 @@ const initializeDatabase = () => {
                 id TEXT PRIMARY KEY,
                 secret TEXT NOT NULL,
                 redirect_uri TEXT NOT NULL,
-                name TEXT
+                name TEXT,
+                owner INTEGER
             );
         `);
 
@@ -421,22 +422,29 @@ app.get('/settings', (req, res) => {
             if(req.session.user.isAdmin) {
                 db.all('SELECT id, username, discriminator, isAdmin FROM users ORDER BY id', [], (err, users) => {
                     if (err) {
-                        logError('Failed to load users', err);
+                        console.log('Failed to load users', err);
                         return res.redirect('/');
                     }
-            
-                    res.render('pages/settings', {
-                        isAdmin: userDetail.isAdmin,
-                        username: userDetail.username,
-                        usersBiography: userDetail.biography,
-                        ownId: userDetail.id,
-                        version,
-                        pfp: userDetail.pfp,
-                        users,
-                        banner: userDetail.banner,
-                        discriminator: userDetail.discriminator || '0000',
-                        cookies: checkCookies(req),
-                        inviteMode: globals.inviteMode
+                    db.all('SELECT id, redirect_uri, name FROM oauth_clients ORDER BY id', [], (err, oauths) => {
+                        if (err) {
+                            console.log('Failed to load oauth_clients', err);
+                            return res.redirect('/');
+                        }   
+                        
+                        res.render('pages/settings', {
+                            isAdmin: userDetail.isAdmin,
+                            username: userDetail.username,
+                            usersBiography: userDetail.biography,
+                            ownId: userDetail.id,
+                            version,
+                            pfp: userDetail.pfp,
+                            users,
+                            oauths,
+                            banner: userDetail.banner,
+                            discriminator: userDetail.discriminator || '0000',
+                            cookies: checkCookies(req),
+                            inviteMode: globals.inviteMode
+                        })
                     })
                 });
             } else {
@@ -455,7 +463,7 @@ app.get('/settings', (req, res) => {
             }
         });
     } else {
-        res.redirect('/login');
+        res.redirect('/login?next=%2Fsettings');
     }
 })
 
@@ -485,13 +493,7 @@ app.get('/upload', (req, res) => {
             })
         });
     } else {
-        res.render('pages/404', {
-            hydrauliscECode: "89",
-            errorMessage: "Method not Allowed.",
-            username: req.session.user?.username || null,
-            ownId: req.session.user?.id || null,
-            cookies: checkCookies(req)
-        });;
+        res.redirect('/login?next=%2Fupload');
     }
 })
 

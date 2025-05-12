@@ -54,6 +54,10 @@ function payloadUrl() {
     hideAllSettings();
     document.getElementById("webhooktabulatordisplay").style.display = 'block';
 }
+function developer() {
+    hideAllSettings();
+    document.getElementById("developerstabulatordisplay").style.display = 'block';
+}
 function additionalSettings() {
     hideAllSettings();
     document.getElementById("othersettingsdisplay").style.display = 'block';
@@ -61,4 +65,8 @@ function additionalSettings() {
 function adminPanel() {
     hideAllSettings();
     document.getElementById("admincontrolpanel").style.display = 'block';
+}
+function adminDeveloper() {
+    hideAllSettings();
+    document.getElementById("admincdeveloperpanel").style.display = 'block';
 }
