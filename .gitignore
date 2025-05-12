@@ -10,3 +10,5 @@ database.db
 newthemes.css
 routes/oauth.js
 views/pages/oauth-consent.ejs
+oauth-migrations.js
+/backups
