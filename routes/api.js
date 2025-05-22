@@ -9,6 +9,14 @@ const { deleteFile } = require('../middleware/auth');
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
 
+// Add CORS middleware for all routes in this router
+router.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
 function sanitizeText(text) {
     const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
       return {
@@ -42,6 +50,7 @@ const upload = multer({
     limits: { fileSize: 25 * 1024 * 1024 }, // 25MB limit (?)
 });
 
+// Cookie Acceptance
 router.post('/accept-cookies', (req, res) => {
     res.cookie('cookiesAccepted', 'true', { 
         maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year, give or take
@@ -52,7 +61,7 @@ router.post('/accept-cookies', (req, res) => {
     res.redirect(req.get("Referrer") || "/");
 });
 
-
+// Upload.
 router.post("/upload", upload.single("file"), (req, res) => {
     if(!req.session.user) return res.status(401).send('Not authenticated');
     if(!req.file) return res.status(400).send('No file!');
@@ -163,6 +172,76 @@ router.post('/posts/:postId/delete', (req, res) => {
             res.redirect(req.get("Referrer") || "/");
         });
     });
+});
+
+// Public endpoint to get user posts by ID
+router.get('/:userId/posts/:limit?', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        let limit = parseInt(req.params.limit) || 10;
+        
+        // Validate inputs
+        if (isNaN(userId)) {
+            return res.status(400).json({ error: 'Invalid user ID' });
+        }
+        
+        limit = Math.min(Math.max(limit, 1), 50); // Ensure between 1-50
+        
+        // Get user info and posts in a single query
+        db.get(
+            `SELECT username, pfp, discriminator FROM users WHERE id = ?`,
+            [userId],
+            (err, user) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+                
+                if (!user) {
+                    return res.status(404).json({ error: 'User not found' });
+                }
+                
+                // Get the posts
+                db.all(
+                    `SELECT id, title, created_at, updated_at, filename
+                     FROM posts 
+                     WHERE user_id = ?
+                     ORDER BY created_at DESC
+                     LIMIT ?`,
+                    [userId, limit],
+                    (err, posts) => {
+                        if (err) {
+                            console.error('Database error:', err);
+                            return res.status(500).json({ error: 'Database error' });
+                        }
+                        
+                        // Format the response
+                        const response = {
+                            user: {
+                                id: userId,
+                                username: user.username,
+                                pfp: user.pfp,
+                                discriminator: user.discriminator
+                            },
+                            posts: posts.map(post => ({
+                                id: post.id,
+                                title: post.title,
+                                created_at: post.created_at,
+                                updated_at: post.updated_at,
+                                filename: post.filename,
+                                url: `/uploads/${post.filename}` // Add full URL path
+                            }))
+                        };
+                        
+                        res.json(response);
+                    }
+                );
+            }
+        );
+    } catch (error) {
+        console.error('Error in API endpoint:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 module.exports = router;

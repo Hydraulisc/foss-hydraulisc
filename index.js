@@ -106,7 +106,7 @@ app.use(session({
     saveUninitialized: false,
     name: 'connect.sid',
     cookie: {
-        secure: false,                  // Set to true if you use a valid SSL certificate for HTTPS
+        secure: false,                  // Set to true if you use a valid **LOCAL!!** SSL certificate for HTTPS
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,    // 24 hours
         path: '/',
@@ -256,7 +256,6 @@ app.get('/newlyregistered', (req, res) => {
     }
 })
 
-
 // Get user profiles... maybe
 app.get('/user/:id?', (req, res) => {
     if(!req.params.id) return res.render('pages/404', { hydrauliscECode: "85", errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.", username: req.session.user?.username || null, ownId: req.session.user?.id || null })
@@ -402,7 +401,6 @@ app.get('/post/:id?', (req, res) => {
         });
     });
 });
-
 
 // Imagine Settings
 app.get('/settings', (req, res) => {
