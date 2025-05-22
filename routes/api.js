@@ -50,6 +50,11 @@ const upload = multer({
     limits: { fileSize: 25 * 1024 * 1024 }, // 25MB limit (?)
 });
 
+// Healthcheck
+router.get('/', (req, res) => {
+    res.json({ online: true, "X-Powered-By": "Express", "healthcheck": "passing" })
+})
+
 // Cookie Acceptance
 router.post('/accept-cookies', (req, res) => {
     res.cookie('cookiesAccepted', 'true', { 
