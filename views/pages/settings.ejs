@@ -354,13 +354,40 @@
                                                                     <button type="submit">Register App</button>
                                                                 </form>
                                                                 <div class="caption">Registering an OAuth App is subject to Admin Approval.</div>
+                                                                <h3 class="label">Your OAuth Apps</h3>
+                                                                <% if (apps.length === 0) { %>
+                                                                    <p>You haven't created any OAuth apps yet.</p>
+                                                                <% } else { %>
+                                                                    <div class="users_table_container">
+                                                                        <table class="users_table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Client Name</th>
+                                                                                    <th>Client ID</th>
+                                                                                    <th>Secret</th>
+                                                                                    <th>Redirect</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <% apps.forEach(app => { %>
+                                                                                <tr>
+                                                                                    <td><%= app.name %></td>
+                                                                                    <td><%= app.id %></td>
+                                                                                    <td><%= app.secret %></td>
+                                                                                    <td><%= app.redirect_uri %></td>
+                                                                                </tr>
+                                                                            <% }) %>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                <% } %>
                                                             </div>
                                                         </div>
                                                         <div id="othersettingsdisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
                                                                 <h3 class="label">Additional Settings will appear here.</h3>
                                                                 <label style="border-color: rgba(255, 89, 117, 0.15);">
-                                                                    <input type="radio">
+                                                                    <input type="radio"  checked>
                                                                     <span class="button">
                                                                         <span></span>
                                                                     </span>
@@ -372,13 +399,6 @@
                                                                         <span></span>
                                                                     </span>
                                                                     <span class="label">DRYs</span>
-                                                                </label>
-                                                                <label style="border-color: rgba(255, 89, 117, 0.15);">
-                                                                    <input type="radio" checked>
-                                                                    <span class="button">
-                                                                        <span></span>
-                                                                    </span>
-                                                                    <span class="label">EFS</span>
                                                                 </label>
                                                             </div>
                                                         </div>

@@ -52,7 +52,7 @@ const upload = multer({
 
 // Healthcheck
 router.get('/', (req, res) => {
-    res.json({ online: true, "X-Powered-By": "Express", "healthcheck": "passing" })
+    res.json({ online: true, "X-Powered-By": "Express", "healthcheck": "passing", "documentation": "https://about.hydraulisc.net/docs/hydraulisc/api" })
 })
 
 // Cookie Acceptance

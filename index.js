@@ -220,10 +220,14 @@ app.get('/404', (req, res) => {
 
 // Auth?
 app.get('/register/:inviteCode?', (req, res) => {
+    const redirectTo = req.query.next && req.query.next.startsWith('/')
+    ? req.query.next
+    : '/';
     res.render('pages/register', {
         isPublic: globals.isPublic,
         inviteMode: globals.inviteMode,
-        inviteCode: req.params.inviteCode
+        inviteCode: req.params.inviteCode,
+        next: redirectTo
     })
 })
 app.get('/login', (req, res) => {
@@ -417,18 +421,41 @@ app.get('/settings', (req, res) => {
                 });
             }
 
-            if(req.session.user.isAdmin) {
-                db.all('SELECT id, username, discriminator, isAdmin FROM users ORDER BY id', [], (err, users) => {
-                    if (err) {
-                        console.log('Failed to load users', err);
-                        return res.redirect('/');
-                    }
-                    db.all('SELECT id, redirect_uri, name FROM oauth_clients ORDER BY id', [], (err, oauths) => {
-                        if (err) {
-                            console.log('Failed to load oauth_clients', err);
-                            return res.redirect('/');
-                        }   
-                        
+            db.all(
+                'SELECT * FROM oauth_clients WHERE owner = ?',
+                [req.session.user.id],
+                (err, apps) => {
+                    if (err) return res.status(500).send('Database error');
+                    if(req.session.user.isAdmin) {
+                        db.all('SELECT id, username, discriminator, isAdmin FROM users ORDER BY id', [], (err, users) => {
+                            if (err) {
+                                console.log('Failed to load users', err);
+                                return res.redirect('/');
+                            }
+                            db.all('SELECT id, redirect_uri, name FROM oauth_clients ORDER BY id', [], (err, oauths) => {
+                                if (err) {
+                                    console.log('Failed to load oauth_clients', err);
+                                    return res.redirect('/');
+                                }   
+                                
+                                res.render('pages/settings', {
+                                    isAdmin: userDetail.isAdmin,
+                                    username: userDetail.username,
+                                    usersBiography: userDetail.biography,
+                                    ownId: userDetail.id,
+                                    version,
+                                    pfp: userDetail.pfp,
+                                    users,
+                                    oauths,
+                                    banner: userDetail.banner,
+                                    discriminator: userDetail.discriminator || '0000',
+                                    cookies: checkCookies(req),
+                                    inviteMode: globals.inviteMode,
+                                    apps
+                                })
+                            })
+                        });
+                    } else {
                         res.render('pages/settings', {
                             isAdmin: userDetail.isAdmin,
                             username: userDetail.username,
@@ -436,29 +463,15 @@ app.get('/settings', (req, res) => {
                             ownId: userDetail.id,
                             version,
                             pfp: userDetail.pfp,
-                            users,
-                            oauths,
+                            users: [],
                             banner: userDetail.banner,
                             discriminator: userDetail.discriminator || '0000',
                             cookies: checkCookies(req),
-                            inviteMode: globals.inviteMode
+                            apps
                         })
-                    })
-                });
-            } else {
-                res.render('pages/settings', {
-                    isAdmin: userDetail.isAdmin,
-                    username: userDetail.username,
-                    usersBiography: userDetail.biography,
-                    ownId: userDetail.id,
-                    version,
-                    pfp: userDetail.pfp,
-                    users: [],
-                    banner: userDetail.banner,
-                    discriminator: userDetail.discriminator || '0000',
-                    cookies: checkCookies(req)
-                })
-            }
+                    }
+                }
+            )
         });
     } else {
         res.redirect('/login?next=%2Fsettings');
