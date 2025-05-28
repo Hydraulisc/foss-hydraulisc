@@ -249,4 +249,51 @@ router.get('/:userId/posts/:limit?', async (req, res) => {
     }
 });
 
+// Public endpoint to get user data by ID
+router.get('/:userId', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        
+        // Validate inputs
+        if (isNaN(userId)) {
+            return res.status(400).json({ error: 'Invalid user ID' });
+        }
+        
+        // Get user info and posts in a single query
+        db.get(
+            `SELECT username, pfp, discriminator, biography, banner FROM users WHERE id = ?`,
+            [userId],
+            (err, user) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+                
+                if (!user) {
+                    return res.status(404).json({ error: 'User not found' });
+                }
+
+                // TO DO: Check if public/private account and respond for each case
+                
+                // Format the response
+                        const response = {
+                            user: {
+                                id: userId,
+                                username: user.username,
+                                discriminator: user.discriminator,
+                                pfp: user.pfp,
+                                biography: user.biography,
+                                banner: user.banner
+                            }
+                        };
+                        
+                        res.json(response);
+            }
+        );
+    } catch (error) {
+        console.error('Error in API endpoint:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 module.exports = router;
