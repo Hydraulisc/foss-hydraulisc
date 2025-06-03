@@ -259,7 +259,7 @@ router.get('/:userId', async (req, res) => {
             return res.status(400).json({ error: 'Invalid user ID' });
         }
         
-        // Get user info and posts in a single query
+        // Get user info in a query
         db.get(
             `SELECT username, pfp, discriminator, biography, banner FROM users WHERE id = ?`,
             [userId],

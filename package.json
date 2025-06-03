@@ -1,6 +1,6 @@
 {
   "name": "foss-hydraulisc",
-  "version": "1.4.4",
+  "version": "1.4.42",
   "description": "Open Source Hydraulisc remake.",
   "homepage": "https://github.com/Hydraulisc/foss-hydraulisc#readme",
   "bugs": {
@@ -24,7 +24,7 @@
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.0.0",
     "nodemon": "^3.1.9",
     "sanitize-html": "^2.14.0",
     "sqlite": "^5.1.1",
