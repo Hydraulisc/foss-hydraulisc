@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post | Hydraulisc</title>
+    <link rel="canonical" href="https://hydraulisc.net/404">
+    <!-- Unused Canonical and alternate "link"'s removed: https://www.html-easy.com/references/html-link-tag/ & https://ahrefs.com/blog/canonical-tags/ -->
+    <link rel="icon" type="image/png" href="https://about.hydraulisc.net/assets/img/Foss-H-logo.png">
+    <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
+    <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
+    <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
+    <link rel="stylesheet" href="/css/editPageStyles.css">
+    <link rel="manifest" href="/json/manifest.json">
+</head>
+<body>
+    <%- include('../partials/header', { username: ownId }) %>
+    <div class="app-container">
+        <div class="gridz">
+            <div class="home_container">
+                <div style="width: 100%;">
+                    <h3 style="max-width: 100%;">
+                        <a href="/post/<%- post.id %>" style="text-decoration: none;">Return to Post</a>
+                    </h3>
+                </div>
+                <div id="<%- post.id %>" class="star_post_container">
+                    <a style="inset: 0; text-decoration: none; color: #d7d9e0;">
+                        <div style="display: flex; margin-top: .3rem;">
+                            <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
+                                <div style="width: 400px; max-height: 400px; overflow: hidden;">
+                                    <img class="star_post_body" src="/uploads/<%- post.filename %>" loading="lazy" style="width: 100% !important; height: 100% !important; object-fit: contain !important;">
+                                </div>
+                                <form action="/api/update/post/<%- post.id %>" method="post">
+                                    <textarea name="updateTextContent" id="updateTextContent"><%- post.title %></textarea>
+                                    <button type="submit">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/cookies', { cookies }) %>
+    <%- include('../partials/footer', { username: ownId }) %>
+</body>
+</html>

@@ -406,6 +406,89 @@ app.get('/post/:id?', (req, res) => {
     });
 });
 
+// P-P-P-POSTS!!! Post pages
+app.get('/post/:id?/edit', (req, res) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+        return res.render('pages/404', {
+            hydrauliscECode: "85",
+            errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+            username: req.session.user?.username || null,
+            ownId: req.session.user?.id || null,
+            cookies: checkCookies(req)
+        });
+    }
+
+    db.get('SELECT * FROM posts WHERE id = ?', [postId], (err, post) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.render('pages/404', {
+                hydrauliscECode: "82",
+                errorMessage: "Undefined.",
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null,
+                cookies: checkCookies(req)
+            });
+        }
+
+        if (!post) {
+            return res.render('pages/404', {
+                hydrauliscECode: "85",
+                errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
+                username: req.session.user?.username || null,
+                ownId: req.session.user?.id || null,
+                cookies: checkCookies(req)
+            });
+        }
+
+        // Sanitize post fields
+        const sanitizedPost = {
+            ...post,
+            title: sanitizeContent(post.title)
+        };
+
+        // Fetch the user attached to this post
+        db.get('SELECT id, username, discriminator, pfp FROM users WHERE id = ?', [post.user_id], (err, author) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.render('pages/404', {
+                    hydrauliscECode: "82",
+                    errorMessage: "Undefined.",
+                    username: req.session.user?.username || null,
+                    ownId: req.session.user?.id || null,
+                    cookies: checkCookies(req)
+                });
+            }
+
+            if (!author) {
+                return res.render('pages/404', {
+                    hydrauliscECode: "96",
+                    errorMessage: "Account Deleted/Suspended.",
+                    username: req.session.user?.username || null,
+                    ownId: req.session.user?.id || null,
+                    cookies: checkCookies(req)
+                });
+            }
+
+            // Sanitize author fields
+            const sanitizedAuthor = {
+                ...author,
+                title: sanitizeContent(author.username)
+            };
+            if(req.session.user?.id != sanitizedAuthor.id) return res.redirect(`/post/${postId}`);
+            res.render('pages/edit', {
+                ownId: req.session.user?.id || null,
+                username: req.session.user?.username || null,
+                isAdmin: req.session.user?.isAdmin || null,
+                post: sanitizedPost, // post.data
+                author: sanitizedAuthor, // author.data
+                cookies: checkCookies(req)
+            });
+        });
+    });
+});
+
 // Imagine Settings
 app.get('/settings', (req, res) => {
     if(req.session.user?.id) {

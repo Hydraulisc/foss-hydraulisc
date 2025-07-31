@@ -48,17 +48,19 @@ body {
   animation-name: wobble;
   animation-duration: 2s;
   animation-timing-function: linear;
-  animation-delay: 1.3s;
+  animation-delay: 0.3s;
   animation-iteration-count: infinite;
   animation-direction: reverse-alternate;
 }
 
 @keyframes wobble {
-  0% { transform: translateX(0) }
-  15% { transform: translateX(3px) }
-  30% { transform: translateX(-3px) }
-  45% { transform: translateX(3px) }
-  60% { transform: translate(0) }
-  75% { transform: translate(-3px) }
-  90% { transform: translateX(3px) }
+  0% { transform: translateX(0); opacity: 0.8; }
+  5% { opacity: 0.3; }
+  10% { opacity: 1; }
+  15% { opacity: 0.6; }
+  20% { opacity: 1; }
+  25% { transform: translateX(8px); opacity: 0.1; }
+  50% { transform: translateX(-6px); opacity: 1; }
+  75% { transform: translateX(3px); }
+  100% { transform: translate(-1px); opacity: 0.2; }
 }

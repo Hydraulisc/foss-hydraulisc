@@ -157,13 +157,7 @@ router.post('/posts/:postId/delete', (req, res) => {
         if (post.user_id !== userId) {
             return res.status(403).json({ error: 'Unauthorized - You can only delete your own posts' });
         }
-
-        // consider adding error handling here:
-        // try {
-        //     await deleteFile(post.filename);
-        // } catch (error) {
-        //     console.error('File deletion failed:', error);
-        // }
+        
         deleteFile(post.filename);
 
         // consider wrapping in a transaction
