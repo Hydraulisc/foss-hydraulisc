@@ -112,9 +112,25 @@
       grid-column: span 12/span 12;
     }
     .star_post_container {
-      min-width: 330px !important;
-      max-width: 100% !important;
+      min-width: 300px !important;
+      max-width: 75% !important;
       border: none !important;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 12px !important;
+    }
+    .star_post_user_container {
+      position: relative;
+      background: #30303f;
+      border-radius: 50px;
+      padding: 3px 8px 3px 0;
+    }
+    .star_post_texter {
+      background: #30303f;
+      padding: 8px;
+      border-radius: 12px;
+      margin-top: 1rem;
+      text-align: center;
     }
     .starboarder {
       display: none !important;
@@ -128,6 +144,10 @@
   }
   
   
+  .star_post_user_container {
+    position: relative;
+  }
+
   .cls-1{
     fill: none;
     stroke:#d7d9e0;
@@ -332,7 +352,7 @@
   
   .star_post_title {
     text-decoration-line: none;
-    color: lightslategray;
+    color: #d7d9e0;
     font-weight: 600;
     line-height: 1rem;
     font-size: .75rem;
