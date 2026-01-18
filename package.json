@@ -1,6 +1,6 @@
 {
   "name": "foss-hydraulisc",
-  "version": "1.4.42",
+  "version": "1.4.46",
   "description": "Open Source Hydraulisc remake.",
   "homepage": "https://github.com/Hydraulisc/foss-hydraulisc#readme",
   "bugs": {
@@ -30,5 +30,9 @@
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "uuid": "^11.1.0"
+  },
+  "overrides": {
+    "qs": "^6.14.1",
+    "tar": "^7.5.3"
   }
 }
