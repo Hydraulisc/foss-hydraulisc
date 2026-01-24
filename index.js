@@ -148,7 +148,7 @@ fs.readdirSync(middlewarePath).forEach(file => {
         const middleware = require(path.join(middlewarePath, file));
   
         app.use(route, middleware);
-        console.log(`Mounted middleware at ${route} from ${file}`);
+        //console.log(`Mounted middleware at ${route} from ${file}`);
     }
 });
 
@@ -255,7 +255,8 @@ app.get('/newlyregistered', (req, res) => {
             hydrauliscECode: "85",
             errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.",
             username: req.session.user?.username || null,
-            ownId: req.session.user?.id || null
+            ownId: req.session.user?.id || null,
+            cookies: checkCookies(req)
         });
     }
 })
