@@ -565,7 +565,7 @@ app.get('/settings', (req, res) => {
 // Upload files lmao
 app.get('/upload', (req, res) => {
     if(req.session.user?.id) {
-        db.get('SELECT * FROM users WHERE username = ?', [req.session.user.username], (err, userDetail) => {
+        db.get('SELECT * FROM users WHERE id = ?', [req.session.user.id], (err, userDetail) => {
             if (err) {
                 console.error(err);
                 return res.render('pages/404', {

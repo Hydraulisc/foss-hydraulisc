@@ -4,10 +4,30 @@ const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const rateLimit = require('express-rate-limit');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 const { sanitizeText } = require('../middleware/forceTextDirections');
 
 const router = express.Router();
+
+// Rate limiters for auth
+// allow max 10 login attempts per 15m
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, 
+    max: 10, 
+    message: 'Too many login attempts. Please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+// allow max 5 accounts per 1h  
+const registerLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, 
+    max: 5, 
+    message: 'Too many accounts created. Please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 const db = new sqlite3.Database('./database.db');
 
 // Middleware
@@ -70,7 +90,7 @@ async function isFirstUser() {
 }
 
 // Handle login form submission
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
     const { username, password } = req.body;
     const fullUsername = username;
     // Split "Ami#0001" into username & discriminator
@@ -113,7 +133,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Registration route
-router.post('/register/:inviteCode?', checkRegistrationMode, async (req, res) => {
+router.post('/register/:inviteCode?', registerLimiter, checkRegistrationMode, async (req, res) => {
     const inviteCode = req.params.inviteCode || req.body.inviteCode; // Prioritize URL param
     if (req.is('multipart/form-data')) {
         return res.status(400).json({ error: "Invalid content type" });
