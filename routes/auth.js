@@ -122,7 +122,8 @@ router.post('/login', loginLimiter, async (req, res) => {
                 id: user.id,
                 username: user.username,
                 discriminator: user.discriminator,
-                isAdmin: user.isAdmin === 1
+                isAdmin: user.isAdmin === 1,
+                language: user.language
             };
 
             // Dynamically redirect in event of OAuth
