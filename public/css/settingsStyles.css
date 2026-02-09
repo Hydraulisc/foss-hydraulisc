@@ -65,7 +65,7 @@ input:disabled {
     cursor: not-allowed !important;
 }
 
-.app-container, #hydrauliscselapp {
+.hydrauliscselapp, #hydrauliscselapp {
     margin-top: 3.5rem;
 }
 

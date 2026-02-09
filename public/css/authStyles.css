@@ -1,20 +1,16 @@
-:root {
-    scrollbar-width: none;
-}
-
 body {
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.5rem;
-    background-color: #04050a;
-    color: #d7d9e0;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
     font-family: "Inter", sans-serif;
 }
 
 #login-form, #signup-form {
     align-items: center;
-    background-color: #12121d;
-    border: 1px solid #505153;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--background-highlight);
     border-radius: 4px;
     box-sizing: border-box;
     display: flex;
@@ -28,8 +24,8 @@ body {
 form button {
     border: none;
     border-radius: 10px;
-    background-color: #8086d4;
-    color: #000000;
+    background-color: var(--accent-secondary);
+    color: var(--text-terciary);
     text-transform: uppercase;
     cursor: pointer;
     padding: 12px 14px;
@@ -37,13 +33,13 @@ form button {
 }
 
 form button:hover {
-    background-color: #6c76ce;
+    background-color: var(--accent-primary);
 }
 
 form input {
     border: none;
-    background-color: #12121d;
-    color: rgb(250, 250, 250);
+    background-color: var(--background-secondary);
+    color: var(--text-secondary);
     width: 100%;
     min-width: 100%;
     height: 32px;
@@ -52,10 +48,10 @@ form input {
 }
 
 form input:hover, form input:focus {
-    background-color: #202023;
+    background-color: var(--background-terciary);
 }
 
 a {
-    color: #8086d4;
+    color: var(--accent-secondary);
     text-decoration: none;
 }

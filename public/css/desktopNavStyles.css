@@ -24,10 +24,10 @@
     justify-content: space-between;
     height: 44px;
     padding: 8px 16px;
-    background-color: #202023;
+    background-color: var(--background-terciary);
     font-weight: 600;
     line-height: 1.43;
-    color: white;
+    color: var(--text-primary);
     z-index: 5;
 }
 

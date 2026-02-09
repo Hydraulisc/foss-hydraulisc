@@ -6,8 +6,8 @@ body {
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.5rem;
-    background-color: #04050a;
-    color: #d7d9e0;
+    background-color: var(--background-primary);
+    color: var(--text-secondary);
     font-family: "Inter", sans-serif;
 }
 
@@ -34,7 +34,7 @@ body {
 .user_info_set {
     position: relative;
     overflow: hidden;
-    background: #12131a;
+    background: var(--background-secondary);
     border-radius: 12px 12px 0 0;
 }
 
@@ -50,11 +50,11 @@ body {
 
 .banner_container {
     height: 100% !important;
-    box-shadow: 0 0 128px #00000080 inset !important;
+    box-shadow: 0 0 128px var(--background-primary) inset !important;
 }
 
 .settings_banner {
-    background-color: #9397da;
+    background-color: var(--accent-highlight);
     box-sizing: border-box;
     max-height: 250px;
     height: 250px;
@@ -77,13 +77,13 @@ body {
     width: 100%;
     padding: 0 0 8px 154px;
     box-sizing: border-box;
-    color: #d7d9e0;
+    color: var(--text-secondary);
     height: 61px;
     background: linear-gradient(transparent, #12131a);
 }
 
 .username_displayname {
-    color: #b7b8e7;
+    color: var(--text-primary);
     display: block;
     margin: 0;
     font-size: 1.8em;
@@ -110,13 +110,13 @@ body {
     margin: 0;
     border: 0;
     font-size: 100% !important;
-    background: #12121d;
+    background: var(--background-secondary);
 }
 
 .avatar_container {
     width: 80px;
     height: 80px;
-    background-color: #1C286B;
+    background-color: var(--background-terciary);
     position: absolute;
     left: 22px;
     box-sizing: content-box;
@@ -192,7 +192,7 @@ body {
 
 .user_tag_container {
     margin-bottom: 6px;
-    color: #d7d9e0;
+    color: var(--text-secondary);
     font-size: 20px;
     line-height: 24px;
     font-weight: 600;
@@ -216,7 +216,7 @@ body {
 .descriptions {
     padding: 32px 0px 13px 24px;
     border-radius: 0 0 10px 10px;
-    background: #12121d;
+    background: var(--background-secondary);
 }
 
 .descriptions span {
@@ -293,20 +293,20 @@ body {
     border: none;
     height: 100%;
     width: 100%;
-    color: #d7d9e0;
+    color: var(--text-secondary);
     font-weight: 600;
     cursor: pointer;
 }
 
 .user_page_buttons {
     cursor: pointer;
-    background: #8086d4;
+    background: var(--accent-terciary);
     border: none;
     border-radius: 8px;
     margin-left: 1.4rem;
     width: 83.29px !important;
     height: 23px !important;
-    color: #000000;
+    color: var(--text-terciary);
     font-weight: 600;
     padding-left: .25rem;
     padding-right: .25rem;
@@ -315,7 +315,7 @@ body {
 }
 
 .user_page_buttons:hover {
-    background: #6c76ce;
+    background: var(--accent-primary);
 }
 
 .no_posts_display {

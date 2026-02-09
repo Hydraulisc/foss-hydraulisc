@@ -1,0 +1,50 @@
+:root {
+    --background-primary: #04050a;
+    --background-secondary: #12121d;
+    --background-terciary: #202023;
+    --background-highlight: #30303f;
+    --accent-primary: #6c76ce;
+    --accent-secondary: #8086d4;
+    --accent-terciary: #5667c7;
+    --accent-highlight: #9397da;
+    --text-primary: #ffffff;
+    --text-secondary: #d7d9e0;
+    --text-terciary: #12121f;
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+[data-theme="light"] {
+    --background-primary: #d7d9e0;
+    --background-secondary: #cecece; /* #30303f */
+    --background-terciary: #ffffff;
+    --background-highlight: #575760;
+    --accent-primary: #6c76ce;
+    --accent-secondary: #8086d4;
+    --accent-terciary: #5667c7;
+    --accent-highlight: #9397da;
+    --text-primary: #04050a;
+    --text-secondary: #202023;
+    --text-terciary: #12121f;
+    scrollbar-width: none;
+}
+
+form button {
+    border: none;
+    padding: 12px 14px;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+    margin: 3rem auto 0;
+    width: 92%;
+    max-width: min(1250px, 100%);
+    overflow: hidden;
+}

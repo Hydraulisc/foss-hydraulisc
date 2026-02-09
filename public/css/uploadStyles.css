@@ -6,8 +6,8 @@ body {
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.5rem;
-    background-color: #04050a;
-    color: #d7d9e0;
+    background-color: var(--background-primary);
+    color: var(--text-secondary);
     font-family: "Inter", sans-serif;
 }
 
@@ -43,8 +43,8 @@ form {
 form button {
     border: none;
     border-radius: 10px;
-    background-color: rgb(48, 48, 48);
-    color: rgb(250, 250, 250);
+    background-color: var(--background-terciary);
+    color: var(--text-primary);
     text-transform: uppercase;
     cursor: pointer;
     padding: 12px 14px;
@@ -54,8 +54,8 @@ form button {
 
 form input {
     border: none;
-    background-color: rgba(48, 48, 48, 0.6);
-    color: rgb(250, 250, 250);
+    background-color: var(--background-terciary);
+    color: var(--text-primary);
     height: 32px;
     min-height: 21px;
     min-width: 90%;

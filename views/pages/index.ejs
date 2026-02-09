@@ -13,7 +13,8 @@
     <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
-    <link rel="stylesheet" href="/css/classicStyles.css">
+    <link rel="stylesheet" href="/css/globalStyles.css">
+    <link rel="stylesheet" href="/css/defaultStyle.css">
     <link rel="stylesheet" href="/css/popupStyles.css">
 </head>
 <body>
@@ -24,22 +25,22 @@
                 <h3>Latest Uploads</h3>
                 <div class="container_container">
                     <main class="landing_feat">
-                        <div>
+                        <div style="margin-bottom: 4rem;">
                             <% if (posts.length) { %>
                                 <% for (const post of posts) { %>
-                                <div id="<%- post.id %>" class="star_post_container">
+                                <div id="<%- post.id %>" class="draulisc_post_container">
                                     <div style="margin-bottom: 12px;">
-                                        <span class="star_post_header_container">
-                                            <span class="star_post_header">
-                                                <span class="star_post_user_container">
+                                        <span class="draulisc_post_header_container">
+                                            <span class="draulisc_post_header">
+                                                <span class="draulisc_post_user_container">
                                                     <span style="display: flex;">
                                                         <div>
                                                             <div>
-                                                                <a href="/user/<%- post.user_id %>" class="star_post_title">
+                                                                <a href="/user/<%- post.user_id %>" class="draulisc_post_user">
                                                                     <div style="padding-right: 6px;">
                                                                         <img src="<%- post.pfp %>" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
                                                                     </div>
-                                                                    <span style="font-size: larger;"><%- post.username %></span>
+                                                                    <span style="font-size: larger; padding-right: 6px;"><%- post.username %></span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -69,27 +70,29 @@
                                         <div style="display: flex; margin-top: .3rem;">
                                             <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
                                                 <div class="overlay"></div>
-                                                <img class="star_post_body" src="/uploads/<%- post.filename %>" loading="lazy">
+                                                <img class="draulisc_post_body" src="/uploads/<%- post.filename %>" loading="lazy">
                                             </div>
                                         </div>
                                         <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
-                                            <div class="star_post_texter" style="overflow: hidden;">
-                                                <%- post.title %>
-                                            </div>
+                                            <% if (post.title) { %> <!-- Check if post.title exists -->
+                                                <div class="draulisc_post_texter" style="overflow: hidden;">
+                                                    <%- post.title %>
+                                                </div>
+                                            <% } %>
                                         </div>
                                     </a>
                                 </div>
                                 <% } %>
                             <% } else { %>
-                                <div id="" class="star_post_container">
+                                <div id="" class="draulisc_post_container">
                                     <div style="margin-bottom: 12px;">
-                                        <span class="star_post_header_container">
-                                            <span class="star_post_header">
-                                                <span class="star_post_user_container">
+                                        <span class="draulisc_post_header_container">
+                                            <span class="draulisc_post_header">
+                                                <span class="draulisc_post_user_container">
                                                     <span style="display: flex;">
                                                         <div>
                                                             <div>
-                                                                <a href="/" class="star_post_title">
+                                                                <a href="/" class="draulisc_post_title">
                                                                     <div style="padding-right: 6px;">
                                                                         <img src="/img/defaultpfp.png" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
                                                                     </div>
@@ -106,12 +109,12 @@
                                     <a style="inset: 0; text-decoration: none; color: white;" href="/">
                                         <div style="display: flex; margin-top: .3rem;">
                                             <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
-                                                <img class="star_post_body" src="/img/defaultpfp.png" loading="lazy">
+                                                <img class="draulisc_post_body" src="/img/defaultpfp.png" loading="lazy">
                                                 <div class="overlay"></div>
                                             </div>
                                         </div>
                                         <div style="display: flex; margin-top: .3rem; margin-bottom: .3rem;">
-                                            <div class="star_post_texter" style="overflow: hidden;">
+                                            <div class="draulisc_post_texter" style="overflow: hidden;">
                                                 If you are seeing this post, no posts exist on this instance, or this instance has it's feed set to private. <a href="/login">Login</a> to view more. <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a>
                                             </div>
                                         </div>

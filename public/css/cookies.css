@@ -5,7 +5,7 @@
 
 .complete_cookie_banner {
     -webkit-font-smoothing: antialiased;
-    color: #d7d9e0;
+    color: var(--text-secondary);
     font-size: 16px;
     font-weight: 400;
 }
@@ -23,13 +23,13 @@
     left: 1em;
     margin: 0 auto;
     right: 1em;
-    background: #12131a;
+    background: var(--background-secondary);
     bottom: 1.25em;
     font-family: inherit;
     line-height: normal;
     z-index: 1;
     position: fixed;
-    border: 1px solid #d7d9e0;
+    border: 1px solid var(--text-secondary);
     border-radius: 10px;
     box-sizing: border-box;
     float: none;
@@ -41,8 +41,8 @@
 .cookie_banner button {
     background-color: transparent;
     font-weight: 600;
-    border: 1px solid #d7d9e0;
-    color: #d7d9e0;
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
     padding: 8px 5px;
     margin-top: 1rem;
     text-transform: uppercase;
@@ -50,5 +50,5 @@
 }
 
 .cookie_banner button:hover {
-    background-color: #232323;
+    background-color: var(--background-terciary);
 }

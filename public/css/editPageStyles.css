@@ -6,8 +6,8 @@ body {
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.5rem;
-    background-color: #04050a;
-    color: #d7d9e0;
+    background-color: var(--background-primary);
+    color: var(--text-secondary);
     font-family: "Inter", sans-serif;
 }
 
@@ -49,8 +49,8 @@ body {
 
 #updateTextContent {
     border: none;
-    color: #d7d9e0;
-    background-color: #12121d;
+    color: var(--text-secondary);
+    background-color: var(--background-secondary);
     text-align: start;
     width: 100%;
     min-height: 100px;

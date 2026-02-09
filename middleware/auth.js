@@ -48,4 +48,47 @@ function deleteFile(filename) {
     });
 }
 
-module.exports = { checkRegistrationMode, requireAdmin, deleteFile };
+
+/**
+ * Absolute web path to the built-in default profile picture.
+ *
+ * This avatar is shipped with the application and MUST NOT be deleted.
+ * It is intentionally stored outside the user-upload lifecycle.
+ *
+ * Changing this value should be treated as a breaking change.
+ */
+const DEFAULT_AVATAR_PATH = "/img/defaultpfp.png";
+
+/**
+ * Safely deletes a user's previous profile picture.
+ *
+ * Deletion rules:
+ * - No-op if the path is null/undefined
+ * - No-op if the avatar is the non-deletable default
+ * - Deletion is hard-locked to the public avatars directory
+ * - Path traversal is prevented via basename extraction
+ *
+ * This function is intentionally tolerant:
+ * - Missing files (ENOENT) are ignored
+ * - All other filesystem errors are logged but not thrown
+ *
+ * @param {string} pfpPath - Stored avatar path from the database (e.g. "/avatars/<uuid>")
+ * @returns {void}
+ */
+function deleteAvatarIfAllowed(pfpPath) {
+    if (!pfpPath) return;
+    if (pfpPath === DEFAULT_AVATAR_PATH) return;
+
+    // Only allow deletion inside /public/avatars
+    const filename = path.basename(pfpPath);
+    const avatarDir = path.join(__dirname, "../public/avatars");
+    const filePath = path.join(avatarDir, filename);
+
+    fs.unlink(filePath, (err) => {
+        if (err && err.code !== "ENOENT") {
+            console.error("Avatar deletion failed:", filePath, err);
+        }
+    });
+}
+
+module.exports = { checkRegistrationMode, requireAdmin, deleteFile, deleteAvatarIfAllowed };

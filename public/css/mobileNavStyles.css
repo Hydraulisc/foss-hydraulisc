@@ -14,7 +14,7 @@
     flex-shrink: 0;
     margin: 0;
     position: fixed;
-    background-color: #202023;
+    background-color: var(--background-terciary);
     width: 100%;
     bottom: 0;
     left: 0;

@@ -22,14 +22,10 @@
     <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
-    <link rel="stylesheet" href="/css/classicStyles.css">
+    <link rel="stylesheet" href="/css/globalStyles.css">
+    <link rel="stylesheet" href="/css/defaultStyle.css">
     <link rel="stylesheet" href="/css/popupStyles.css">
     <link rel="manifest" href="/json/manifest.json">
-    <style>
-        a {
-            color: #5667c7;
-        }
-    </style>
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
@@ -38,7 +34,6 @@
         <div class="gridz">
             <div class="home_container">
                     <div style="width: 100%;">
-                        <h3 style="max-width: 100%;"><a href="/user/<%- post.user_id %>" style="text-decoration: none;">@<%- author.username %>#<%- author.discriminator %></a></h3>
                         <% if(post.title) { %>
                             <div style="max-width: 100%; margin-top: -12px;"><%- post.title %></div>
                         <% } %>
@@ -46,19 +41,19 @@
                     <div class="container_container">
                             <div>
                                 <br class="separator">
-                                <div id="<%- post.postId %>" class="star_post_container">
-                                    <div style="border-bottom: 1px solid #04050a;">
-                                        <span class="star_post_header_container">
-                                            <span class="star_post_header">
-                                                <span style="position: relative;">
+                                <div id="<%- post.postId %>" class="draulisc_post_container">
+                                    <div style="border-bottom: 1px solid var(--background-primary); margin-bottom: 12px;">
+                                        <span class="draulisc_post_header_container">
+                                            <span class="draulisc_post_header">
+                                                <span class="draulisc_post_user_container">
                                                     <span style="display: flex;">
                                                         <div>
                                                             <div>
-                                                                <a href="/user/<%- post.user_id %>" class="star_post_title">
+                                                                <a href="/user/<%- post.user_id %>" class="draulisc_post_user">
                                                                     <div style="padding-right: 6px;">
                                                                         <img src="<%- author.pfp %>" style="color: black; border-radius: 50%; overflow: hidden; justify-content: center; align-items: center; width: 40px; height: 40px; display: flex;" loading="lazy">
                                                                     </div>
-                                                                    <span style="font-size: larger;"><%- author.username %></span>
+                                                                    <span style="font-size: larger; padding-right: 6px;"><%- author.username %></span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -68,9 +63,9 @@
                                             <div class="dropdown">
                                                 <span class="popup_menu <%- post.id %> dropbtn">⋮</span>
                                                 <div class="dropdown-content">
-                                                    <a href="https://about.hydraulisc.net/help/articles/101013/" target="_blank">Report Content</a>
+                                                    <a style="text-transform: uppercase; text-align: center; font-weight: 600; font-size: small;" href="https://about.hydraulisc.net/help/articles/101013/" target="_blank">Report Content</a>
                                                     <% if(post.user_id == ownId) { %>
-                                                        <a href="#">Edit</a>
+                                                        <a style="text-transform: uppercase; text-align: center; font-weight: 600; font-size: small;" href="/post/<%- post.id %>/edit">Edit</a>
                                                         <form action="/api/posts/<%- post.id %>/delete" method="post">
                                                             <button class="destructive_options" type="submit">Delete</button>
                                                         </form>
@@ -98,7 +93,7 @@
                     <h3>No Comments Yet! Be the first!</h3>
                     <% if (ownId) { %>
                         <div class="createCommentsContainer"></div>
-                        <div class="star_post_container">
+                        <div class="draulisc_post_container">
                             <div style="background: #1d1f29; width: 100%; padding-top: .5rem; padding-bottom: .5rem;">
                                 <p>Comments aren't implemented yet. <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
                             </div>

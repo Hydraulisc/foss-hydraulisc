@@ -4,7 +4,7 @@ const multer = require('multer');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
-const { deleteFile } = require('../middleware/auth');
+const { deleteFile, deleteAvatarIfAllowed } = require('../middleware/auth');
 
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
@@ -94,18 +94,40 @@ const avatar = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit (?)
 });
 router.post("/avatarUpdate", avatar.single("avatar"), (req, res) => {
-    if(!req.session.user) return res.status(401).send('Not authenticated');
-    if(!req.file) return res.status(400).send('No file!');
+    if (!req.session.user) return res.status(401).send("Not authenticated");
+    if (!req.file) return res.status(400).send("No file!");
+
     const userId = req.session.user.id;
-    const { filename } = req.file;
-  
-    db.run(
-        `UPDATE users SET pfp = ? WHERE id = ?`, [`/avatars/${filename}`, userId], function (err) {
+    const newAvatarPath = `/avatars/${req.file.filename}`;
+
+    // 1. Fetch old avatar
+    db.get(
+        `SELECT pfp FROM users WHERE id = ?`,
+        [userId],
+        (err, row) => {
             if (err) {
-                console.log(err);
+                console.error(err);
                 return res.status(500).send("Database error");
             }
-            res.redirect('/settings');
+
+            const oldAvatarPath = row?.pfp;
+
+            // 2. Update DB first
+            db.run(
+                `UPDATE users SET pfp = ? WHERE id = ?`,
+                [newAvatarPath, userId],
+                function (err) {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).send("Database error");
+                    }
+
+                    // 3. Delete old avatar AFTER success
+                    deleteAvatarIfAllowed(oldAvatarPath);
+
+                    res.redirect("/settings");
+                }
+            );
         }
     );
 });

@@ -11,6 +11,7 @@
     <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
+    <link rel="stylesheet" href="/css/globalStyles.css">
     <link rel="stylesheet" href="/css/editPageStyles.css">
     <link rel="manifest" href="/json/manifest.json">
 </head>
@@ -21,17 +22,17 @@
             <div class="home_container">
                 <div style="width: 100%;">
                     <h3 style="max-width: 100%;">
-                        <a href="/post/<%- post.id %>" style="text-decoration: none;">Return to Post</a>
+                        <a href="/post/<%- post.id %>" style="color: #d7d9e0;">Return to Post</a>
                     </h3>
                 </div>
                 <div id="<%- post.id %>" class="star_post_container">
                     <a style="inset: 0; text-decoration: none; color: #d7d9e0;">
                         <div style="display: flex; margin-top: .3rem;">
                             <div style="overflow: hidden; margin-left: auto; margin-right: auto; position: relative; display: inline-block;">
-                                <div style="width: 400px; max-height: 400px; overflow: hidden;">
-                                    <img class="star_post_body" src="/uploads/<%- post.filename %>" loading="lazy" style="width: 100% !important; height: 100% !important; object-fit: contain !important;">
+                                <div style="width: 400px; max-height: 400px; overflow: hidden; cursor: not-allowed;">
+                                    <img class="star_post_body" src="/uploads/<%- post.filename %>" loading="lazy" style="width: 100% !important; height: 100% !important; object-fit: scale-down !important; object-position: top;">
                                 </div>
-                                <form action="/api/update/post/<%- post.id %>" method="post">
+                                <form action="/api/posts/<%- post.id %>/update" method="post">
                                     <textarea name="updateTextContent" id="updateTextContent"><%- post.title %></textarea>
                                     <button type="submit">Update</button>
                                 </form>

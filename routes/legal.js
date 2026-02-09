@@ -1,20 +1,23 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const router = express.Router();
 
-// privacy policy
-router.get('/privacy', (req, res) => {
-    res.render('legal/privacy');
-});
+// Dynamic Routes
+const viewsPath = path.join(__dirname, '../views/legal');
 
-// terms of use
-router.get('/terms', (req, res) => {
-    res.render('legal/terms');
-});
-
-// guidelines
-router.get('/guidelines', (req, res) => {
-    res.render('legal/guidelines');
+fs.readdirSync(viewsPath).forEach(file => {
+    if (file.endsWith('.ejs')) {
+        const route = '/' + path.basename(file, '.ejs'); // filename for route
+        const view = path.join('legal', file); // view path
+  
+        // Define the route
+        router.get(route, (req, res) => {
+            res.render(view); // render using the relative view path
+        });
+        //console.log(`Mounted GET route at ${route} for view ${view}`);
+    }
 });
 
 module.exports = router;

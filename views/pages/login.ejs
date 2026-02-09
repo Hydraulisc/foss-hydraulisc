@@ -13,12 +13,13 @@
     <meta name="description" content="Stay in the loop, with Hydraulisc - where communities come together!">
     <meta property="og:site_name" content="Hydraulisc - Stay in the loop">
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
+    <link rel="stylesheet" href="/css/globalStyles.css">
     <link rel="stylesheet" href="/css/authStyles.css">
 </head>
 <body>
     <div style="height: 100%; display: flex; color: #fff; align-items: center; flex-direction: column; justify-content: center; background-size: cover; background-position: center;">
         <div style="padding: 0px 26px 24px; display: flex; flex-direction: column; flex-grow: 1; justify-content: center; max-width: 350px;">
-            <form id="login-form" style="height: 686px !important;" action="/auth/login?<%= next ? `next=${encodeURIComponent(next)}` : '' %>" method="POST">
+            <form id="login-form" action="/auth/login?<%= next ? `next=${encodeURIComponent(next)}` : '' %>" method="POST">
                 <div style="margin-top: 36px;overflow: visible;margin-bottom: 12px;align-content: stretch;border-bottom-left-radius: 0;background-color: transparent;flex-direction: column;box-sizing: border-box;display: flex;border-bottom-right-radius: 0;align-items: stretch;align-self: auto;justify-content: flex-start;position: relative;flex-grow: 0;border-top-left-radius: 0;border-top-right-radius: 0;">
                     <div style="cursor: pointer; display: flex; justify-content: center;">
                         <img src="https://about.hydraulisc.net/assets/img/Foss-Hydraulisc.png" style="width: 80%; height: auto; display: inline-block;">

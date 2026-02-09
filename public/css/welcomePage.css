@@ -6,13 +6,13 @@ body {
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.5rem;
-    background-color: #04050a;
-    color: #d7d9e0;
+    background-color: var(--background-primary);
+    color: var(--text-secondary);
     font-family: "Inter", sans-serif;
 }
 
 a {
-    color: #8086d4;
+    color: var(--accent-secondary);
 }
 
 .body_main {
@@ -89,7 +89,7 @@ a {
 
 .feature_grid_area {
     padding: .5rem;
-    background-color: #12121d;
+    background-color: var(--background-secondary);
     border-radius: 8px;
     overflow: hidden;
     position: relative;

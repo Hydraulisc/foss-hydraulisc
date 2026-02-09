@@ -13,16 +13,13 @@
   
   /* oversized screen thing */
   @media (min-width: 1416px) {
-    .recommend-starboard{
-      grid-column: span 4/span 4 !important;
-    }
   
     .landing_feat {
       grid-column: span 9/span 9 !important;
     }
   }
   
-  /* Defaults that need overrides */
+  /* Defaults that need overrides 
   @media screen and (min-width: 768px){
     .recommend-starboard {
       overflow-x: hidden;
@@ -33,8 +30,11 @@
       left: 12rem;
     }
   }
+    UNUSED
+    TO BE REMOVED
+    */
   
-  /* Defaults that need overrides */
+  /* Defaults that need overrides
   @media screen and (max-width: 1298px){
     .starboarder {
       display: none !important;
@@ -44,36 +44,16 @@
       display: none !important;
     }
   }
+    UNUSED
+    TO BE REMOVED
+    */
   
   /* mobile resizing cheat sheets */
   @media screen and (max-width: 412px){
-    .nomobilesupport {
-      display: none !important;
-    }
-    .star_post_container {
-      min-width: 100% !important;
-    }
+    
   }
   
   @media screen and (max-width: 768px){
-    .nomobilesupport {
-      display: none !important;
-    }
-    .userpage-container {
-      max-width: min(768px, 100%) !important;
-      padding: 0 !important;
-    }
-    .profileGrid {
-      grid-template-columns: repeat(auto-fill, minmax(111px, .36fr)) !important;
-      margin-bottom: 5rem !important;
-    }
-    .slot {
-      max-width: 120px !important;
-      max-height: 120px !important;
-    }
-    .uploadHelp {
-      margin-top: 0 !important;
-    }
     .header-01oozD {
       display: none !important;
     }
@@ -84,12 +64,6 @@
       height: 56px;
       padding-top: 56px;
     }
-    .app-container {
-      overflow: visible;
-    }
-    .gridz {
-      gap: 1.5rem;
-    }
     #home-left {
       width: 100% !important;
       margin-bottom: 80px;
@@ -98,40 +72,12 @@
       font-size: 48px !important;
       width: 100% !important;
     }
-    .home_container {
-      grid-column: span 12/span 12;
-      position: absolute;
-      left: 0;
-    }
     
-    .container_container {
-      gap: 1.5rem;
-      display: inline !important;
-    }
     .landing_feat {
       grid-column: span 12/span 12;
     }
-    .star_post_container {
-      min-width: 300px !important;
-      max-width: 75% !important;
-      border: none !important;
-      margin-left: auto;
-      margin-right: auto;
-      border-radius: 12px !important;
-    }
-    .star_post_user_container {
-      position: relative;
-      background: #30303f;
-      border-radius: 50px;
-      padding: 3px 8px 3px 0;
-    }
-    .star_post_texter {
-      background: #30303f;
-      padding: 8px;
-      border-radius: 12px;
-      margin-top: 1rem;
-      text-align: center;
-    }
+    
+    
     .starboarder {
       display: none !important;
     }
@@ -141,11 +87,6 @@
     .cookieBannerText {
       font-size: small !important;
     }
-  }
-  
-  
-  .star_post_user_container {
-    position: relative;
   }
 
   .cls-1{
@@ -238,33 +179,7 @@
     padding:10px
   }
   
-  .app-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 1rem;
-    margin: 3rem auto 0;
-    width: 92%;
-    max-width: min(1250px, 100%);
-    overflow: hidden;
-  }
   
-  .gridz {
-    grid-template-columns: repeat(16,minmax(0,1fr));
-    max-width: 1352px;
-    margin: auto;
-    display: grid;
-  }
-  
-  .userpage-container {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    margin: 0px auto;
-    width: 100%;
-    max-width: min(1250px, 100%);
-  }
   
   .profileGrid {
     gap: 0px;
@@ -273,102 +188,20 @@
     margin-bottom: 1rem;
   }
   
-  .slot {
-    height: 100%;
-    max-width: 240px;
-    max-height: 240px;
-    display: flex;
-    user-select: none;
-    flex-direction: column;
-    overflow: hidden;
-    border-radius: 6px;
-    font-weight: 400;
-    cursor: pointer;
-  }
-  
   .cover-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border: medium none;
   }
-  
-  .home_container {
-    grid-column: span 13/span 13;
-    gap: 1rem;
-    flex-direction: column;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: space-around;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .container_container {
-    grid-template-columns: repeat(13,minmax(0,1fr));
-    display: grid;
-    margin-bottom: 3.2rem !important;
-  }
-  
-  .landing_feat {
-    grid-column: span 9/span 9;
-    display: block;
-  }
-  
-  .star_post_container {
-    border-radius: 3px;
-    padding: 1rem;
-    background-color: #12121d;
-    cursor: pointer;
-    display: block;
-    margin-top: .25rem;
-    margin-bottom: 1.25rem;
-    position: relative;
-    min-width: 750px;
-  }
-  
-  .star_post_texter a {
-    color: #5667c7;
-  }
-  
-  .star_post_header_container {
-    line-height: 1rem;
-    justify-content: space-between;
-    min-height: 32px;
-    display: flex;
-    margin-bottom: .45rem;
-    padding-bottom: 8px !important;
-  }
-  
-  .star_post_header {
-    flex-wrap: nowrap;
-    line-height: 1rem;
-    gap: 6px;
-    align-items: center;
-    width: 100%;
-    display: flex;
-    font-family: "ubuntu mono", serif !important;
-  }
-  
-  .star_post_title {
-    text-decoration-line: none;
-    color: #d7d9e0;
-    font-weight: 600;
-    line-height: 1rem;
-    font-size: .75rem;
-    white-space: nowrap;
-    align-items: center;
-    height: 2rem;
-    display: flex;
-  }
-  
-  .join_star_button_container {
+
+  .join_draulisc_button_container {
     display: flex;
     padding-left: .5rem;
     align-items: center;
   }
   
-  .star_post_entry {
+  .draulisc_post_entry {
     font-size: 1.75rem;
     line-height: 1.5rem;
     margin-bottom: .5rem;
@@ -376,21 +209,9 @@
     font-weight: 600;
   }
   
-  .star_post_body {
-    max-height: 330px;
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
   
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; /* Cover the entire width of the parent div */
-    height: 100%; /* Cover the entire height of the parent div */
-    background-color: transparent; /* or any color with opacity */
-  }
+  
+  
   
   .hashtag {
     color: #5667c7;
@@ -432,15 +253,6 @@
     color: lightgray;
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-  
-  .uploadHelp {
-    background: black;
-    border-left: 2px solid yellow;
-    border-radius: 3px;
-    margin-top: 66px;
-    margin-left: 0;
-    padding: 1px 0 1px 5px;
   }
   
   .commentsContainer {
