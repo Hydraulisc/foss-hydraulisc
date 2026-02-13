@@ -69,6 +69,7 @@ a {
     margin-bottom: 1.25rem;
     position: relative;
     min-width: 750px;
+    max-width: 829px;
 }
 
 .draulisc_post_header_container {
@@ -131,6 +132,7 @@ a {
     margin-top: 1rem;
     /*text-align: center;*/
     width: 100%;
+    color: var(--text-primary);
 }
 
 .draulisc_post_texter a {
