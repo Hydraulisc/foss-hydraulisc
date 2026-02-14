@@ -11,7 +11,8 @@
     <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
     <link rel="stylesheet" href="/css/globalStyles.css">
     <link rel="stylesheet" href="/css/settingsStyles.css">
-    <script src="/js/settingsFunctionality.js"></script>
+    <script src="/js/settingsFunctionality.js" defer></script>
+    <script src="/js/themeHelper.js"></script>
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
@@ -193,7 +194,7 @@
                                                                                 </button>
                                                                             </div>
                                                                             <span class="label">
-                                                                                <p class="caption">MFA is not currently supported. Please come back later. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
+                                                                                <p class="caption">MFA is not currently supported. Please come back later. <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap.html" target="_blank" rel="noopener noreferrer">Roadmap</a></p>
                                                                             </span>
                                                                         </label>
                                                                     </div>
@@ -216,7 +217,7 @@
                                                                     </div>
                                                                     <div class="caption">
                                                                         <span class="label">
-                                                                            <p class="caption">Hydraulisc is undergoing some major modifications. Translations are a very WIP feature, and do not currently save. Please be patient. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a><span style="display: none !important;">You can help translate on <a href="https://github.com/Hydraulisc/foss-hydraulisc">GitHub</a></span></p>
+                                                                            <p class="caption">Hydraulisc is undergoing some major modifications. Translations are a very WIP feature, and do not currently save. Please be patient. <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap.html" target="_blank" rel="noopener noreferrer">Roadmap</a><span style="display: none !important;">You can help translate on <a href="https://github.com/Hydraulisc/foss-hydraulisc">GitHub</a></span></p>
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -263,41 +264,132 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="label">
-                                                                                <div class="caption" style="padding: 2px 12px;">Themes are synced across clients by default. They are very Work In Progress. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></div>
+                                                                                <div class="caption" style="padding: 2px 12px;">Themes are synced across clients by default. They are very Work In Progress. <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap.html" target="_blank" rel="noopener noreferrer">Roadmap</a></div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="_formBlock" style="display: flex; gap: 1.5em; flex-wrap: wrap;">
-                                                                            <div class="thememanagers">
-                                                                                <div class="label" style="padding: 8px 0 !important;">Theme to use Light Mode</div>
-                                                                                <div class="input">
-                                                                                    <select class="select" style="border-color: rgb(35, 35, 47); padding-left: 37px; padding-right: 37px;">
-                                                                                        <optgroup label="default themes">
-                                                                                            <option value="404aa4da-46f7-4cd2-88b2-09e9298c4464">Draulisc Blinding Theme</option>
-                                                                                        </optgroup>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="thememanagers">
-                                                                                <div class="label" style="padding: 8px 0 !important;">Theme to use in Dark Mode</div>
-                                                                                <div class="input">
-                                                                                    <select class="select" style="border-color: rgb(35, 35, 47); padding-left: 37px; padding-right: 37px;">
-                                                                                        <optgroup label="default themes">
-                                                                                            <option value="50f7b660-6fe0-41f3-bf4f-cb85a4ba5c64">Draulisc OG Dark Theme</option>
-                                                                                            <option value="50f7b660-6fe0-41f3-bf4f-e43e8bcc1a7a" selected>Draulisc Default Dark Theme</option>
-                                                                                        </optgroup>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <section class="_formBlock">
-                                                                                <label>
-                                                                                    <span class="label">Custom CSS <sup style="font-weight: 600;"><i>BETA</i></sup></span>
-                                                                                    <div class="input">
-                                                                                        <textarea spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px;"></textarea>
+                                                                        <div>
+                                                                            <section id="theme" class="settings_section">
+                                                                                <div class="settings_container">
+                                                                                    <div class="settings_scroll">
+                                                                                        <div class="settings_order">
+                                                                                            <div>
+                                                                                                <div class="settings_title_display">
+                                                                                                    <label for="theme-select">Appearance:</label>
+                                                                                                    <select id="theme-select">
+                                                                                                        <option value="dark">Draulisc Default Dark</option>
+                                                                                                        <option value="light">Draulisc Blinding Light</option>
+                                                                                                        <option value="custom">Custom</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <hr>
+                                                                                                <div class="settings_subsection">
+                                                                                                    <h3>Theme Overrides <sup style="font-size: 9px; color: red; text-decoration: underline;">BETA</sup></h3>
+                                                                                                    <div style="gap: 8px; display: flex; margin: 18px 0px 8px; display: none;"></div>
+                                                                                                    <!-- Note: These each require their own background-color override; making them globals would require vodoo magic beyond my understanding -->
+                                                                                                    <div class="theme_overrides">
+                                                                                                        <div class="theme_override" style="background-color: var(--background-primary);">
+                                                                                                            <span class="theme_title">primary background</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-bg-color" value="#04050a">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--background-secondary);">
+                                                                                                            <span class="theme_title">secondary background</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-bg-secondary" value="#12121d">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--background-tertiary);">
+                                                                                                            <span class="theme_title" style="color: var(--text-primary);">tertiary background</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-bg-tertiary" value="#202023">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--background-highlight);">
+                                                                                                            <span class="theme_title" style="color: var(--text-primary);">background highlight</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-bg-highlight" value="#30303f">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--accent-primary);">
+                                                                                                            <span class="theme_title" style="color: var(--text-primary);">Accent Color</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-accent-color" value="#6c76ce">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--accent-secondary);">
+                                                                                                            <span class="theme_title">Secondary Accent</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-accent-secondary" value="#8086d4">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--accent-tertiary);">
+                                                                                                            <span class="theme_title">tertiary accent</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-accent-tertiary" value="#5667c7">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--accent-highlight);">
+                                                                                                            <span class="theme_title" style="color: var(--bg-color);">accent highlight</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-accent-highlight" value="#9397da">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--text-primary);">
+                                                                                                            <span class="theme_title" style="color: var(--background-tertiary);">Primary Text</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-text-color" value="#ffffff">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--text-secondary);">
+                                                                                                            <span class="theme_title" style="color: var(--background-tertiary);">Secondary Text</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-text-secondary" value="#d7d9e0">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="theme_override" style="background-color: var(--text-tertiary);">
+                                                                                                            <span class="theme_title">Terciary Text</span>
+                                                                                                            <div class="theme_picker_container">
+                                                                                                                <div class="theme_picker">
+                                                                                                                    <input class="theme_input" type="color" id="custom-nav-bg" value="#12121f">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="action_buttons">
+                                                                                                        <button class="button" id="apply-custom">Apply Custom</button>
+                                                                                                        <button class="button" onclick="exportTheme()">Export Theme</button>
+                                                                                                    </div>
+                                                                                                    <!-- 
+                                                                                                        <label for="theme-import" style="cursor: pointer;">Import Theme</label>
+                                                                                                        <input type="file" id="theme-import" accept="application/json" style="display: none;" onchange="importTheme(this.files[0])"/>
+                                                                                                    
+                                                                                                    -->
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </label>
-                                                                                <button class="button_save">
-                                                                                    <div> Save</div>
-                                                                                </button>
+                                                                                </div>
                                                                             </section>
                                                                         </div>
                                                                     </div>
@@ -308,7 +400,7 @@
                                                             <div class="_formRoot">
                                                                 <div></div>
                                                                 <div class="_formBlock">
-                                                                    <h3 class="label">Plugins are currently in <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">BETA</a>.</h3>
+                                                                    <h3 class="label">Plugins are currently in <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap.html" target="_blank" rel="noopener noreferrer">BETA</a>.</h3>
                                                                     <div class="main _formRoot">
                                                                         <div class="input">
                                                                             <select name="" id="" class="select" style="border-color: rgb(35, 35, 47); padding-left: 37px; padding-right: 37px;"></select>
@@ -341,7 +433,7 @@
                                                         </div>
                                                         <div id="webhooktabulatordisplay" style="display: none;" class="tobesetnone">
                                                             <div class="_formRoot">
-                                                                <h3 class="label">Payload URL WIP. <a href="https://blog.hydraulisc.net/?entry=haulisc-roadmap" target="_blank" rel="noopener noreferrer">Roadmap</a></h3>
+                                                                <h3 class="label">Payload URL WIP. <a href="https://blog.hydraulisc.net/blog/haulisc-roadmap.html" target="_blank" rel="noopener noreferrer">Roadmap</a></h3>
                                                             </div>
                                                         </div>
                                                         <div id="developerstabulatordisplay" style="display: none;" class="tobesetnone">

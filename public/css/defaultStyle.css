@@ -8,7 +8,7 @@ body {
 }
 
 a {
-    color: var(--accent-terciary);
+    color: var(--accent-tertiary);
 }
 
 .app-container {
@@ -23,17 +23,6 @@ a {
     overflow: hidden;
 }
 
-/*
-    TO BE REMOVED?
-    .gridz {
-        grid-template-columns: repeat(16,minmax(0,1fr));
-        max-width: 1352px;
-        margin: auto;
-        display: grid;
-    }
-
-*/
-
 .home_container {
     grid-column: span 13/span 13;
     gap: 1rem;
@@ -44,15 +33,6 @@ a {
     justify-content: center;
     align-items: center;
 }
-
-/*
-    TO BE REMOVED?
-    .container_container {
-        grid-template-columns: repeat(13,minmax(0,1fr));
-        display: grid;
-        margin-bottom: 3.2rem !important;
-    }
-*/
 
 .landing_feat {
     grid-column: span 9/span 9;
@@ -136,7 +116,7 @@ a {
 }
 
 .draulisc_post_texter a {
-    color: var(--accent-terciary);
+    color: var(--accent-tertiary);
 }
 
 /* mobile resizing cheat sheets */

@@ -11,7 +11,7 @@
     display: none;
     position: absolute;
     right: 8px;
-    background-color: var(--background-terciary);
+    background-color: var(--background-tertiary);
     min-width: 160px;
     z-index: 1;
 }
@@ -29,7 +29,7 @@
 
 .dropdown-content .destructive_options {
     font-weight: 600;
-    color: var(--text-terciary);
+    color: var(--text-tertiary);
     background-color: var(--accent-secondary);
     width: 100%;
     border-radius: 0;

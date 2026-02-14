@@ -25,7 +25,7 @@ form button {
     border: none;
     border-radius: 10px;
     background-color: var(--accent-secondary);
-    color: var(--text-terciary);
+    color: var(--text-tertiary);
     text-transform: uppercase;
     cursor: pointer;
     padding: 12px 14px;
@@ -48,7 +48,7 @@ form input {
 }
 
 form input:hover, form input:focus {
-    background-color: var(--background-terciary);
+    background-color: var(--background-tertiary);
 }
 
 a {

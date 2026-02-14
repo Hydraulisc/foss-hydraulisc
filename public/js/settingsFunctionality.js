@@ -1,61 +1,57 @@
+const themeSelect = document.getElementById("theme-select");
+const customApply = document.getElementById("apply-custom");
+
 function changepfpmodal() {
     document.getElementById('pfpInput').click();
 }
 function changebannermodal() {
     document.getElementById('bannerInput').click();
 }
-/*document.getElementById('pfpInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    uploadImage(file, 'pfp');
+
+// real-time updates?
+themeSelect.addEventListener("change", (e) => {
+    document.documentElement.setAttribute("data-theme", e.target.value);
+    localStorage.setItem("theme", e.target.value);
+    location.reload()
 });
-document.getElementById('bannerInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    uploadImage(file, 'banner');
-    });
-// TO-DO: Fix PFP Uploads (APIv2_Fatal_Error)
-async function handlePfpUpload(event) {
-    const file = event.target.files[0];
-    await uploadImage(file, 'pfp');
-}
-// TO-DO: Fix Banner Uploads (APIv2_Fatal_Error)
-async function handleBannerUpload(event) {
-    const file = event.target.files[0];
-    await uploadImage(file, 'banner');
-}
-async function uploadImage(file, type) {
-    const url = `/api/v2/science/${type}/${theUidToTargetNow}`; // Endpoint URL
-    const formData = new FormData();
-    formData.append('file', file);
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: formData
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to upload image');
-        }
+// custom themes
+customApply.addEventListener("click", () => {
+    const vars = {
+        "background-primary": document.getElementById("custom-bg-color").value,
+        "background-secondary": document.getElementById("custom-bg-secondary").value,
+        "background-tertiary": document.getElementById("custom-bg-tertiary").value,
+        "background-highlight": document.getElementById("custom-bg-highlight").value,
+        "accent-primary": document.getElementById("custom-accent-color").value,
+        "accent-secondary": document.getElementById("custom-accent-secondary").value,
+        "accent-tertiary": document.getElementById("custom-accent-tertiary").value,
+        "accent-highlight": document.getElementById("custom-accent-highlight").value,
+        "text-primary": document.getElementById("custom-text-color").value,
+        "text-secondary": document.getElementById("custom-text-secondary").value,
+        "nav-bg": document.getElementById("custom-nav-bg").value,
+        "text-tertiary": document.getElementById("custom-button-bg").value,
+    };
 
-        const data = await response.json();
-        console.log(data);
-
-        // Update UI with uploaded image URL
-        if (type === 'pfp') {
-            // Update profile image URL
-            // Example: document.getElementById('pfp').src = data.imageUrl;
-        } else if (type === 'banner') {
-            // Update banner image URL
-            // Example: document.getElementById('banner').style.backgroundImage = `url('${data.imageUrl}')`;
-        }
-    } catch (error) {
-        console.error(error);
+    // Apply to document
+    for (let key in vars) {
+        document.documentElement.style.setProperty(`--${key}`, vars[key]);
     }
+
+    // mark it as "custom"
+    localStorage.setItem("theme", "custom");
+    localStorage.setItem("customTheme", JSON.stringify(vars));
+});
+
+// EXPORT: Convert saved customTheme to JSON and trigger download
+function exportTheme() {
+    const theme = JSON.parse(localStorage.getItem("customTheme"));
+    if (!theme) return alert("No custom theme saved to export.");
+
+    const blob = new Blob([JSON.stringify(theme, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "hydraulisc-theme.json";
+    a.click();
+    URL.revokeObjectURL(url);
 }
-// TO-DO: Fix Theme Toggles
-function toggleTheme() {
-    // Boilerplate default theme codes
-    const slider = document.querySelector('.toggle-theme .slider');
-    // Update slider position based on the current theme
-    slider.style.transform = 'translateX(100%)';
-}*/

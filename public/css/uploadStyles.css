@@ -43,7 +43,7 @@ form {
 form button {
     border: none;
     border-radius: 10px;
-    background-color: var(--background-terciary);
+    background-color: var(--background-tertiary);
     color: var(--text-primary);
     text-transform: uppercase;
     cursor: pointer;
@@ -54,7 +54,7 @@ form button {
 
 form input {
     border: none;
-    background-color: var(--background-terciary);
+    background-color: var(--background-tertiary);
     color: var(--text-primary);
     height: 32px;
     min-height: 21px;

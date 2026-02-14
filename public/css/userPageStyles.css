@@ -116,7 +116,7 @@ body {
 .avatar_container {
     width: 80px;
     height: 80px;
-    background-color: var(--background-terciary);
+    background-color: var(--background-tertiary);
     position: absolute;
     left: 22px;
     box-sizing: content-box;
@@ -300,13 +300,13 @@ body {
 
 .user_page_buttons {
     cursor: pointer;
-    background: var(--accent-terciary);
+    background: var(--accent-tertiary);
     border: none;
     border-radius: 8px;
     margin-left: 1.4rem;
     width: 83.29px !important;
     height: 23px !important;
-    color: var(--text-terciary);
+    color: var(--text-tertiary);
     font-weight: 600;
     padding-left: .25rem;
     padding-right: .25rem;
