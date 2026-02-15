@@ -28,8 +28,7 @@ customApply.addEventListener("click", () => {
         "accent-highlight": document.getElementById("custom-accent-highlight").value,
         "text-primary": document.getElementById("custom-text-color").value,
         "text-secondary": document.getElementById("custom-text-secondary").value,
-        "nav-bg": document.getElementById("custom-nav-bg").value,
-        "text-tertiary": document.getElementById("custom-button-bg").value,
+        "text-tertiary": document.getElementById("custom-text-tertiary").value,
     };
 
     // Apply to document
