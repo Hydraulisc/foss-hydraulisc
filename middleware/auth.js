@@ -91,4 +91,19 @@ function deleteAvatarIfAllowed(pfpPath) {
     });
 }
 
-module.exports = { checkRegistrationMode, requireAdmin, deleteFile, deleteAvatarIfAllowed };
+function deleteBannerIfExists(bannerPath) {
+    if (!bannerPath) return;
+
+    // Only allow deletion inside /public/banners
+    const filename = path.basename(bannerPath);
+    const bannerDir = path.join(__dirname, "../public/banners");
+    const filePath = path.join(bannerDir, filename);
+
+    fs.unlink(filePath, (err) => {
+        if (err && err.code !== "ENOENT") {
+            console.error("Banner deletion failed:", filePath, err);
+        }
+    });
+}
+
+module.exports = { checkRegistrationMode, requireAdmin, deleteFile, deleteAvatarIfAllowed, deleteBannerIfExists };

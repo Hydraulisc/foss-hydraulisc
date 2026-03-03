@@ -28,7 +28,7 @@
                                         <div class="forbidden_wide">
                                             <div>
                                                 <div class="forbidden_content">
-                                                    <%- include('../partials/settingsNav', { isAdmin }) %>
+                                                    <%- include('../partials/settingsNav', { isAdmin,  }) %>
                                                     <section class="settings_display_container">
                                                         <div id="profile_tab_display" style="display: block;" class="tobesetnone">
                                                             <div class="_formRoot" tabindex="-1">
@@ -39,13 +39,16 @@
                                                                 <% } else { %>
                                                                     <div class="lluviere">
                                                                 <% } %>
+                                                                    <button class="lluviere_one mobileHideMe" onclick="changePfpModal()">update avatar</button>
+                                                                    <button class="lluviere_two mobileHideMe" onclick="changeBannerModal()">update banner</button>
                                                                     <div class="avatar">
                                                                         <span class="squircle-avatar" style="color: #1C286B;" title="<%- username %>'s Avatar">
                                                                             <img class="inner" src="<%- pfp %>" loading="lazy">
                                                                         </span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="avatarInput">
+                                                                <div class="caption mobileHideMe">Max file size 10MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</div>
+                                                                <div class="avatarInput mobileRevealMe" style="display: none;">
                                                                     <form method="post" action="/api/avatarUpdate" enctype="multipart/form-data">
                                                                         <div class="label">Update Avatar</div>
                                                                         <input type="file" name="avatar" id="avatar">
@@ -53,12 +56,12 @@
                                                                         <div class="caption">Max file size 10MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</div>
                                                                     </form>
                                                                 </div>
-                                                                <div class="bannerInput">
+                                                                <div class="bannerInput mobileRevealMe" style="display: none;">
                                                                     <form method="post" action="/api/bannerUpdate" enctype="multipart/form-data">
                                                                         <div class="label">Update Banner</div>
                                                                         <input type="file" name="banner" id="banner">
                                                                         <button id="banner_edit" class="button_save" type="submit">Save</button>
-                                                                        <div class="caption">Max file size 15MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</div>
+                                                                        <div class="caption">Max file size 10MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</div>
                                                                     </form>
                                                                 </div>
                                                                 <div class="nameForm">
@@ -73,6 +76,7 @@
                                                                 <div class="biographyForm">
                                                                     <label>
                                                                         <span class="label">Bio</span>
+                                                                        <form action="" method="post"></form>
                                                                         <div class="input">
                                                                             <% if (usersBiography) { %>
                                                                                 <textarea id="thisistheuserbioid" spellcheck="false" style="border-color: rgb(19, 19, 19); border-radius: 8px 8px 0 8px; width: 100%;" maxlength="50" max="50" value="<%- usersBiography %>"><%- usersBiography %></textarea>

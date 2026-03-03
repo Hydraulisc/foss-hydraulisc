@@ -4,7 +4,7 @@ const multer = require('multer');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
-const { deleteFile, deleteAvatarIfAllowed } = require('../middleware/auth');
+const { deleteFile, deleteAvatarIfAllowed, deleteBannerIfExists } = require('../middleware/auth');
 
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
@@ -144,12 +144,30 @@ router.post("/bannerUpdate", banner.single("banner"), (req, res) => {
     const { filename } = req.file;
     const userId = req.session.user.id;
   
-    db.run(
-        `UPDATE users SET banner = ? WHERE id = ?`, [`/banners/${filename}`, userId], function (err) {
-            if (err) return res.status(500).send("Database error");
-            res.redirect('/settings');
+    db.get(
+        `SELECT banner FROM users WHERE id = ?`,
+        [userId],
+        (err, row) => {
+            if(err) {
+                console.err(err);
+                return res.status(500).send("Database error")
+            }
+
+            const oldBannerPath = row?.banner;
+
+            db.run(
+                `UPDATE users SET banner = ? WHERE id = ?`,
+                [`/banners/${filename}`, userId],
+                function (err) {
+                    if (err) return res.status(500).send("Database error");
+                    
+                    deleteBannerIfExists(oldBannerPath);
+
+                    res.redirect("/settings");
+                }
+            );
         }
-    );
+    )
 });
 
 router.post('/posts/:postId/delete', (req, res) => {

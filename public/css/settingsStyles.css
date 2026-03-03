@@ -176,10 +176,26 @@ input:disabled {
 }
 
 .lluviere {
+    position: relative;
     background: var(--accent-highlight);
     background-position: center;
     background-size: cover;
     border-radius: 12px 12px 0 0;
+    overflow: clip;
+}
+
+.lluviere_one {
+    position: absolute;
+    top: 16px;
+    right: 14px;
+    text-transform: capitalize;
+}
+
+.lluviere_two {
+    position: absolute;
+    bottom: 16px;
+    right: 14px;
+    text-transform: capitalize;
 }
 
 .caption {
@@ -303,4 +319,15 @@ h3 {
 
 .inline-form {
     display: inline;
+}
+
+/* Small Screens Override */
+@media screen and (max-width: 768px) {
+    .mobileHideMe {
+        display: none !important;
+    }
+
+    .mobileRevealMe {
+        display: block !important;
+    }
 }

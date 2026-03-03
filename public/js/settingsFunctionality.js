@@ -1,12 +1,72 @@
 const themeSelect = document.getElementById("theme-select");
 const customApply = document.getElementById("apply-custom");
 
-function changepfpmodal() {
-    document.getElementById('pfpInput').click();
+
+function changePfpModal() {
+    document.getElementById("avatar").click();
 }
-function changebannermodal() {
-    document.getElementById('bannerInput').click();
+
+document.getElementById("avatar").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        fetch('/api/avatarUpdate', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return;
+        })
+        .then(data => {
+            console.log(data); // Log the response data
+            
+            // Reload the page after successfully updating the avatar
+            location.reload();
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+        console.log("ass")
+    }
+})
+
+function changeBannerModal() {
+    document.getElementById("banner").click();
 }
+
+document.getElementById("banner").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('banner', file);
+
+        fetch('/api/bannerUpdate', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return;
+        })
+        .then(data => {
+            console.log(data); // Log the response data
+            
+            // Reload the page after successfully updating the avatar
+            location.reload();
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+        console.log("ass")
+    }
+})
 
 // real-time updates?
 themeSelect.addEventListener("change", (e) => {
