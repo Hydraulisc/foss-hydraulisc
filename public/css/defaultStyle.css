@@ -119,10 +119,17 @@ a {
     color: var(--accent-tertiary);
 }
 
+.enlargened_post_body {
+    width: 40svw;
+}
+
 /* mobile resizing cheat sheets */
-@media screen and (max-width: 412px) {
+@media screen and (max-width: 452px) {
     .draulisc_post_container {
         min-width: 100% !important;
+    }
+    .enlargened_post_body {
+        width: 64svw;
     }
 }
 
