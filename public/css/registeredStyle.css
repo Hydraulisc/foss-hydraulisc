@@ -1,0 +1,95 @@
+body {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5rem;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    font-family: "Inter", sans-serif;
+}
+
+a {
+    color: var(--accent-tertiary);
+}
+
+button {
+    margin: 8px 0 0;
+    color: var(--text-tertiary);
+    background: var(--accent-primary);
+    font-weight: 700;
+    z-index: 1;
+    display: block;
+    min-width: 100px;
+    min-height: 35px;
+    width: max-content;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: max(12px, 1em);
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: 8px;
+    overflow: clip;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+button:hover {
+    background: var(--accent-tertiary);
+}
+
+.app-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+    margin: 3rem auto 0;
+    width: 92%;
+    max-width: min(1250px, 100%);
+    overflow: hidden;
+}
+
+.landing {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.banner_container {
+    text-align: center;
+    align-self: center; 
+    width: 60svw;
+}
+
+.hidden_mobile_button_one {
+    position: absolute;
+    top: 16px;
+    right: 14px;
+    text-transform: capitalize;
+}
+
+.hidden_mobile_button_two {
+    position: absolute;
+    bottom: 16px;
+    right: 14px;
+    text-transform: capitalize;
+}
+
+@media screen and (max-width: 768px) {
+    .banner_container {
+        width: 95svw !important;
+    }
+    .hidden_mobile_button_one, .hidden_mobile_button_two {
+        display: none;
+    }
+    .mobileRevealMe {
+        display: block !important;
+    }
+}

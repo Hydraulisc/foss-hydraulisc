@@ -247,6 +247,8 @@ app.get('/newlyregistered', (req, res) => {
                 newUser: pageUser.username + "#" + pageUser.discriminator,
                 username: req.session.user?.username || null,
                 ownId: req.session.user?.id || null,
+                pfp: pageUser.pfp,
+                banner: pageUser.banner,
                 cookies: checkCookies(req)
             })
         })
@@ -263,7 +265,7 @@ app.get('/newlyregistered', (req, res) => {
 
 // Get user profiles... maybe
 app.get('/user/:id?', (req, res) => {
-    if(!req.params.id) return res.render('pages/404', { hydrauliscECode: "85", errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.", username: req.session.user?.username || null, ownId: req.session.user?.id || null })
+    if(!req.params.id) return res.render('pages/404', { hydrauliscECode: "85", errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.", username: req.session.user?.username || null, ownId: req.session.user?.id || null, cookies: checkCookies(req) })
     // Check if it's a user page
     db.get('SELECT * FROM users WHERE id = ?', [req.params.id], (err, pageUser) => {
         if (err) {
@@ -407,7 +409,7 @@ app.get('/post/:id?', (req, res) => {
     });
 });
 
-// P-P-P-POSTS!!! Post pages
+// P-P-P-POST edit page
 app.get('/post/:id?/edit', (req, res) => {
     const postId = req.params.id;
 
@@ -565,25 +567,20 @@ app.get('/settings', (req, res) => {
 // Upload files lmao
 app.get('/upload', (req, res) => {
     if(req.session.user?.id) {
-        db.get('SELECT * FROM users WHERE id = ?', [req.session.user.id], (err, userDetail) => {
+        db.get('SELECT id FROM users WHERE id = ?', [req.session.user.id], (err, userDetail) => {
             if (err) {
                 console.error(err);
                 return res.render('pages/404', {
                     hydrauliscECode: "92",
                     errorMessage: "Session Not Found/Already Updated.",
                     username: null,
-                    ownId: req.session.user.id,
+                    ownId: req.session.user.id || null,
                     cookies: checkCookies(req)
                 });
             }
 
             res.render('pages/upload', {
-                isAdmin: userDetail.isAdmin,
-                username: userDetail.username,
-                usersBiography: userDetail.biography,
                 ownId: userDetail.id,
-                version,
-                pfp: userDetail.pfp,
                 cookies: checkCookies(req)
             })
         });

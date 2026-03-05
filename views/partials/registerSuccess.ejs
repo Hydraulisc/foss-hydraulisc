@@ -5,19 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Successful</title>
     <link rel="stylesheet" href="/css/globalStyles.css">
-    <link rel="stylesheet" href="/css/classicStyles.css">
+    <link rel="stylesheet" href="/css/registeredStyle.css">
+    <script src="/js/themeHelper.js"></script>
+    <script src="/js/settingsFunctionality.js" defer></script>
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
     <div class="app-container">
-        <div class="gridz">
-            <div class="home_container">
+        <div>
+            <div class="landing">
                 <h2>Registration Successful!</h2>
-                <p>Your login will be: <strong><%= newUser %></strong></p>
-                <p>Remember to update your password managers for this change!</p>
-                <p>You cannot login without your discriminator!!</p>
-                <a href="/#" style="color: aqua;">Return Home</a>
-                <a href="/login" style="color: aqua;">Return to Login</a>
+                <div style="background-color: var(--background-secondary); padding: 1rem; border-radius: 8px;">
+                    <p style="text-align: center;">Your login will be: <strong><%= newUser %></strong></p>
+                    <p>Remember to update your password managers for this change!</p>
+                    <p>You cannot login without your discriminator!!</p>
+                </div>
+                <p style="text-align: center;">Check out your profile!</p>
+                <p style="font-size: small; margin-top: -32px;">Feel free to update your look!</p>
+                <div class="banner_container">
+                    <div class="banner" style="position: relative; background: var(--accent-highlight); background-image: url(<%-banner%>); border-radius: 12px 12px 0 0; background-position: center; background-size: cover; overflow: clip;">
+                        <button class="hidden_mobile_button_one" onclick="changePfpModal()">update avatar</button>
+                        <button class="hidden_mobile_button_two" onclick="changeBannerModal()">update banner</button>
+                        <div>
+                            <span>
+                                <img src="<%- pfp %>" alt="Profile Picture" loading="lazy" style="max-width: 230px; max-height: 230px; border-radius: 50%;">
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <span style="font-size: small;">Max file size 10MB. Accepted File Types: 'image/jpeg', 'image/png', 'image/gif', 'image/webp'.</span>
+                        <div class="avatarInput mobileRevealMe" style="display: none;">
+                            <div class="label">Update Avatar</div>
+                            <input type="file" name="avatar" id="avatar">
+                        </div>
+                        <div class="bannerInput mobileRevealMe" style="display: none;">
+                            <div class="label">Update Banner</div>
+                            <input type="file" name="banner" id="banner">
+                        </div>
+                    </div>
+                </div>
+                <a href="/#">Return Home</a>
+                <a href="/login">Return to Login</a>
             </div>
         </div>
     </div>
