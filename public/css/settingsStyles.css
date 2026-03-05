@@ -114,7 +114,7 @@ input:disabled {
 }
 
 .forbidden_wide {
-    max-width: 1152px;
+    max-width: 100svw;
     margin: 0 auto;
 }
 
@@ -168,6 +168,12 @@ input:disabled {
     pointer-events: none;
     user-select: none;
     -webkit-user-select: none;
+}
+
+.nav_button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .settings_display_container {
@@ -329,5 +335,12 @@ h3 {
 
     .mobileRevealMe {
         display: block !important;
+    }
+    .settings_navigation_container {
+        width: 21%;
+        padding-right: 14px;
+    }
+    .nav_button, .text {
+        padding-right: 0px;
     }
 }
