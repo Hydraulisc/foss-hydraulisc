@@ -343,4 +343,8 @@ h3 {
     .nav_button, .text {
         padding-right: 0px;
     }
+    .danger {
+        position: absolute;
+        left: -32px;
+    }
 }
