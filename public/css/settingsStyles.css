@@ -297,7 +297,7 @@ input:disabled {
 
 .inner {
     max-width: 230px;
-    max-height: 230px;
+    height: 230px;
     border-radius: 50%;
 }
 
