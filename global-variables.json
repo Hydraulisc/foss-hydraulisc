@@ -4,6 +4,7 @@
   "inviteMode": true,
   "sessionKey": "test_session_key",
   "protocol": "https",
-  "siteDomain": "hydraulisc.net"
+  "siteDomain": "hydraulisc.net",
+  "fdroid_repo": "https://fdroid.hydraulisc.net"
 }
   

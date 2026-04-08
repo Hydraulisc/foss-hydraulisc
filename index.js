@@ -205,7 +205,8 @@ app.get('/', async (req, res) => {
 app.get('/welcome', (req, res) => {
     res.render('pages/welcome', {
         version,
-        cookies: checkCookies(req)
+        cookies: checkCookies(req),
+        fdroid_repo: globals.fdroid_repo
     })
 })
 app.get('/404', (req, res) => {
