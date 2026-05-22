@@ -34,6 +34,17 @@ a {
     align-items: center;
 }
 
+.post_container {
+    grid-column: span 13/span 13;
+    gap: 1rem;
+    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+}
+
 .landing_feat {
     grid-column: span 9/span 9;
     display: block;
