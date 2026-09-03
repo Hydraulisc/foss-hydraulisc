@@ -22,6 +22,7 @@ const initializeDatabase = () => {
                 username TEXT NOT NULL,
                 password TEXT NOT NULL,
                 pfp TEXT NOT NULL,
+                banner TEXT,
                 theme TEXT NOT NULL,
                 biography TEXT NOT NULL,
                 isAdmin BOOLEAN DEFAULT 0 NOT NULL,
@@ -50,6 +51,7 @@ const initializeDatabase = () => {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
                 filename TEXT NOT NULL,
+                like_count INTEGER DEFAULT 0,
                 FOREIGN KEY (user_id) REFERENCES users(id)
                     ON DELETE CASCADE
                     ON UPDATE CASCADE
