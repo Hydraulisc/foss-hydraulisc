@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Hydraulisc/foss-hydraulisc.git"
   },
-  "license": "AGPL-3.0-or-later",
+  "license": "GPL-3.0-only",
   "author": "The Hydraulisc Dev Team",
   "type": "commonjs",
   "main": "index.js",
