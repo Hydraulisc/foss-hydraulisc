@@ -1,12 +1,12 @@
 # <img src="https://avatars.githubusercontent.com/u/144374735" style="height: 24px;"> foss-[hydraulisc](https://hydraulisc.net)
-Hydraulisc; Open Source, privay focused, image-sharing Social Media.
+Hydraulisc; Open Source, privacy focused, image-sharing Social Media.
 
 # [Live Site/Main Instance](https://hydraulisc.net)! Now Features OAuth2.
 
 - [Info regarding repository](https://blog.hydraulisc.net/blog/hydraulisc-maintenance)
 - [Roadmap](https://blog.hydraulisc.net/blog/haulisc-roadmap)
 - Hydraulisc's [About Site](https://about.hydraulisc.net/), [Help Center](https://about.hydraulisc.net/help/) & [Documentation](https://about.hydraulisc.net/docs/hydraulisc/)
-- [Discord](https://discord.gg/Syn5GVDemH)
+- [Aquilo](https://aquilo.hydraulisc.net/invite/02516133), [Stoat](https://stt.gg/jFTpWDP5) and [Discord](https://discord.gg/Syn5GVDemH) support servers
 
 # Migrating
 ## Warning!
