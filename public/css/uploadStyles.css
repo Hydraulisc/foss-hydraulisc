@@ -3,6 +3,7 @@
 }
 
 body {
+    margin: 0;
     word-break: break-word;
     overflow-wrap: break-word;
     line-height: 1.5rem;
@@ -11,62 +12,343 @@ body {
     font-family: "Inter", sans-serif;
 }
 
-.app_container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 1rem 0;
-    margin: 3rem auto 0;
-    width: 92%;
-    max-width: 100%;
-    overflow: hidden;
-}
+/* ---------- Layout ---------- */
 
-.spacer_two {
-    margin-top: 6rem;
-}
-
-form {
-    align-items: center;
+.upload_page {
     box-sizing: border-box;
+    width: 100%;
+    max-width: 34rem;
+    margin: 0 auto;
+    /* clear the fixed 44px header on top, and the fixed 45px mobile nav at the bottom */
+    padding: calc(44px + 1.25rem) 1rem calc(45px + 2rem);
+}
+
+@media (min-width: 768px) {
+    /* the mobile nav is hidden from 768px up */
+    .upload_page {
+        padding-bottom: 3rem;
+    }
+}
+
+.upload_heading {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: var(--text-primary);
+}
+
+.upload_form {
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
-    margin: 0 0 10px;
-    padding: 10px 0;
-    position: relative;
+    gap: 1rem;
+}
+
+.upload_form p {
+    margin: 0;
+}
+
+.hint {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.hint a,
+.format_help a {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
+.visually_hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
     overflow: hidden;
-    min-width: 412px;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-form button {
-    border: none;
-    border-radius: 10px;
-    background-color: var(--background-tertiary);
-    color: var(--text-primary);
-    text-transform: uppercase;
-    cursor: pointer;
-    padding: 12px 14px;
-    min-width: 90%;
-    max-width: 100%;
-}
+/* ---------- Picker + preview ---------- */
 
-form input {
-    border: none;
-    background-color: var(--background-tertiary);
-    color: var(--text-primary);
-    height: 32px;
-    min-height: 21px;
-    min-width: 90%;
+.dropzone {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 16rem;
+    overflow: hidden;
+    border: 2px dashed var(--background-highlight);
+    border-radius: 12px;
+    background-color: var(--background-secondary);
+    color: var(--text-secondary);
     text-align: center;
-    align-content: center;
-    margin-bottom: 6px;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
 }
 
-#preview {
+.dropzone:hover {
+    border-color: var(--accent-secondary);
+    background-color: var(--background-tertiary);
+}
+
+/* The real input, stretched invisibly over the whole box. It stays focusable and
+   keyboard-operable; clicks and file drops land on it natively. */
+.dropzone_input {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 1rem; /* never let iOS zoom */
+}
+
+/* Focus ring is drawn inside the box because the box clips overflow */
+.dropzone_ring {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.dropzone_input:focus-visible ~ .dropzone_ring {
+    outline: 3px solid var(--text-primary);
+    outline-offset: -6px;
+}
+
+.dropzone_preview {
+    display: block;
     width: auto;
     height: auto;
-    max-height: 540px;
-    max-width: 90%;
+    max-width: 100%;
+    max-height: 34rem;
+    max-height: min(34rem, 70svh);
+    object-fit: contain;
+}
+
+.dropzone_preview[hidden] {
+    display: none;
+}
+
+.dropzone_empty,
+.dropzone_ready {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 2rem 1rem;
+    pointer-events: none;
+}
+
+.dropzone_empty svg {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.dropzone_cta {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dropzone_sub {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+/* Touch devices get "tap", mouse devices get "drag and drop" */
+.dropzone_sub_pointer {
+    display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .dropzone_sub_touch {
+        display: none;
+    }
+    .dropzone_sub_pointer {
+        display: block;
+    }
+}
+
+/* No-JS feedback: once a file is chosen the required input becomes :valid */
+.dropzone_ready {
+    display: none;
+}
+
+.dropzone_input:valid ~ .dropzone_empty {
+    display: none;
+}
+
+.dropzone_input:valid ~ .dropzone_ready {
+    display: flex;
+}
+
+/* With JS: the preview takes over */
+.dropzone.has-preview {
+    min-height: 0;
+    border-style: solid;
+}
+
+.dropzone.has-preview .dropzone_empty,
+.dropzone.has-preview .dropzone_ready {
+    display: none;
+}
+
+.dropzone_change {
+    display: none;
+    position: absolute;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.25rem 0.875rem;
+    border: 1px solid var(--background-highlight);
+    border-radius: 999px;
+    background-color: var(--background-primary);
+    background-color: color-mix(in srgb, var(--background-primary) 90%, transparent);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.dropzone.has-preview .dropzone_change {
+    display: block;
+}
+
+/* ---------- Caption ---------- */
+
+.field label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.optional {
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+.field textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 7.5rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--background-highlight);
+    border-radius: 10px;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 1rem; /* 16px minimum so mobile browsers don't zoom on focus */
+    line-height: 1.5rem;
+    resize: vertical;
+}
+
+.field textarea:hover {
+    border-color: var(--accent-secondary);
+}
+
+.field textarea:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+    border-color: var(--accent-secondary);
+}
+
+/* Grow with the text where supported, with no JS. Elsewhere it stays user-resizable. */
+@supports (field-sizing: content) {
+    .field textarea {
+        field-sizing: content;
+        max-height: 50svh;
+    }
+}
+
+/* ---------- Formatting reference ---------- */
+
+.format_help {
+    border: 1px solid var(--background-highlight);
+    border-radius: 10px;
+    background-color: var(--background-secondary);
+}
+
+.format_help summary {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.format_help summary:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+}
+
+.format_help ul {
+    margin: 0;
+    padding: 0 0.875rem 0.875rem 2rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+}
+
+.format_help li + li {
+    margin-top: 0.25rem;
+}
+
+.format_help code {
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    background-color: var(--background-tertiary);
+    color: var(--text-primary);
+    font-family: ui-monospace, "Ubuntu Mono", monospace;
+    overflow-wrap: anywhere;
+}
+
+.demo_link {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
+/* ---------- Submit ---------- */
+
+.submit {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--accent-secondary);
+    color: var(--text-tertiary);
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: var(--accent-primary);
+}
+
+.submit:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dropzone {
+        transition: none;
+    }
 }

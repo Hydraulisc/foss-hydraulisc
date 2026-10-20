@@ -5,6 +5,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 const { deleteFile, deleteAvatarIfAllowed, deleteBannerIfExists } = require('../middleware/auth');
+const { sanitizeContent } = require('../middleware/sanitize')
 
 const router = express.Router();
 const db = new sqlite3.Database('./database.db');
@@ -16,19 +17,6 @@ router.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
-
-function sanitizeText(text) {
-    const cleansedHTML = text.replace(/[<>"&]/g, function (match) {
-      return {
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        '&': '&amp;',
-      }[match];
-    });
-    return cleansedHTML;
-}
-
 
 // File filter function
 const fileFilter = (req, file, cb) => {
@@ -75,7 +63,7 @@ router.post("/upload", upload.single("file"), (req, res) => {
     if(!req.body.title) {
         uploadTitle = "";
     } else {
-        uploadTitle = sanitizeText(req.body.title);
+        uploadTitle = sanitizeContent(req.body.title);
     }
     const { filename } = req.file;
   

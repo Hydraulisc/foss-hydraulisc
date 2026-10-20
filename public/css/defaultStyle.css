@@ -134,6 +134,10 @@ a {
     width: 40svw;
 }
 
+.political-bias {
+    display: none !important;
+}
+
 /* mobile resizing cheat sheets */
 @media screen and (max-width: 452px) {
     .draulisc_post_container {

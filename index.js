@@ -3,8 +3,7 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const { version } = require('./package.json');
-const { sanitizeText } = require('./middleware/forceTextDirections');
-const sanitizeHtml = require('sanitize-html');
+const { sanitizeContent, linkify } = require('./middleware/sanitize');
 const fs = require('fs');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 const cookieParser = require('cookie-parser');
@@ -126,16 +125,7 @@ function checkCookies(req, res) {
     }
 }
 
-function sanitizeContent(text) {
-    const returnable =  sanitizeHtml(text, {
-        allowedTags: ['b', 'i', 'a'], // Allow specific tags
-        allowedAttributes: {
-            a: ['href'], // Allow links with href attribute
-        },
-        disallowedTagsMode: 'recursiveEscape', // Remove disallowed tags
-    });
-    return sanitizeText(returnable);
-}
+
 
 // Static files and views
 app.use(express.static(path.join(__dirname, 'public')));
@@ -179,7 +169,7 @@ app.get('/', async (req, res) => {
             // Sanitize each post's content
             const sanitizedPosts = rows.map((post) => ({
                 ...post,
-                title: sanitizeContent(post.title),
+                title: linkify(sanitizeContent(post.title)),
             }));
 
             res.render('pages/index', {
@@ -269,8 +259,15 @@ app.get('/newlyregistered', (req, res) => {
 // Get user profiles... maybe
 app.get('/user/:id?', (req, res) => {
     if(!req.params.id) return res.render('pages/404', { hydrauliscECode: "85", errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.", username: req.session.user?.username || null, ownId: req.session.user?.id || null, cookies: checkCookies(req) })
-    // Check if it's a user page
-    db.get('SELECT * FROM users WHERE id = ?', [req.params.id], (err, pageUser) => {
+    
+    // check if req.params.id is a number's a user page's a user page's a user page
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+        return res.render('pages/404', { hydrauliscECode: "85", errorMessage: "The requested resource was not found, the system took too long to respond, the system is offline, or you do not have access to view the requested resource.", username: req.session.user?.username || null, ownId: req.session.user?.id || null, cookies: checkCookies(req) });
+    }
+
+    // Check if it exists
+    db.get('SELECT * FROM users WHERE id = ?', [id], (err, pageUser) => {
         if (err) {
             console.error(err);
             return res.render('pages/404', {
@@ -301,13 +298,13 @@ app.get('/user/:id?', (req, res) => {
                         res.render('pages/user', {
                             ownId: req.session.user?.id || null,
                             userIdToCheck: pageUser.id,
-                            usersPage: sanitizeText(pageUser.username),
+                            usersPage: sanitizeContent(pageUser.username),
                             usersPfp: pageUser.pfp,
                             username: req.session.user?.username || null,
                             isPublic: globals.isPublic,
                             followingList: [],
                             follows: null,
-                            usersBiography: pageUser.biography,
+                            usersBiography: linkify(sanitizeContent(pageUser.biography)),
                             uploads: posts,
                             isAdmin: req.session.user?.isAdmin || null,
                             banner: pageUser.banner,
@@ -368,7 +365,7 @@ app.get('/post/:id?', (req, res) => {
         // Sanitize post fields
         const sanitizedPost = {
             ...post,
-            title: sanitizeContent(post.title)
+            title: linkify(sanitizeContent(post.title))
         };
 
         // Fetch the user attached to this post

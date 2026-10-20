@@ -19,37 +19,101 @@
 </head>
 <body>
     <%- include('../partials/header', { username: ownId }) %>
-    <div class="app_container">
-        <div class="spacer_two">
-            <form action="/api/upload" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" id="file" accept=".jpeg,.jpg,.png,.gif,.webp">
-                <input type="text" name="title" id="title">
-                <button type="submit">Upload!</button>
-            </form>
-            <div style="text-align: center; font-size: smaller; margin-top: -10px;">Allowed file types: jpeg, png, gif, webp</div>
-        </div>
-    </div>
-    <div class="app_container">
-        <img style="display: none;" src="" alt="Preview" id="preview">
-        <noscript>If you disable JS, we can't ensure upload functionality.</noscript>
-    </div>
+
+    <main class="upload_page">
+        <h1 class="upload_heading">New post</h1>
+
+        <form class="upload_form" action="/api/upload" method="post" enctype="multipart/form-data">
+
+            <%# Picker + preview in one. The file input is stretched invisibly over the whole box, so
+                tapping, clicking and drag-and-drop all work natively with no JS. The small script
+                below only swaps in a live preview. %>
+            <label class="dropzone" for="file">
+                <input class="dropzone_input" type="file" name="file" id="file" required
+                       accept="image/jpeg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp"
+                       aria-describedby="file-hint">
+                <span class="dropzone_ring" aria-hidden="true"></span>
+
+                <img class="dropzone_preview" id="preview" alt="" hidden>
+
+                <span class="dropzone_empty">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                    <span class="dropzone_cta">Choose a photo</span>
+                    <span class="dropzone_sub dropzone_sub_touch">Tap to browse your library or camera</span>
+                    <span class="dropzone_sub dropzone_sub_pointer">or drag and drop it here</span>
+                </span>
+
+                <%# Shown by CSS alone (no JS) once a file is chosen, until/unless the preview loads. %>
+                <span class="dropzone_ready">
+                    <span class="dropzone_cta">Photo selected</span>
+                    <span class="dropzone_sub">Tap or click to change it</span>
+                </span>
+
+                <span class="dropzone_change" aria-hidden="true">Change photo</span>
+                </label>
+            <p class="hint" id="file-hint">JPEG, PNG, GIF or WebP, up to 25&nbsp;MB.</p>
+
+            <div class="field">
+                <label for="title">Caption <span class="optional">(optional)</span></label>
+                <textarea id="title" name="title" rows="4" maxlength="2200" autocomplete="off" aria-describedby="title-hint"></textarea>
+                <p class="hint" id="title-hint">
+                    Up to 2,200 characters.
+                </p>
+            </div>
+
+            <details class="format_help">
+                <summary>Quick formatting reference</summary>
+                <ul>
+                    <li><code>&lt;b&gt;bold&lt;/b&gt;</code> <span aria-hidden="true">&rarr;</span><span class="visually_hidden">shows as</span> <b>bold</b></li>
+                    <li><code>&lt;i&gt;italic&lt;/i&gt;</code> <span aria-hidden="true">&rarr;</span><span class="visually_hidden">shows as</span> <i>italic</i></li>
+                    <li>Web addresses starting with <code>https://</code> or <code>www.</code> become links automatically.</li>
+                    <li>Any other HTML is shown as plain text.</li>
+                </ul>
+            </details>
+
+            <button class="submit" type="submit">Upload</button>
+            <p class="hint"><a href="https://about.hydraulisc.net/help/articles/101004/" target="_blank" rel="noopener noreferrer">Uploading help<span class="visually_hidden"> (opens in a new tab)</span></a></p>
+        </form>
+
+        <noscript><p class="hint">Photo previews need JavaScript. Uploading still works without it.</p></noscript>
+    </main>
 
     <script>
-        document.getElementById("file").addEventListener("change", function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById("preview");
-                    preview.src = e.target.result;
-                    preview.style.display = "block";
-                };
-                reader.readAsDataURL(file);
+        // Progressive enhancement: live preview. The page works fine without this.
+        (function () {
+            var input = document.getElementById("file");
+            var preview = document.getElementById("preview");
+            var zone = input.closest(".dropzone");
+            var objectUrl = null;
+
+            function clearPreview() {
+                if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; }
+                preview.hidden = true;
+                preview.removeAttribute("src");
+                zone.classList.remove("has-preview");
             }
-        });
+
+            input.addEventListener("change", function () {
+                clearPreview();
+                var file = input.files && input.files[0];
+                if (!file || file.type.indexOf("image/") !== 0) return;
+                objectUrl = URL.createObjectURL(file);
+                preview.alt = "Preview of " + file.name;
+                preview.src = objectUrl;
+                preview.hidden = false;
+                zone.classList.add("has-preview");
+            });
+
+            // If the browser can't decode it, fall back to the plain "Photo selected" state.
+            preview.addEventListener("error", clearPreview);
+        })();
     </script>
 
     <%- include('../partials/cookies', { cookies }) %>
-    <%- include('../partials/footer', { username: ownId}) %>
+    <%- include('../partials/footer', { username: ownId }) %>
 </body>
 </html>

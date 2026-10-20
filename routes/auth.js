@@ -6,7 +6,7 @@ const path = require('path');
 const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
-const { sanitizeText } = require('../middleware/forceTextDirections');
+const { sanitizeContent } = require('../middleware/sanitize');
 
 const router = express.Router();
 
@@ -39,14 +39,7 @@ function sanitizeUsername(text) {
     }
 
     // Escape basic HTML characters for safety (may or may not be redundant at this point)
-    const cleansedHTML = text.replace(/[<>"&]/g, match => ({
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        '&': '&amp;'
-    }[match]));
-
-    return sanitizeText(cleansedHTML);
+    return sanitizeContent(text);
 }
 async function assignDiscriminator(username) {
     return new Promise((resolve, reject) => {
@@ -99,7 +92,7 @@ router.post('/login', loginLimiter, async (req, res) => {
         return res.status(400).send('Invalid username format. Use Username#0001.');
     }
 
-    const sanitizeUsername = sanitizeText(match[1]);
+    const sanitizeUsername = sanitizeContent(match[1]);
     const discriminator = match[2];
 
     if (!sanitizeUsername || !password) {
