@@ -89,9 +89,9 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="copy-link">
-                                        <input style="display: none !important;" id="post-url" type="text" value="https://hydraulisc.net/post/<%= post.id %>" readonly aria-label="Post URL" />
-                                        <button style="display: none !important;" id="copy-btn" type="button" aria-live="polite">Copy link</button>
+                                    <div class="copy-link" style="display: none !important;">
+                                        <input id="post-url" type="text" value="https://hydraulisc.net/post/<%= post.id %>" readonly aria-label="Post URL" />
+                                        <button id="copy-btn" type="button" aria-live="polite">Copy link</button>
                                         <span id="copy-msg" role="status" style="visibility:hidden;margin-left:8px">Copied!</span>
                                     </div>
                                 </div>
