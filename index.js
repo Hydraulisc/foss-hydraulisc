@@ -128,6 +128,12 @@ function checkCookies(req, res) {
 
 
 // Static files and views
+// User-uploaded files must never be sniffed or rendered as a document
+app.use(['/uploads', '/avatars', '/banners'], (req, res, next) => {
+    res.set('X-Content-Type-Options', 'nosniff');
+    res.set('Content-Security-Policy', "default-src 'none'; sandbox");
+    next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
