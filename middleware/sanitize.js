@@ -84,4 +84,13 @@ function linkify(rawText) {
 }
 
 
-module.exports = { sanitizeText, sanitizeContent, linkify };
+/**
+ * Only allows same-site paths as redirect targets, blocking "https://evil.com", "//evil.com" and "/\evil.com"
+ * @returns {string}
+*/
+function safeRedirect(next) {
+  return typeof next === 'string' && /^\/(?![\/\\])/.test(next) ? next : '/';
+}
+
+
+module.exports = { sanitizeText, sanitizeContent, linkify, safeRedirect };

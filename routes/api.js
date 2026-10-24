@@ -27,8 +27,47 @@ const fileFilter = (req, file, cb) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true); // Accept the file
     } else {
-        cb(new Error(`Invalid file type. Only ${JSON.stringify(allowedMimeTypes)} are allowed!`), false); // Reject the file
+        const err = new Error(`Invalid file type. Only ${JSON.stringify(allowedMimeTypes)} are allowed!`);
+        err.status = 400;
+        cb(err, false); // Reject the file
     }
+};
+
+// reject unauthenticated requests before multer writing anything to disk
+const requireLogin = (req, res, next) =>
+    req.session.user ? next() : res.status(401).send('Not authenticated');
+
+// magic-byte signatures, since file.mimetype is whatever the client claims
+const imageSignatures = [
+    [0xFF, 0xD8, 0xFF],                                 // JPEG
+    [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A],   // PNG
+    [0x47, 0x49, 0x46, 0x38],                           // GIF
+];
+
+const isRealImage = (filePath) => {
+    const buf = Buffer.alloc(12);
+    const fd = fs.openSync(filePath, 'r');
+    try {
+        fs.readSync(fd, buf, 0, 12, 0);
+    } finally {
+        fs.closeSync(fd);
+    }
+    if (buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') return true; // WebP
+    return imageSignatures.some(sig => sig.every((byte, i) => buf[i] === byte));
+};
+
+// delete the saved file if its contents arent an allowed image
+const verifyImage = (req, res, next) => {
+    if (!req.file) return res.status(400).send('No file!');
+    let valid = false;
+    try {
+        valid = isRealImage(req.file.path);
+    } catch (err) {
+        console.error(err);
+    }
+    if (valid) return next();
+    fs.unlink(req.file.path, () => {});
+    res.status(400).send('Invalid file type. Only JPEG, PNG, GIF and WebP images are allowed!');
 };
 
 // Post Storage
@@ -55,7 +94,7 @@ router.post('/accept-cookies', (req, res) => {
 });
 
 // Upload.
-router.post("/upload", upload.single("file"), (req, res) => {
+router.post("/upload", requireLogin, upload.single("file"), verifyImage, (req, res) => {
     if(!req.session.user) return res.status(401).send('Not authenticated');
     if(!req.file) return res.status(400).send('No file!');
     const userId = req.session.user.id;
@@ -81,7 +120,7 @@ const avatar = multer({
     fileFilter: fileFilter,
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit (?)
 });
-router.post("/avatarUpdate", avatar.single("avatar"), (req, res) => {
+router.post("/avatarUpdate", requireLogin, avatar.single("avatar"), verifyImage, (req, res) => {
     if (!req.session.user) return res.status(401).send("Not authenticated");
     if (!req.file) return res.status(400).send("No file!");
 
@@ -126,7 +165,7 @@ const banner = multer({
     fileFilter: fileFilter,
     limits: { fileSize: 15 * 1024 * 1024 }, // 15MB limit (?)
 });
-router.post("/bannerUpdate", banner.single("banner"), (req, res) => {
+router.post("/bannerUpdate", requireLogin, banner.single("banner"), verifyImage, (req, res) => {
     if(!req.session.user) return res.status(401).send('Not authenticated');
     if(!req.file) return res.status(400).send('No file!');
     const { filename } = req.file;
@@ -176,7 +215,8 @@ router.post('/posts/:postId/delete', (req, res) => {
 
     db.get(query, [postId], (err, post) => {
         if (err) {
-            return res.status(500).json({ 'Database error': err });
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
         }
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });
