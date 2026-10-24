@@ -6,7 +6,7 @@ const path = require('path');
 const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
-const { sanitizeContent } = require('../middleware/sanitize');
+const { sanitizeContent, safeRedirect } = require('../middleware/sanitize');
 
 const router = express.Router();
 
@@ -85,6 +85,10 @@ async function isFirstUser() {
 // Handle login form submission
 router.post('/login', loginLimiter, async (req, res) => {
     const { username, password } = req.body;
+    // this stops the missing or array fields from crashing the process
+    if (typeof username !== 'string' || typeof password !== 'string') {
+        return res.status(400).send('Username and password are required.');
+    }
     const fullUsername = username;
     // Split "Ami#0001" into username & discriminator
     const match = fullUsername.match(/^(.+)#(\d{4})$/);
@@ -110,18 +114,21 @@ router.post('/login', loginLimiter, async (req, res) => {
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) return res.status(401).send('Invalid password.');
 
-            // Successful login
-            req.session.user = {
-                id: user.id,
-                username: user.username,
-                discriminator: user.discriminator,
-                isAdmin: user.isAdmin === 1,
-                language: user.language
-            };
+            // Successful login: issue a fresh session ID so a pre-login one can't be reused
+            req.session.regenerate((err) => {
+                if (err) return res.status(500).send('Session error');
 
-            // Dynamically redirect in event of OAuth
-            const redirectTo = req.query.next || '/';
-            res.redirect(redirectTo);
+                req.session.user = {
+                    id: user.id,
+                    username: user.username,
+                    discriminator: user.discriminator,
+                    isAdmin: user.isAdmin === 1,
+                    language: user.language
+                };
+
+                // Dynamically redirect in event of OAuth (same-site paths only)
+                res.redirect(safeRedirect(req.query.next));
+            });
         }
     );
 });
@@ -156,23 +163,15 @@ router.post('/register/:inviteCode?', registerLimiter, checkRegistrationMode, as
         if (globals.inviteMode) {
             if (!inviteCode) return res.status(400).send('Invite code is required');
 
-            const query = 'SELECT * FROM invites WHERE code = ? AND used = 0';
-            const invite = await new Promise((resolve, reject) => {
-                db.get(query, [inviteCode], (err, row) => {
+            // Claim the invite in one statement, so two simultaneous registrations can't share it
+            const claimed = await new Promise((resolve, reject) => {
+                db.run('UPDATE invites SET used = 1 WHERE code = ? AND used = 0', [inviteCode], function (err) {
                     if (err) reject(err);
-                    else resolve(row);
+                    else resolve(this.changes === 1);
                 });
             });
 
-            if (!invite) return res.status(400).send('Invalid or used invite code');
-
-            // Mark invite as used
-            await new Promise((resolve, reject) => {
-                db.run('UPDATE invites SET used = 1 WHERE code = ?', [inviteCode], function (err) {
-                    if (err) reject(err);
-                    else resolve();
-                });
-            });
+            if (!claimed) return res.status(400).send('Invalid or used invite code');
         }
 
         // Proceed to register user
@@ -205,7 +204,10 @@ router.post('/register/:inviteCode?', registerLimiter, checkRegistrationMode, as
                     'english'
                 ],
                 function (err) {
-                    if (err) return res.status(500).send(`Error registering user, ${err}`);
+                    if (err) {
+                        console.error('Error registering user:', err);
+                        return res.status(500).send('Error registering user');
+                    }
 
                     // Fetch the new user data
                     db.get(
@@ -214,19 +216,25 @@ router.post('/register/:inviteCode?', registerLimiter, checkRegistrationMode, as
                         (err, newUser) => {
                             if (err) return res.redirect('/login');
 
-                            // Set session
-                            req.session.user = {
-                                id: newUser.id,
-                                username: newUser.username,
-                                isAdmin: newUser.isAdmin === 1,
-                                language: newUser.language,
-                            };
-                            req.session.save((err) => {
+                            // Set session on a fresh session ID
+                            req.session.regenerate((err) => {
                                 if (err) {
-                                    console.error('Session save error:', err);
+                                    console.error('Session regenerate error:', err);
                                     return res.redirect('/login');
                                 }
-                                res.redirect('/newlyregistered'); // Redirect to home page
+                                req.session.user = {
+                                    id: newUser.id,
+                                    username: newUser.username,
+                                    isAdmin: newUser.isAdmin === 1,
+                                    language: newUser.language,
+                                };
+                                req.session.save((err) => {
+                                    if (err) {
+                                        console.error('Session save error:', err);
+                                        return res.redirect('/login');
+                                    }
+                                    res.redirect('/newlyregistered'); // Redirect to home page
+                                });
                             });
                         }
                     );
@@ -248,7 +256,7 @@ router.post('/logout', async (req, res) => {
         // Destroy the session
         req.session.destroy((err) => {
             if (err) {
-                logError('Error during logout', err);
+                console.error('Error during logout', err);
                 return res.status(500).send('Error logging out');
             }
 
@@ -260,10 +268,10 @@ router.post('/logout', async (req, res) => {
 
 // Admin endpoint to generate invite codes
 router.post('/admin/generate-invite', requireAdmin, (req, res) => {
-    const { count } = req.body;
+    const count = Number(req.body.count);
 
-    if (!count || isNaN(count)) {
-        return res.status(400).send('Please provide a valid count.');
+    if (!Number.isInteger(count) || count < 1 || count > 100) {
+        return res.status(400).send('Please provide a count between 1 and 100.');
     }
 
     const codes = [];
@@ -303,7 +311,8 @@ router.post('/admin/:postId/sudodelete', requireAdmin, (req, res) => {
 
     db.get(query, [postId], (err, post) => {
         if (err) {
-            return res.status(500).json({ 'Database error': err });
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
         }
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });

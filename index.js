@@ -3,10 +3,11 @@ const session = require('express-session');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const { version } = require('./package.json');
-const { sanitizeContent, linkify } = require('./middleware/sanitize');
+const { sanitizeContent, linkify, safeRedirect } = require('./middleware/sanitize');
 const fs = require('fs');
 const globals = JSON.parse(fs.readFileSync('global-variables.json', 'utf8'));
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 
 const app = express();
 const db = new sqlite3.Database('./database.db');
@@ -98,6 +99,13 @@ const initializeDatabase = () => {
 };
 
 // Middleware
+// Standard security headers (clickjacking, nosniff, hides X-Powered-By)
+app.use(helmet({
+    contentSecurityPolicy: false,                                   // templates rely on inline scripts/styles
+    crossOriginResourcePolicy: { policy: 'cross-origin' },          // API & uploads are used by other origins
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },  // keeps same-site Referer for redirect-backs
+    strictTransportSecurity: false,                                 // leave HSTS to the TLS-terminating proxy
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Session configuration
@@ -219,9 +227,7 @@ app.get('/404', (req, res) => {
 
 // Auth?
 app.get('/register/:inviteCode?', (req, res) => {
-    const redirectTo = req.query.next && req.query.next.startsWith('/')
-    ? req.query.next
-    : '/';
+    const redirectTo = safeRedirect(req.query.next);
     res.render('pages/register', {
         isPublic: globals.isPublic,
         inviteMode: globals.inviteMode,
@@ -230,9 +236,7 @@ app.get('/register/:inviteCode?', (req, res) => {
     })
 })
 app.get('/login', (req, res) => {
-    const redirectTo = req.query.next && req.query.next.startsWith('/')
-    ? req.query.next
-    : '/';
+    const redirectTo = safeRedirect(req.query.next);
     res.render('pages/login', {
         isPublic: globals.isPublic,
         inviteMode: globals.inviteMode,
@@ -594,6 +598,20 @@ app.get('/upload', (req, res) => {
         res.redirect('/login?next=%2Fupload');
     }
 })
+
+// Error handler (never send stack traces)
+app.use((err, req, res, next) => {
+    if (res.headersSent) return next(err);
+
+    let status = err.status || err.statusCode || 500;
+    if (err.name === 'MulterError') status = err.code === 'LIMIT_FILE_SIZE' ? 413 : 400;
+
+    if (status >= 500) {
+        console.error(err);
+        return res.status(500).send('Internal server error');
+    }
+    res.status(status).send(err.message);
+});
 
 // Start server
 const PORT = globals.hostPort || 3000;

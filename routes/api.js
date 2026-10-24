@@ -27,7 +27,9 @@ const fileFilter = (req, file, cb) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true); // Accept the file
     } else {
-        cb(new Error(`Invalid file type. Only ${JSON.stringify(allowedMimeTypes)} are allowed!`), false); // Reject the file
+        const err = new Error(`Invalid file type. Only ${JSON.stringify(allowedMimeTypes)} are allowed!`);
+        err.status = 400;
+        cb(err, false); // Reject the file
     }
 };
 
@@ -213,7 +215,8 @@ router.post('/posts/:postId/delete', (req, res) => {
 
     db.get(query, [postId], (err, post) => {
         if (err) {
-            return res.status(500).json({ 'Database error': err });
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
         }
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });

@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
+
+const db = new sqlite3.Database('./database.db');
 
 /**
  * Helper function to determine if invite only, private or public instance
@@ -29,11 +32,17 @@ function requireAdmin(req, res, next) {
         return res.status(401).send('Not authenticated');
     }
 
-    if (!req.session.user.isAdmin) {
-        return res.status(403).send('Forbidden - Admin access required');
-    }
-
-    next();
+    // Check the database, not the session, so a revoked admin loses access immediately
+    db.get('SELECT isAdmin FROM users WHERE id = ?', [req.session.user.id], (err, row) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Database error');
+        }
+        if (!row || !row.isAdmin) {
+            return res.status(403).send('Forbidden - Admin access required');
+        }
+        next();
+    });
 }
 
 /**
