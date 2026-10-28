@@ -1,3 +1,13 @@
+html {
+    min-height: 100%;
+}
+
+@supports (min-height: 100dvh) {
+    body {
+        min-height: 100dvh;
+    }
+}
+
 :root {
     --background-primary: #04050a;
     --background-secondary: #12121d;
