@@ -5,7 +5,7 @@
 }
 
 .keepmefooter {
-    border-top: 1px solid #575760;
+    border-top: 1px solid var(--background-highlight);
     padding: 0 20px;
     align-items: stretch;
     box-sizing: border-box;
