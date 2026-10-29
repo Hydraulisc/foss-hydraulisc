@@ -368,6 +368,13 @@ form .select {
   border-bottom: 1px solid var(--text-secondary);
 }
 
+td .action_buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 form .danger {
   width: 100%;
 }
