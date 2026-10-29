@@ -487,6 +487,7 @@
                 <div class="settings_container">
                     <div class="settings_scroll">
                         <div class="settings_order">
+                            <h1>Administrator Settings</h1>
                             <% if(inviteMode) { %>
                             <label style="border-color: rgba(255, 89, 117, 0.15);">
                                 <span class="label">Generate Invites</span>
@@ -496,6 +497,7 @@
                                 </form>
                             </label>
                             <% } %>
+                            <h3 style="display: none;" class="mobileRevealMe">Administate Users</h3>
                             <fieldset class="mobileHideMe" style="border: 1px solid var(--accent-tertiary); padding: 8px">
                                 <legend class="caption">Administate Users</legend>
                                 <div class="users_table_container">
@@ -544,25 +546,33 @@
                                     </table>
                                 </div>
                             </fieldset>
-                            <section style="display: none;" class="mobileRevealMe">
-                                <p class="caption">You can't promote users to admin from mobile at the moment.</p>
-                                <% users.forEach(function(user) { %>
-                                    <div style="width: calc(100% - 16px); padding: 16px; background-color: var(--background-tertiary); border-radius: 8px;">
-                                        <div style="display: flex; justify-content: center;">
-                                            <span style="font-size: 11px;"><%= user.isAdmin ? 'Admin' : 'User' %></span>
+                            <section style="display: none;" class="mobileRevealMe" id="usersDisplayCards">
+                                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+                                    <% users.forEach(function(user) { %>
+                                        <div style="box-sizing: border-box; width: 100%; padding: 16px; background-color: var(--background-secondary); border: 1px solid var(--background-highlight); border-radius: 12px;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                                                <a href="/user/<%= user.id %>" style="font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    @<%= user.username %>#<%= user.discriminator %><%= user.id === ownId ? ' (You)' : '' %>
+                                                </a>
+                                                <span style="flex-shrink: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--accent-primary); <%= user.isAdmin ? 'background: var(--accent-primary); color: #fff;' : 'color: var(--text-secondary);' %>">
+                                                    <%= user.isAdmin ? 'Admin' : 'User' %>
+                                                </span>
+                                            </div>
+                                            <% if (user.id !== ownId) { %>
+                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--background-highlight);">
+                                                    <form action="/dashboard/users/toggle-admin" method="POST" style="margin: 0;">
+                                                        <input type="hidden" name="userId" value="<%= user.id %>">
+                                                        <button type="submit" style="margin: 0; <%= user.isAdmin ? 'background: transparent; border: 1px solid var(--accent-primary);' : '' %>"><%= user.isAdmin ? 'Demote' : 'Promote' %></button>
+                                                    </form>
+                                                    <form action="/dashboard/users/delete" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                                        <input type="hidden" name="userId" value="<%= user.id %>">
+                                                        <button type="submit" style="margin: 0; background: transparent; border: 1px solid var(--accent-tertiary); color: var(--accent-highlight) !important;">Delete</button>
+                                                    </form>
+                                                </div>
+                                            <% } %>
                                         </div>
-                                        <div style="display: flex; justify-content: center; font-weight: 600;">
-                                            <p><%- user.username %>#<%- user.discriminator %></p>
-                                        </div>
-                                        <a href="/user/<%- user.id %>" class="button">View Profile</a>
-                                        <% if (user.id !== ownId) { %>
-                                            <form action="/dashboard/users/delete" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this user?')">
-                                                <input type="hidden" name="userId" value="<%= user.id %>">
-                                                <button type="submit" class="button">Delete</button>
-                                            </form>
-                                        <% } %>
-                                    </div>
-                                <% }) %>
+                                    <% }) %>
+                                </div>
                             </section>
                         </div>
                     </div>
@@ -573,16 +583,7 @@
                     <div class="settings_scroll">
                         <div class="settings_order">
                             <h1>Administrator Settings</h1>
-                            <h3>OAuth Apps</h3>
-                            <% if(inviteMode) { %>
-                            <label style="border-color: rgba(255, 89, 117, 0.15);">
-                                <span class="label">Generate Invites</span>
-                                <form action="/auth/admin/generate-invite" method="POST">
-                                    <input type="number" name="count" placeholder="Number of Invites" value="3" required />
-                                    <button type="submit">Generate</button>
-                                </form>
-                            </label>
-                            <% } %>
+                            <h3 style="display: none;" class="mobileRevealMe">OAuth Apps</h3>
                             <fieldset class="mobileHideMe" style="border: 1px solid var(--accent-tertiary); padding: 8px">
                                 <legend class="caption">Administate OAuth Clients</legend>
                                 <div class="users_table_container">
@@ -618,23 +619,24 @@
                                     </table>
                                 </div>
                             </fieldset>
-                            <section style="display: none;" class="mobileRevealMe">
-                                <% oauths.forEach(function(client) { %>
-                                    <div style="width: calc(100% - 16px); padding: 16px; background-color: var(--background-tertiary); border-radius: 8px;">
-                                        <div>
-                                            <span style="font-size: small;">Nickname</span>
-                                            <p><%= client.name %></p>
-                                            <span style="font-size: small;">Redirects</span>
-                                            <p><a href="<%= client.redirect_uri %>" target="_blank">Redirect</a></p>
-                                            <span style="font-size: small;">Actions</span>
-                                            <p><a href="<%= client.redirect_uri %>" class="view_button">View</a></p>
-                                            <form action="/dashboard/clients/delete" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this client?')">
-                                                <input type="hidden" name="userId" value="<%= client.id %>">
-                                                <button type="submit" class="delete_button">Delete</button>
-                                            </form>
+                            <section style="display: none;" class="mobileRevealMe" id="oauthClientsCards">
+                                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+                                    <% oauths.forEach(function(client) { %>
+                                        <div style="box-sizing: border-box; width: 100%; padding: 16px; background-color: var(--background-secondary); border: 1px solid var(--background-highlight); border-radius: 12px;">
+                                            <div>
+                                                <p><%= client.name %></p>
+                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--background-highlight);">
+                                                    <p><a href="<%= client.redirect_uri %>" target="_blank">Redirect</a></p>
+                                                    <p><a href="<%= client.redirect_uri %>" class="view_button">View</a></p>
+                                                    <form action="/dashboard/clients/delete" method="POST" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this client?')">
+                                                        <input type="hidden" name="userId" value="<%= client.id %>">
+                                                        <button type="submit" style="margin: 0; background: transparent; border: 1px solid var(--accent-tertiary); color: var(--accent-highlight) !important;">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                <% }) %>
+                                    <% }) %>
+                                </div>
                             </section>
                         </div>
                     </div>
